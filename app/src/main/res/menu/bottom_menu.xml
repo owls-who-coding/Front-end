@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/disease"
+        android:enabled="true"
+        android:icon="@drawable/vacation_snap_shoot_selfie_camera_icon_212435"
+        android:title="질병분석"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/community"
+        android:enabled="true"
+        android:icon="@drawable/people_community_filled_icon_201297"
+        android:title="커뮤니티"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/diary"
+        android:enabled="true"
+        android:icon="@drawable/diary"
+        android:title="다이어리"
+        app:showAsAction="always"/>
+
+
+
+    <item
+        android:id="@+id/mypage"
+        android:enabled="true"
+        android:icon="@drawable/my_page"
+        android:title="마이페이지"
+        app:showAsAction="always"/>
+
+
+
+
+
+
+
+
+</menu>
