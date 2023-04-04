@@ -8,10 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     Button button_login,button_sign;
 
+    List<Post> postList;
+
+    private List<String> titles = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
         button_login = findViewById(R.id.btn_login);
         button_sign = findViewById(R.id.btn_sign);
         tt = findViewById(R.id.textView2);
+
+        Toast.makeText(MainActivity.this, "위치 확인1", Toast.LENGTH_SHORT).show();
+
+        Retrofit retrofit = RetrofitClient.getClient("https://150c-222-117-126-33.jp.ngrok.io/");
+
+
 
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,23 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//        call = retrofit_client.getApiService().test_api_get("5");
-//        call.enqueue(new Callback<data_model>() {
-//            @Override
-//            public void onResponse(Call<data_model> call, Response<data_model> response) {
-//                data_model result = response.body();
-//                String str;
-//                str= result.getUserId() +"\n"+
-//                        result.getID()+"\n"+
-//                        result.getTitle()+"\n"+
-//                        result.getBody();
-//                textView.setText(str);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<data_model> call, Throwable t) {
-//
-//            }
-//        });
+
     }
 }

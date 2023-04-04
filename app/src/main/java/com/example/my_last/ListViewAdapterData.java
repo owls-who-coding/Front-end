@@ -1,5 +1,9 @@
 package com.example.my_last;
 
+import androidx.fragment.app.FragmentActivity;
+
+import java.util.List;
+
 public class ListViewAdapterData {
     private String tag;
     private String nickname;
@@ -7,6 +11,9 @@ public class ListViewAdapterData {
     private String upload_date;
     private String count;
     private String comment;
+
+    public ListViewAdapterData(FragmentActivity activity, List<Post> postList) {
+    }
 
     public void setTag(String tag){this.tag = tag;}
     public void setNickname(String nickname){this.nickname = nickname;}
