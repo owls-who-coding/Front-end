@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -31,6 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+
 public class community extends Fragment{
    // Retrofit retrofit = RetrofitClient.getClient("https://af8a-222-117-126-33.jp.ngrok.io/");
     TextView text_1;
@@ -39,8 +42,10 @@ public class community extends Fragment{
     ScrollView scrollView;
     Button button;
     user_create user_create;
+    post_detail post_detail;
     List<Post> postList;
     List<String> titles = new ArrayList<>();
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -50,17 +55,19 @@ public class community extends Fragment{
         View view = inflater.inflate(R.layout.activity_community,null);
 
         user_create = new user_create();
+        post_detail=new post_detail();
 
         text_1 = (TextView) view.findViewById(R.id.TEXT_1);
         write = (ImageView) view.findViewById(R.id.user_write);
         listView = (ListView) view.findViewById(R.id.lv_list);
         //scrollView = view.findViewById(R.id.scroll);
 
-        Retrofit retrofit = RetrofitClient.getClient(" https://150c-222-117-126-33.jp.ngrok.io/");
+        Retrofit retrofit = RetrofitClient.getClient("https://af22-125-133-41-82.jp.ngrok.io/");
 
         getListIF apiService = retrofit.create(getListIF.class);
         Log.d("CommunityFragment", "apiService: " + apiService.toString());
         Call<List<Post>> call = apiService.getPosts();
+        Log.d("CommunityFragment", "위치 확인000 " );
 
         write.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +81,27 @@ public class community extends Fragment{
                 Toast.makeText(getActivity(),"asfsad",Toast.LENGTH_SHORT).show();
             }
         });
+
+       // listView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("CommunityFragment", "위치 확인0 " );
+                Post selectedItem = postList.get(position);
+                String postBodyPath = selectedItem.getPostBodyPath();
+
+                post_detail postDetailFragment = new post_detail();
+                Bundle bundle = new Bundle();
+                bundle.putString("post_body_path", postBodyPath);
+                postDetailFragment.setArguments(bundle);
+                Log.d("CommunityFragment",  " 위치 확인 1" );
+                getParentFragmentManager().beginTransaction().replace(R.id.containers, post_detail).addToBackStack(null).commit(); // 변수명 변경 및 백스택 추가
+                Log.d("CommunityFragment",  " 위치 확인 2" );
+            }
+        });
+
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -108,9 +136,17 @@ public class community extends Fragment{
                         Log.d("CommunityFragment", "onFailure: " + t.getMessage());
                     }
                 });
+
             }
         });
         thread.start();
+
+
+        //listview 이벤트 리스너
+
+
+
+
 
         return view;
     }

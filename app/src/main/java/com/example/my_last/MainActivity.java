@@ -46,7 +46,7 @@ public class MainActivity extends Fragment {
         tt = (TextView) view.findViewById(R.id.textView2);
 
 
-        Retrofit retrofit = RetrofitClient.getClient("https://150c-222-117-126-33.jp.ngrok.io/");
+        Retrofit retrofit = RetrofitClient.getClient("https://af22-125-133-41-82.jp.ngrok.io/");
 
 
 
@@ -63,7 +63,7 @@ public class MainActivity extends Fragment {
         button_sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getParentFragmentManager().beginTransaction().replace(R.id.containers,sign_in).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.containers, sign_in).commit();
             }
         });
 
@@ -74,7 +74,6 @@ public class MainActivity extends Fragment {
                 tt.setTextColor(Color.parseColor("#e65d5d"));
             }
         });
-
 
 
         return view;

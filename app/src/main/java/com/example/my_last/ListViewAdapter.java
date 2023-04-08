@@ -1,14 +1,19 @@
 package com.example.my_last;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import java.util.List;
 
@@ -44,6 +49,23 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
 
         tv_title.setText(post.getTitle());
         //postBodyPathLabel.setText(post.getPostBodyPath());
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("CommunityFragment", "위치 확인0 ");
+                Post selectedItem = getItem(position);
+                String postBodyPath = selectedItem.getPostBodyPath();
+
+                post_detail postDetailFragment = new post_detail();
+                Bundle bundle = new Bundle();
+                bundle.putString("post_body_path", postBodyPath);
+                postDetailFragment.setArguments(bundle);
+                Log.d("CommunityFragment", " 위치 확인 1");
+                ((FragmentActivity) getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.containers, postDetailFragment).addToBackStack(null).commit(); // 변수명 변경 및 백스택 추가
+                Log.d("CommunityFragment", " 위치 확인 2");
+            }
+        });
 
 
         return convertView;
