@@ -5,12 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".disease"
-    android:gravity="center">
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="질병분석"
-        android:textSize="30dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/skin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="피부"
+            android:layout_marginRight="30dp"/>
+        <RadioButton
+            android:id="@+id/eye"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="안구"
+            android:layout_marginLeft="30dp"/>
+
+    </RadioGroup>
 
 </LinearLayout>

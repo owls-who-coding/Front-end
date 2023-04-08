@@ -51,9 +51,9 @@ public class community extends Fragment{
 
         user_create = new user_create();
 
-        text_1 = view.findViewById(R.id.TEXT_1);
-        write = view.findViewById(R.id.user_write);
-        listView = view.findViewById(R.id.lv_list);
+        text_1 = (TextView) view.findViewById(R.id.TEXT_1);
+        write = (ImageView) view.findViewById(R.id.user_write);
+        listView = (ListView) view.findViewById(R.id.lv_list);
         //scrollView = view.findViewById(R.id.scroll);
 
         Retrofit retrofit = RetrofitClient.getClient(" https://150c-222-117-126-33.jp.ngrok.io/");

@@ -21,6 +21,7 @@ public class choice extends AppCompatActivity {
     diary diary;
     disease disease;
     mypage mypage;
+    MainActivity mainActivity;
 
 
     @Override
@@ -32,6 +33,7 @@ public class choice extends AppCompatActivity {
         diary = new diary();
         disease = new disease();
         mypage = new mypage();
+        mainActivity = new MainActivity();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.containers,disease).commit();
 
@@ -50,7 +52,7 @@ public class choice extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers,disease).commit();
                         return true;
                     case R.id.mypage:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.containers, mypage).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.containers, mainActivity).commit();
                         return true;
                 }
                 return false;

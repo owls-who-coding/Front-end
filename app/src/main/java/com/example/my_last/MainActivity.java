@@ -1,11 +1,16 @@
 package com.example.my_last;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,10 +23,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Fragment {
 
 //    Call<data_model> call;
     TextView textView,tt;
+    mypage mypage;
+    sign_in sign_in;
 
     Button button_login,button_sign;
 
@@ -30,34 +37,33 @@ public class MainActivity extends AppCompatActivity {
     private List<String> titles = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
 
-        textView = findViewById(R.id.textvv);
-        button_login = findViewById(R.id.btn_login);
-        button_sign = findViewById(R.id.btn_sign);
-        tt = findViewById(R.id.textView2);
+        View view = inflater.inflate(R.layout.activity_main,null);
 
-        Toast.makeText(MainActivity.this, "위치 확인1", Toast.LENGTH_SHORT).show();
+        button_login = (Button) view.findViewById(R.id.btn_login);
+        button_sign = (Button) view.findViewById(R.id.btn_sign);
+        tt = (TextView) view.findViewById(R.id.textView2);
+
 
         Retrofit retrofit = RetrofitClient.getClient("https://150c-222-117-126-33.jp.ngrok.io/");
 
 
 
+        mypage = new mypage();
+        sign_in = new sign_in();
+
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),choice.class);
-                startActivity(i);
+                getParentFragmentManager().beginTransaction().replace(R.id.containers, mypage).commit();
             }
         });
 
         button_sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),sign_in.class);
-                startActivity(i);
+                getParentFragmentManager().beginTransaction().replace(R.id.containers,sign_in).commit();
             }
         });
 
@@ -71,6 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+        return view;
     }
 }
