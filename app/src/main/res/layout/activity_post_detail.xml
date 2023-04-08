@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:textSize="30dp"
+        android:id="@+id/post_detail_textview"
         android:gravity="center"
         android:text="본문"
         android:layout_margin="10dp"/>
