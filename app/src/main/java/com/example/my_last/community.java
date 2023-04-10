@@ -62,7 +62,7 @@ public class community extends Fragment{
         listView = (ListView) view.findViewById(R.id.lv_list);
         //scrollView = view.findViewById(R.id.scroll);
 
-        Retrofit retrofit = RetrofitClient.getClient("https://af22-125-133-41-82.jp.ngrok.io/");
+        Retrofit retrofit = RetrofitClient.getClient("https://cfa5-125-133-41-82.jp.ngrok.io/");
 
         getListIF apiService = retrofit.create(getListIF.class);
         Log.d("CommunityFragment", "apiService: " + apiService.toString());
@@ -82,24 +82,7 @@ public class community extends Fragment{
             }
         });
 
-       // listView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("CommunityFragment", "위치 확인0 " );
-                Post selectedItem = postList.get(position);
-                String postBodyPath = selectedItem.getPostBodyPath();
-
-                post_detail postDetailFragment = new post_detail();
-                Bundle bundle = new Bundle();
-                bundle.putString("post_body_path", postBodyPath);
-                postDetailFragment.setArguments(bundle);
-                Log.d("CommunityFragment",  " 위치 확인 1" );
-                getParentFragmentManager().beginTransaction().replace(R.id.containers, post_detail).addToBackStack(null).commit(); // 변수명 변경 및 백스택 추가
-                Log.d("CommunityFragment",  " 위치 확인 2" );
-            }
-        });
 
 
         Thread thread = new Thread(new Runnable() {
@@ -140,12 +123,6 @@ public class community extends Fragment{
             }
         });
         thread.start();
-
-
-        //listview 이벤트 리스너
-
-
-
 
 
         return view;

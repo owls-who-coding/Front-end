@@ -46,7 +46,7 @@ public class MainActivity extends Fragment {
         tt = (TextView) view.findViewById(R.id.textView2);
 
 
-        Retrofit retrofit = RetrofitClient.getClient("https://af22-125-133-41-82.jp.ngrok.io/");
+        Retrofit retrofit = RetrofitClient.getClient("https://cfa5-125-133-41-82.jp.ngrok.io/");
 
 
 

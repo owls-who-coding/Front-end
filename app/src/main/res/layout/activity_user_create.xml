@@ -18,7 +18,7 @@
 
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/editTextTitle"
             android:layout_width="244dp"
             android:layout_height="wrap_content"
             android:text="Name"

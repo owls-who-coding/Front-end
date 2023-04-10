@@ -28,10 +28,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,10 +51,11 @@ public class user_create extends Fragment {
     private static final int REQUEST_CODE = 0;
 
     EditText editText;
+    EditText editTexttitle;
 
-    Retrofit retrofit = RetrofitClient.getClient("https://af22-125-133-41-82.jp.ngrok.io/");// 여기에 실제 API 주소를 입력하세요.
+    Retrofit retrofit = RetrofitClient.getClient("https://cfa5-125-133-41-82.jp.ngrok.io/");// 여기에 실제 API 주소를 입력하세요.
 
-    PostApi apiService = retrofit.create(PostApi.class);
+    user_ceate_IF apiService = retrofit.create(user_ceate_IF.class);//PostApi에 해당 기능의 인터페이스를 만들었지만, user_create_IF를 새로 생성해서 수정하려했음. 근데 수정하니 오류가 생겨서 일단 보류
 
     @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -63,6 +68,8 @@ public class user_create extends Fragment {
         imageView = (ImageView)view.findViewById(R.id.image);
         community = new community();
         editText = (EditText)view.findViewById(R.id.editTextTextMultiLine);
+        editTexttitle=(EditText)view.findViewById(R.id.editTextTitle);
+        imageView = (ImageView)view.findViewById(R.id.image);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,13 +84,14 @@ public class user_create extends Fragment {
             public void onClick(View v) {
                 // 4. 클릭 리스너 내에서 EditText의 텍스트 가져오기
                 String text = editText.getText().toString();
+                String title = editTexttitle.getText().toString();
 
                 // userNumber와 diseaseNumber를 여기에 할당하세요. 예를 들어, 다음과 같이 할 수 있습니다.
                 int userNumber = 1;
                 int diseaseNumber = 1;
 
                 // 5. 서버로 데이터 전송하기 위한 API 호출
-                sendPostData(userNumber, diseaseNumber, text);
+                sendPostData(userNumber, diseaseNumber, text, title, uri);
             }
         });
 
@@ -96,12 +104,28 @@ public class user_create extends Fragment {
 
 
 
+
     private void openGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, REQUEST_CODE);
+//        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        startActivityForResult(galleryIntent, REQUEST_CODE);
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_CODE);
     }
-    private void sendPostData(int userNumber, int diseaseNumber, String text) {
-        Call<Void> call = apiService.createPost(userNumber, diseaseNumber, text);//apiservice가 아닌 postApi였음
+    private void sendPostData(int userNumber, int diseaseNumber, String text, String title, Uri image) {
+        RequestBody userNumberBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userNumber));
+        RequestBody diseaseNumberBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(diseaseNumber));
+        RequestBody textBody = RequestBody.create(MediaType.parse("text/plain"), text);
+        RequestBody titleBody = RequestBody.create(MediaType.parse("text/plain"), title);
+
+        MultipartBody.Part imagePart = null;
+        if (image != null) {
+            File file = new File(getRealPathFromURI(image));
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+            imagePart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
+        }
+
+        Call<Void> call = apiService.createPost(userNumberBody, diseaseNumberBody, textBody, titleBody, imagePart);//apiservice가 아닌 postApi였음
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -119,29 +143,57 @@ public class user_create extends Fragment {
         });
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-            Uri selectedImageUri = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+//            Uri selectedImageUri = data.getData();
+//            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//
+//            Cursor cursor = getActivity().getContentResolver().query(selectedImageUri,
+//                    filePathColumn, null, null, null);
+//            cursor.moveToFirst();
+//            imageView = getActivity().findViewById(R.id.image);
+//
+//            // 이미지 설정
+//            imageView.setImageURI(selectedImageUri);
+//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//            String picturePath = cursor.getString(columnIndex);
+//            cursor.close();
+            if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+                uri = data.getData(); // uri 변수 초기화
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-            Cursor cursor = getActivity().getContentResolver().query(selectedImageUri,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            imageView = getActivity().findViewById(R.id.image);
 
-            // 이미지 설정
-            imageView.setImageURI(selectedImageUri);
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
+
+                Cursor cursor = getActivity().getContentResolver().query(uri,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                imageView = getActivity().findViewById(R.id.image);
+
+                // 이미지 설정
+                imageView.setImageURI(uri);
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
 
             // 선택한 이미지를 사용하여 원하는 작업을 수행합니다.
             // ...
         }
     }
+    //시험삼아 추가하는 메서드
+    public String getRealPathFromURI(Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().getContentResolver().query(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String path = cursor.getString(column_index);
+        cursor.close();
+        return path;
+    }
+    //여기까지
 
 
 }

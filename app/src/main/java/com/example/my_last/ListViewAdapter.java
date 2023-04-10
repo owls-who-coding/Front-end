@@ -56,13 +56,17 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
                 Log.d("CommunityFragment", "위치 확인0 ");
                 Post selectedItem = getItem(position);
                 String postBodyPath = selectedItem.getPostBodyPath();
+                String title=selectedItem.getTitle();
+                Log.d("어뎁터에서의 title", title);
 
                 post_detail postDetailFragment = new post_detail();
                 Bundle bundle = new Bundle();
                 bundle.putString("post_body_path", postBodyPath);
+                bundle.putString("title", title);
                 postDetailFragment.setArguments(bundle);
                 Log.d("CommunityFragment", " 위치 확인 1");
                 ((FragmentActivity) getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.containers, postDetailFragment).addToBackStack(null).commit(); // 변수명 변경 및 백스택 추가
+
                 Log.d("CommunityFragment", " 위치 확인 2");
             }
         });
