@@ -7,44 +7,26 @@
     tools:context=".diary"
     android:gravity="center"
     android:orientation="vertical"
-    android:layout_marginBottom="30dp"
-    android:background="@drawable/border">
+    android:layout_marginBottom="30dp">
 
     <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="20dp">
+        android:id="@+id/calendarView" />
 
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="확인"
-            android:textStyle="bold"
-            android:background="#A9E4621D"
-            android:textColor="@color/white"
-            android:id="@+id/check"/>
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="수정"
-            android:textStyle="bold"
-            android:background="#A9E4621D"
-            android:textColor="@color/white"
-            android:id="@+id/re"/>
-    </LinearLayout>
+
+    <Button
+        android:text="수정"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/re"/>
+    <Button
+        android:text="확인"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/open"/>
+
+
 
 
 
