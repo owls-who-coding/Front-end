@@ -34,12 +34,12 @@
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:textSize="16dp"
-                    android:text="ID"
+                    android:text="IDtext"
                     android:gravity="center"
                     android:textStyle="bold"/>
 
                 <EditText
-                    android:id="@+id/editTextTextPassword"
+                    android:id="@+id/IDedit"
                     android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -54,7 +54,7 @@
                 android:gravity="center">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/PWtext"
                     android:padding="10dp"
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
@@ -64,7 +64,7 @@
                     android:textStyle="bold"/>
 
                 <EditText
-                    android:id="@+id/editTextTextEmailAddress2"
+                    android:id="@+id/PWedit"
                     android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

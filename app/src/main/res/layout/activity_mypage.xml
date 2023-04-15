@@ -4,13 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mypage"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".mypage">
 
     <TextView
+        android:id="@+id/viewcheckLoginInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="마이페이지"
-        android:textSize="30dp"/>
+        android:text="마이페이지: 로그인정보"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/btnCheckLoginInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="로그인 정보 출력" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="로그아웃" />
 
 </LinearLayout>

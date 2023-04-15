@@ -39,12 +39,11 @@ public class community extends Fragment{
     TextView text_1;
     ImageView write;
     ListView listView;
-    ScrollView scrollView;
+
     Button button;
     user_create user_create;
     post_detail post_detail;
     List<Post> postList;
-    List<String> titles = new ArrayList<>();
 
 
 
@@ -60,14 +59,15 @@ public class community extends Fragment{
         text_1 = (TextView) view.findViewById(R.id.TEXT_1);
         write = (ImageView) view.findViewById(R.id.user_write);
         listView = (ListView) view.findViewById(R.id.lv_list);
-        //scrollView = view.findViewById(R.id.scroll);
 
-        Retrofit retrofit = RetrofitClient.getClient("https://cfa5-125-133-41-82.jp.ngrok.io/");
+
+       // Retrofit retrofit = RetrofitClient.getClient("https://5e8c-125-133-41-82.jp.ngrok.io/");
+        Retrofit retrofit = RetrofitClient.getClient();
 
         getListIF apiService = retrofit.create(getListIF.class);
-        Log.d("CommunityFragment", "apiService: " + apiService.toString());
+       // Log.d("CommunityFragment", "apiService: " + apiService.toString());
         Call<List<Post>> call = apiService.getPosts();
-        Log.d("CommunityFragment", "위치 확인000 " );
+       // Log.d("CommunityFragment", "위치 확인000 " );
 
         write.setOnClickListener(new View.OnClickListener() {
             @Override
