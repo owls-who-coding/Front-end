@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -52,6 +53,15 @@ public class post_detail extends Fragment {
         textview = (TextView) view.findViewById(R.id.post_detail_textview);
         imageView=(ImageView)view.findViewById(R.id.post_detail_image);
         titleview=(TextView) view.findViewById(R.id.post_detail_title);
+        TextView open_file = (TextView)view.findViewById(R.id.open_file);
+
+        open_file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout file = (LinearLayout) view.findViewById(R.id.file);
+                file.setVisibility(View.VISIBLE);
+            }
+        });
 
 
 

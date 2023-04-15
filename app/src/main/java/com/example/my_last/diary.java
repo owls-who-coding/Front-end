@@ -11,19 +11,27 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.text.LineBreakConfig;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Locale;
+
 
 public class diary extends Fragment implements CalendarView.OnDateChangeListener {
 
@@ -31,8 +39,6 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
     Calendar calendar;
     Context context;
     SharedPreferences sharedPreferences;
-
-    Button check,re;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
 
@@ -65,6 +71,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
     private void showInputDialog(int year, int month,int dayOfMonth) {
         LayoutInflater inflater = LayoutInflater.from(context);
+        
         View view = inflater.inflate(R.layout.input_diary, null);
 
         final EditText Kg = view.findViewById(R.id.kg);
@@ -86,16 +93,24 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
         Problem.setText(problem);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setView(view)
-                .setTitle(year+" / "+month+" / "+dayOfMonth)
-                .setPositiveButton("수정", new DialogInterface.OnClickListener() {
+        builder.setView(view);
+
+        TextView titleView = new TextView(context);
+        titleView.setText(year+"/"+month+"/"+dayOfMonth);
+        titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+        titleView.setGravity(Gravity.CENTER);
+        titleView.setPadding(0,20,0,0);
+
+        builder.setCustomTitle(titleView);
+
+                builder.setPositiveButton("수정", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String kg = Kg.getText().toString();
                         String eat = Eat.getText().toString();
-                        String count = Kg.getText().toString();
-                        String out = Eat.getText().toString();
-                        String problem = Kg.getText().toString();
+                        String count = Count.getText().toString();
+                        String out = Out.getText().toString();
+                        String problem = Problem.getText().toString();
                         String dateTime = getFormattedDateTime();
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -106,7 +121,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
                         editor.putString(dateTime + "_problem", problem);
                         editor.apply();
 
-                        Toast.makeText(context, "Information saved for " + dateTime, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "내용이 저장되었습니다. (" + dateTime + ")", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -124,4 +139,5 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
         return dateFormat.format(calendar.getTime());
     }
+
 }
