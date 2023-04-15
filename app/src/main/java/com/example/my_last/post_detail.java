@@ -59,7 +59,8 @@ public class post_detail extends Fragment {
         Button back = view.findViewById(R.id.back_community);
 
         // 서버에 요청하여 txt 파일의 내용을 가져옵니다.
-        Retrofit retrofit = RetrofitClient.getClient("https://cfa5-125-133-41-82.jp.ngrok.io/");
+        //Retrofit retrofit = RetrofitClient.getClient("https://5e8c-125-133-41-82.jp.ngrok.io/");
+        Retrofit retrofit = RetrofitClient.getClient();
         post_detail_IF apiService = retrofit.create(post_detail_IF.class);
         Call<ResponseBody> call = apiService.getPostAndImageContent(postBodyPath);
 

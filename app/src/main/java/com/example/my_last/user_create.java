@@ -14,7 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -53,13 +55,17 @@ public class user_create extends Fragment {
     EditText editText;
     EditText editTexttitle;
 
-    Retrofit retrofit = RetrofitClient.getClient("https://cfa5-125-133-41-82.jp.ngrok.io/");// 여기에 실제 API 주소를 입력하세요.
-
+    //Retrofit retrofit = RetrofitClient.getClient("https://5e8c-125-133-41-82.jp.ngrok.io/");// 여기에 실제 API 주소를 입력하세요.
+    Retrofit retrofit = RetrofitClient.getClient();
     user_ceate_IF apiService = retrofit.create(user_ceate_IF.class);//PostApi에 해당 기능의 인터페이스를 만들었지만, user_create_IF를 새로 생성해서 수정하려했음. 근데 수정하니 오류가 생겨서 일단 보류
 
     @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
 
+
+        // Shared Preferences에서 로그인 정보를 가져옵니다.
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        int loggedInUserNumber = sharedPreferences.getInt("userNumber", 0);
 
         View view = inflater.inflate(R.layout.activity_user_create,null);
 
@@ -87,7 +93,7 @@ public class user_create extends Fragment {
                 String title = editTexttitle.getText().toString();
 
                 // userNumber와 diseaseNumber를 여기에 할당하세요. 예를 들어, 다음과 같이 할 수 있습니다.
-                int userNumber = 1;
+                int userNumber =loggedInUserNumber;;
                 int diseaseNumber = 1;
 
                 // 5. 서버로 데이터 전송하기 위한 API 호출
@@ -130,9 +136,15 @@ public class user_create extends Fragment {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    //Toast.makeText(.this, "데이터가 성공적으로 전송되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "게시글 저장에 성공했습니다.", Toast.LENGTH_SHORT).show();
+
+                    // 게시글 리스트로 이동
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.containers, community)
+                            .commit();
                 } else {
-                  //  Toast.makeText(postcreat.this, "데이터 전송에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "데이터 전송에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -148,20 +160,7 @@ public class user_create extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-//            Uri selectedImageUri = data.getData();
-//            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-//
-//            Cursor cursor = getActivity().getContentResolver().query(selectedImageUri,
-//                    filePathColumn, null, null, null);
-//            cursor.moveToFirst();
-//            imageView = getActivity().findViewById(R.id.image);
-//
-//            // 이미지 설정
-//            imageView.setImageURI(selectedImageUri);
-//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//            String picturePath = cursor.getString(columnIndex);
-//            cursor.close();
+
             if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
                 uri = data.getData(); // uri 변수 초기화
                 String[] filePathColumn = { MediaStore.Images.Media.DATA };
