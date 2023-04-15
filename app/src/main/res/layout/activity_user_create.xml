@@ -6,29 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".user_create"
     android:orientation="vertical"
-    android:layout_margin="20dp"
-    android:background="@drawable/border"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="게시글 작성"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#B4BCC8"
+        android:layout_marginBottom="35dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_margin="10dp">
 
 
         <EditText
+            android:padding="2dp"
             android:id="@+id/editTextTitle"
             android:layout_width="244dp"
             android:layout_height="wrap_content"
-            android:text="제목"
-            android:layout_margin="10dp"/>
+            android:textSize="20dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_design"/>
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="30dp"
-            android:layout_margin="10dp"/>
+            android:layout_marginRight="10dp"/>
 
 
 
@@ -37,11 +54,14 @@
 
 
     <EditText
+        android:padding="2dp"
         android:id="@+id/editTextTextMultiLine"
-        android:layout_width="match_parent"
+        android:layout_width="340dp"
         android:layout_height="200dp"
         android:layout_margin="10dp"
-        android:gravity="top"/>
+        android:gravity="top"
+        android:textSize="15dp"
+        android:background="@drawable/edittext_design"/>
 
 
     <ImageView
@@ -54,18 +74,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_margin="10dp">
+        android:layout_margin="20dp">
+
         <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:text="취소"/>
+            android:background="@drawable/button_red"
+            android:text="취소"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
         <Button
             android:id="@+id/finish"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="게시글 작성"/>
+            android:background="@drawable/button_1"
+            android:textColor="@color/white"
+            android:text="게시글 작성"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

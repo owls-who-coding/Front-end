@@ -34,4 +34,11 @@
 
     </RadioGroup>
 
+    <Button
+        android:id="@+id/move_camera_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="카메라 on"/>
+
 </LinearLayout>

@@ -4,131 +4,157 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:background="@drawable/dialog_custom">
+
 
     <LinearLayout
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginRight="5dp">
+        android:layout_marginTop="10dp">
 
         <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right">
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:text="몸무게"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
 
             <TextView
 
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="몸무게"
-                android:textSize="20dp"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:text="식사량"
+                android:textSize="15dp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:layout_margin="10dp"/>
+                android:layout_margin="5dp"/>
+
+            <TextView
+
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:text="배변횟수"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
+
+            <TextView
+
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:text="산책횟수"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <EditText
                 android:id="@+id/kg"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:text="KG"
-                android:layout_marginRight="10dp"/>
+                android:layout_height="30dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/edittext_design"/>
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right">
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="식사량"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_margin="10dp"/>
             <EditText
                 android:id="@+id/eat"
+                android:textSize="15dp"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:text="KG"
-                android:layout_marginRight="10dp"/>
+                android:layout_height="30dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/edittext_design"/>
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right">
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="배변횟수"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_margin="10dp"/>
             <EditText
                 android:id="@+id/count"
+                android:textSize="15dp"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:text="KG"
-                android:layout_marginRight="10dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right">
+                android:layout_height="30dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/edittext_design"/>
 
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="산책시간"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_margin="10dp"/>
             <EditText
                 android:id="@+id/out"
+                android:textSize="15dp"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:text="KG"
-                android:layout_marginRight="10dp"/>
+                android:layout_height="30dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/edittext_design"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="Kg"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="g"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="회"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="회"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
-
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
@@ -138,17 +164,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="특이사항"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:textStyle="bold"
-            android:layout_margin="10dp"/>
+            android:layout_margin="5dp"/>
         <EditText
             android:id="@+id/problem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
-
-
+            android:background="@drawable/edittext_design"
+            android:layout_width="280dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"/>
     </LinearLayout>
 
 </LinearLayout>
