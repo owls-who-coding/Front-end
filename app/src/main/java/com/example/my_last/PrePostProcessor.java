@@ -1,6 +1,7 @@
 package com.example.my_last;
 
 import android.graphics.Rect;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +35,7 @@ public class PrePostProcessor {
     private static float mThreshold = 0.30f; // score above which a detection is generated
     private static int mNmsLimit = 15;
 
-    static String[] mClasses;
+    static String[] mClasses = {"eyes"};
 
     // The two methods nonMaxSuppression and IOU below are ported from https://github.com/hollance/YOLO-CoreML-MPSNNGraph/blob/master/Common/Helpers.swift
     /**
@@ -138,7 +139,15 @@ public class PrePostProcessor {
                 results.add(result);
             }
         }
-        System.out.print("분석중....");
+//        Integer len = results.size();
+//        Log.d("Legnth", len.toString());
+//        for(Result r : results){
+//            Integer classIndex = r.classIndex;
+//            Float next = r.score;
+//            Log.d("RESULT_Index",classIndex.toString());
+//            Log.d("RESULT_Score",next.toString());
+//        }
+//        Log.d("Detection","Result!!!!!!!!!");
         return nonMaxSuppression(results, mNmsLimit, mThreshold);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.my_last;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.annotation.WorkerThread;
@@ -8,13 +9,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.AspectRatio;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.CameraX;
 import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
+import androidx.camera.core.SurfaceRequest;
+import androidx.camera.core.impl.ImageAnalysisConfig;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
@@ -24,12 +29,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
+import android.util.Size;
+import android.view.Surface;
 import android.view.TextureView;
 import android.view.ViewStub;
+
+import com.google.common.util.concurrent.ListenableFuture;
 
 import org.pytorch.IValue;
 import org.pytorch.LiteModuleLoader;
@@ -47,11 +58,13 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class eyes_detection extends AppCompatActivity {
+public class eyes_detection extends BaseModuleActivity {
     Preview preview;
     PreviewView previewView;
     private Module mModule = null;
     private ResultView mResultView;
+
+    private Long mLastAnalysisResultTime;
     private static final String[] PERMISSION = {Manifest.permission.CAMERA};
     private static final int REQUEST_CODE_CAMERA_PERMISSION = 200;
     @Override
@@ -72,58 +85,23 @@ public class eyes_detection extends AppCompatActivity {
         }
     }
 
-    public void setupCameraX(){
-        ProcessCameraProvider cameraProvider;
-        try {
-            cameraProvider = ProcessCameraProvider.getInstance(getApplicationContext()).get();
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        previewView = (PreviewView) findViewById(R.id.preview_camera);
-        System.out.println(previewView.getClass().getSimpleName());
-
-        if(previewView == null){
-            Log.d("NullExcetion", "너 널이니..?");
-        }
-        else{
-            Log.d("NullExcetion", "널 아닌데용..?");
-        }
-
-        CameraSelector cameraSelector = new CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                .build();
-
-        ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
-                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
-                .build();
-
-        preview = new Preview.Builder()
-                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
-                .build();
-
-        preview.setSurfaceProvider(previewView.getSurfaceProvider());
-
-        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
-
-        //cameraProvider.unbindAll();
-    }
-
     static class AnalysisResult{
         private final ArrayList<Result> mResults;
 
         public AnalysisResult(ArrayList<Result> results) {mResults = results;}
     }
 
-    protected TextureView getCameraPreviewTextureView(){
-        mResultView = findViewById(R.id.preview_camera);
-        return ((ViewStub) findViewById(R.id.object_detection_texture_view_stub))
-                .inflate()
-                .findViewById(R.id.object_detection_texture_view);
+//    protected TextureView getCameraPreviewTextureView(){
+////        mResultView = findViewById(R.id.resultView);
+//        return ((ViewStub) findViewById(R.id.object_detection_texture_view_stub))
+//                .inflate()
+//                .findViewById(R.id.object_detection_texture_view);
+//    }
+    protected PreviewView getPreviewView(){
+        mResultView = findViewById(R.id.resultView);
+        return (PreviewView) findViewById(R.id.preview_camera);
     }
-
-    protected void applyToUiAnalyzeImageReulst(AnalysisResult result){
+    protected void applyToUiAnalyzeImageResult(AnalysisResult result){
         mResultView.setResults(result.mResults);
         mResultView.invalidate();
     }
@@ -171,7 +149,7 @@ public class eyes_detection extends AppCompatActivity {
     @Nullable
     @WorkerThread
     @OptIn(markerClass = ExperimentalGetImage.class)
-    protected AnalysisResult  analyzeImage(ImageProxy image, int rotationDegrees) {
+    public AnalysisResult  analyzeImage(ImageProxy image, int rotationDegrees) {
         try {
             if (mModule == null) {
                 mModule = LiteModuleLoader.load(assetFilePath(getApplicationContext(), "best.torchscript.ptl"));
@@ -199,4 +177,52 @@ public class eyes_detection extends AppCompatActivity {
         final ArrayList<Result> results = PrePostProcessor.outputsToNMSPredictions(outputs, imgScaleX, imgScaleY, ivScaleX, ivScaleY, 0, 0);
         return new AnalysisResult(results);
     }
+
+
+    public void setupCameraX(){
+        mLastAnalysisResultTime = SystemClock.elapsedRealtime();
+        previewView = getPreviewView();
+        preview = new Preview.Builder()
+                //.setTargetAspectRatio(AspectRatio.RATIO_4_3)
+                .build();
+
+        preview.setSurfaceProvider(previewView.getSurfaceProvider());
+
+        ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
+                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
+                .build();
+
+        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this),imageProxy ->{
+            if(SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 500){
+                imageProxy.close();
+                return;
+            }
+
+            final AnalysisResult result = analyzeImage(imageProxy, imageProxy.getImageInfo().getRotationDegrees());
+            if(result != null){
+                mLastAnalysisResultTime = SystemClock.elapsedRealtime();
+                runOnUiThread(() -> applyToUiAnalyzeImageResult(result));
+                Log.d("Detected","Check 분석중");
+            }
+            imageProxy.close();
+        });
+
+
+        ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
+        cameraProviderListenableFuture.addListener(()->{
+            try{
+                ProcessCameraProvider cameraProvider = cameraProviderListenableFuture.get();
+                CameraSelector cameraSelector = new CameraSelector.Builder()
+                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                        .build();
+                cameraProvider.unbindAll();
+                cameraProvider.bindToLifecycle(this,cameraSelector, preview, imageAnalysis);
+            } catch(ExecutionException | InterruptedException e){
+                Log.e("Object Detection", "Error setting up CameraX", e);
+            }
+        }, ContextCompat.getMainExecutor(this));
+
+        //cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
+    }
+
 }
