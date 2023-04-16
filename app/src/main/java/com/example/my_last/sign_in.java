@@ -40,10 +40,10 @@ public class sign_in extends Fragment {
 
         back = (Button) view.findViewById(R.id.back);
         create = (Button) view.findViewById(R.id.create);
-        edit_id = (EditText) view.findViewById(R.id.sign_id);
-        edit_password = (EditText) view.findViewById(R.id.sign_password);
-        edit_name = (EditText) view.findViewById(R.id.sign_name);
-        edit_age = (EditText) view.findViewById(R.id.sign_age);
+        edit_id = (EditText) view.findViewById(R.id.ed_sign_id);
+        edit_password = (EditText) view.findViewById(R.id.ed_sign_password);
+        edit_name = (EditText) view.findViewById(R.id.ed_sign_name);
+        edit_age = (EditText) view.findViewById(R.id.ed_sign_age);
         edit_dog_name = (EditText) view.findViewById(R.id.sign_dog_name);
 
 
