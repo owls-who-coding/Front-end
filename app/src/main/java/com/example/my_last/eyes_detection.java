@@ -5,17 +5,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.annotation.WorkerThread;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.AspectRatio;
-import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
-import androidx.camera.core.CameraX;
 import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
-import androidx.camera.core.SurfaceRequest;
-import androidx.camera.core.impl.ImageAnalysisConfig;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
@@ -29,16 +26,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
-import android.util.Size;
-import android.view.Surface;
-import android.view.TextureView;
-import android.view.ViewStub;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -55,8 +51,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 
 public class eyes_detection extends BaseModuleActivity {
     Preview preview;
@@ -67,6 +66,14 @@ public class eyes_detection extends BaseModuleActivity {
     private Long mLastAnalysisResultTime;
     private static final String[] PERMISSION = {Manifest.permission.CAMERA};
     private static final int REQUEST_CODE_CAMERA_PERMISSION = 200;
+
+
+    //캡쳐 관련
+    private Button btn_capture;
+    private ImageCapture imageCapture = null;
+    private ExecutorService cameraExecutor;
+    private File outputDirectory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +90,29 @@ public class eyes_detection extends BaseModuleActivity {
         else{
             setupCameraX();
         }
+        outputDirectory = getOutputDirectory();
+        btn_capture = findViewById(R.id.btn_capture);
+        btn_capture.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN :
+                        btn_capture.setBackgroundResource(R.drawable.circlebuttondown);
+                        takePicture();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        btn_capture.setBackgroundResource(R.drawable.circlebuttonup);
+                        break;
+                }
+                return false;
+            }
+        });
+        btn_capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     static class AnalysisResult{
@@ -212,11 +242,16 @@ public class eyes_detection extends BaseModuleActivity {
         cameraProviderListenableFuture.addListener(()->{
             try{
                 ProcessCameraProvider cameraProvider = cameraProviderListenableFuture.get();
+
                 CameraSelector cameraSelector = new CameraSelector.Builder()
                         .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                         .build();
+
+                imageCapture = new ImageCapture.Builder().build();
+
                 cameraProvider.unbindAll();
-                cameraProvider.bindToLifecycle(this,cameraSelector, preview, imageAnalysis);
+                cameraProvider.bindToLifecycle(this,cameraSelector, preview, imageAnalysis, imageCapture);
+
             } catch(ExecutionException | InterruptedException e){
                 Log.e("Object Detection", "Error setting up CameraX", e);
             }
@@ -225,4 +260,41 @@ public class eyes_detection extends BaseModuleActivity {
         //cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
     }
 
+    private void takePicture() {
+        if (imageCapture == null) {
+            Log.d("Capture", "아직 NULL ㅜㅜ!");
+            return;
+        }
+
+        File photoFile = new File(
+                outputDirectory,
+                new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.KOREA).format(System.currentTimeMillis()) + ".jpg");
+
+        ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(photoFile).build();
+
+        imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this), new ImageCapture.OnImageSavedCallback() {
+            @Override
+            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                // 이미지가 저장된 후에 작업을 수행하려면 이 메서드를 사용하십시오.
+                Toast.makeText(getApplicationContext(), "캡쳐!",Toast.LENGTH_SHORT);
+                Log.d("Capture", "캡쳐!");
+            }
+
+            @Override
+            public void onError(@NonNull ImageCaptureException exception) {
+                // 이미지 저장에 실패한 경우 여기서 오류를 처리합니다.
+                Log.d("Capture", "캡쳐안됐음 ㅜㅜ!");
+            }
+        });
+    }
+
+    private File getOutputDirectory(){
+        File[] mediaDirs = getExternalMediaDirs();
+        if(mediaDirs.length >0){
+            File mediaDir = new File(mediaDirs[0],"My_last");
+            mediaDir.mkdir();
+            return mediaDir;
+        }
+        return getFilesDir();
+    }
 }
