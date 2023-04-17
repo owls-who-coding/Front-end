@@ -28,12 +28,14 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
@@ -46,6 +48,7 @@ import org.pytorch.torchvision.TensorImageUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,15 +73,23 @@ public class eyes_detection extends BaseModuleActivity {
 
     //캡쳐 관련
     private Button btn_capture;
+    private Button btn_reset;
+    private Button btn_gallery;
     private ImageCapture imageCapture = null;
     private ExecutorService cameraExecutor;
     private File outputDirectory;
+    ImageView imageView;
+
+    View.OnClickListener detectedListener;
+    View.OnClickListener cameraResetListener;
+    View.OnClickListener captureListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eyes_detection);
 
+        setButtonListener();
 
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(
@@ -92,41 +103,39 @@ public class eyes_detection extends BaseModuleActivity {
         }
         outputDirectory = getOutputDirectory();
         btn_capture = findViewById(R.id.btn_capture);
-        btn_capture.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()){
-                    case MotionEvent.ACTION_DOWN :
-                        btn_capture.setBackgroundResource(R.drawable.circlebuttondown);
-                        takePicture();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        btn_capture.setBackgroundResource(R.drawable.circlebuttonup);
-                        break;
-                }
-                return false;
-            }
-        });
-        btn_capture.setOnClickListener(new View.OnClickListener() {
+
+        btn_capture.setOnClickListener(captureListener);
+        btn_reset = findViewById(R.id.btn_camera_reset);
+        btn_reset.setOnClickListener(cameraResetListener);
+    }
+    void setButtonListener(){
+        detectedListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(getApplicationContext(), "detected",Toast.LENGTH_SHORT).show();
             }
-        });
+        };
+        captureListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_capture.setBackgroundResource(R.drawable.circlebuttondown);
+                takePicture();
+                btn_capture.setOnClickListener(detectedListener);
+            }
+        };
+        cameraResetListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetCamera();
+            }
+        };
     }
-
     static class AnalysisResult{
         private final ArrayList<Result> mResults;
 
         public AnalysisResult(ArrayList<Result> results) {mResults = results;}
     }
 
-//    protected TextureView getCameraPreviewTextureView(){
-////        mResultView = findViewById(R.id.resultView);
-//        return ((ViewStub) findViewById(R.id.object_detection_texture_view_stub))
-//                .inflate()
-//                .findViewById(R.id.object_detection_texture_view);
-//    }
     protected PreviewView getPreviewView(){
         mResultView = findViewById(R.id.resultView);
         return (PreviewView) findViewById(R.id.preview_camera);
@@ -176,6 +185,11 @@ public class eyes_detection extends BaseModuleActivity {
             return file.getAbsolutePath();
         }
     }
+    public static Bitmap rotateBitmap(Bitmap source, float angle){
+        Matrix matrix=new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0,0,source.getWidth(), source.getHeight(), matrix, true);
+    }
     @Nullable
     @WorkerThread
     @OptIn(markerClass = ExperimentalGetImage.class)
@@ -189,9 +203,7 @@ public class eyes_detection extends BaseModuleActivity {
             return null;
         }
         Bitmap bitmap = imgToBitmap(image.getImage());
-        Matrix matrix = new Matrix();
-        matrix.postRotate(90.0f);
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        bitmap = rotateBitmap(bitmap, 90.0f);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
 
         final Tensor inputTensor = TensorImageUtils.bitmapToFloat32Tensor(resizedBitmap, PrePostProcessor.NO_MEAN_RGB, PrePostProcessor.NO_STD_RGB);
@@ -210,6 +222,7 @@ public class eyes_detection extends BaseModuleActivity {
 
 
     public void setupCameraX(){
+        imageView = (ImageView)findViewById(R.id.img_view_capture);
         mLastAnalysisResultTime = SystemClock.elapsedRealtime();
         previewView = getPreviewView();
         preview = new Preview.Builder()
@@ -261,6 +274,8 @@ public class eyes_detection extends BaseModuleActivity {
     }
 
     private void takePicture() {
+        btn_capture.setBackgroundResource(R.drawable.detected_icon);
+
         if (imageCapture == null) {
             Log.d("Capture", "아직 NULL ㅜㅜ!");
             return;
@@ -276,7 +291,21 @@ public class eyes_detection extends BaseModuleActivity {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                 // 이미지가 저장된 후에 작업을 수행하려면 이 메서드를 사용하십시오.
-                Toast.makeText(getApplicationContext(), "캡쳐!",Toast.LENGTH_SHORT);
+                Uri savedImageUri = outputFileResults.getSavedUri();
+                if(savedImageUri != null){
+                    try {
+                        InputStream imageStream = getContentResolver().openInputStream(savedImageUri);
+                        Bitmap captureImageBitmap = BitmapFactory.decodeStream(imageStream);
+                        captureImageBitmap = rotateBitmap(captureImageBitmap,90.0f);
+                        imageView.setImageBitmap(captureImageBitmap);
+                        imageView.setVisibility(View.VISIBLE);
+
+                        mResultView.setVisibility(View.INVISIBLE);
+                        previewView.setVisibility(View.INVISIBLE);
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 Log.d("Capture", "캡쳐!");
             }
 
@@ -297,4 +326,13 @@ public class eyes_detection extends BaseModuleActivity {
         }
         return getFilesDir();
     }
+
+    private void resetCamera(){
+        imageView.setVisibility(View.INVISIBLE);
+        mResultView.setVisibility(View.VISIBLE);
+        previewView.setVisibility(View.VISIBLE);
+        btn_capture.setOnClickListener(captureListener);
+        btn_capture.setBackgroundResource(R.drawable.circlebuttonup);
+    }
+
 }

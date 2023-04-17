@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
+    android:background="@android:color/white"
     tools:context=".eyes_detection"
     android:fitsSystemWindows="true">
 
@@ -23,6 +23,12 @@
             android:id="@+id/resultView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/img_view_capture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -37,19 +43,20 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
+        <!--        Gallery icon by Icons8-->
         <Button
             android:id="@+id/btn_gallery"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginRight="50dp"
-            android:background="@drawable/gallry_shape" />
+            android:background="@drawable/gallery_shape" />
 
         <Button
             android:id="@+id/btn_capture"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_gravity="center"
-            android:background="@drawable/circlebuttonup" />
+            android:background="@drawable/circlebuttonup"/>
 
         <Button
             android:id="@+id/btn_camera_reset"
