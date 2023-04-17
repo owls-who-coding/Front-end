@@ -36,7 +36,9 @@ public class post_detail extends Fragment {
     community community;
     TextView textview;
     ImageView imageView;
-    TextView titleview;
+    TextView titleview,open_file;
+
+    LinearLayout file;
 
     @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,13 +55,23 @@ public class post_detail extends Fragment {
         textview = (TextView) view.findViewById(R.id.post_detail_textview);
         imageView=(ImageView)view.findViewById(R.id.post_detail_image);
         titleview=(TextView) view.findViewById(R.id.post_detail_title);
-        TextView open_file = (TextView)view.findViewById(R.id.open_file);
+        open_file = (TextView)view.findViewById(R.id.open_file);
+        file = (LinearLayout) view.findViewById(R.id.file);
+
+        final int[] open_count = {0};
+
 
         open_file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LinearLayout file = (LinearLayout) view.findViewById(R.id.file);
-                file.setVisibility(View.VISIBLE);
+                if(open_count[0] == 0){
+                    file.setVisibility(View.VISIBLE);
+                    open_count[0] = 1;
+                }else{
+                    file.setVisibility(View.GONE);
+                    open_count[0] = 0;
+                }
+
             }
         });
 

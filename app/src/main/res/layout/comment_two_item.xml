@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="17dp"
+            android:background="@drawable/comment"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp">
+
+
+
+            <LinearLayout
+                android:layout_width="73dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/reply_user_nickname"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="nickname"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="290dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/reply_user_comment"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="2dp"
+                    android:text="그거 강아지 상태가 좋아보이지 않네요 가까운 병원부터가시는걸 추천드립니다."
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!--        <LinearLayout-->
+            <!--            android:layout_width="50dp"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:orientation="vertical"-->
+            <!--            android:gravity="center"-->
+            <!--            android:layout_margin="10dp">-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/reply_day"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="4월 15일"-->
+            <!--                android:textSize="10dp"-->
+            <!--                android:layout_marginBottom="10dp"/>-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/reply_time"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="02:40:11"-->
+            <!--                android:textSize="10dp"/>-->
+
+            <!--        </LinearLayout>-->
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

@@ -22,6 +22,7 @@ public class choice extends AppCompatActivity {
     disease disease;
     mypage mypage;
     MainActivity mainActivity;
+    post_detail post_detail;
 
 
     @Override
@@ -34,6 +35,7 @@ public class choice extends AppCompatActivity {
         disease = new disease();
         mypage = new mypage();
         mainActivity = new MainActivity();
+        post_detail = new post_detail();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.containers,disease).commit();
 
