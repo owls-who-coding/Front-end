@@ -16,6 +16,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.text.LineBreakConfig;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,6 +41,8 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
     Context context;
     SharedPreferences sharedPreferences;
 
+    TextView y_kg,y_eat,y_count,y_out;
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
 
 
@@ -53,11 +56,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
-        //return inflater.inflate(R.layout.activity_community,container,false);
         return view;
-
-//        return inflater.inflate(R.layout.activity_diary,container,false);
-
 
     }
     @Override
@@ -69,7 +68,8 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
         showInputDialog(year,month+1,dayOfMonth);
     }
 
-    private void showInputDialog(int year, int month,int dayOfMonth) {
+    @SuppressLint("MissingInflatedId")
+    private void showInputDialog(int year, int month, int dayOfMonth) {
         LayoutInflater inflater = LayoutInflater.from(context);
         
         View view = inflater.inflate(R.layout.input_diary, null);
@@ -81,6 +81,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
         final EditText Problem = view.findViewById(R.id.problem);
 
         String dataTime = getFormattedDateTime();
+
         String kg = sharedPreferences.getString(dataTime + "_kg","");
         String eat = sharedPreferences.getString(dataTime + "_eat","");
         String count = sharedPreferences.getString(dataTime + "_count","");
