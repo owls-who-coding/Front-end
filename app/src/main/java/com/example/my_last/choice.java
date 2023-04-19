@@ -2,16 +2,10 @@ package com.example.my_last;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.example.my_last.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class choice extends AppCompatActivity {
@@ -19,7 +13,7 @@ public class choice extends AppCompatActivity {
 
     community community;
     diary diary;
-    disease disease;
+    Disease disease;
     mypage mypage;
     MainActivity mainActivity;
     post_detail post_detail;
@@ -32,7 +26,7 @@ public class choice extends AppCompatActivity {
 
         community = new community();
         diary = new diary();
-        disease = new disease();
+        disease = new Disease();
         mypage = new mypage();
         mainActivity = new MainActivity();
         post_detail = new post_detail();
