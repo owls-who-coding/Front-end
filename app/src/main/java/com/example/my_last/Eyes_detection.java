@@ -210,6 +210,7 @@ public class Eyes_detection extends BaseModuleActivity {
     }
 
     public void setupCameraX() {
+
         imageView = (ImageView) findViewById(R.id.img_view_capture);
         mLastAnalysisResultTime = SystemClock.elapsedRealtime();
         previewView = getPreviewView();
@@ -218,7 +219,6 @@ public class Eyes_detection extends BaseModuleActivity {
                 .build();
 
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
-
 //        .setTargetAspectRatio(AspectRatio.RATIO_4_3)
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .setTargetResolution(new Size(480,720))
@@ -237,6 +237,7 @@ public class Eyes_detection extends BaseModuleActivity {
                 Log.d("Detected", "Check 분석중");
             }
             imageProxy.close();
+            return;
         });
 
 
