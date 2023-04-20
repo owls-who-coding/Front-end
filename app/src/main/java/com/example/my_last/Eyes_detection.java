@@ -222,10 +222,11 @@ public class Eyes_detection extends BaseModuleActivity {
 //        .setTargetAspectRatio(AspectRatio.RATIO_4_3)
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .setTargetResolution(new Size(480,720))
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build();
 
         imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), imageProxy -> {
-            if (SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 500) {
+            if (SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 300) {
                 imageProxy.close();
                 return;
             }
