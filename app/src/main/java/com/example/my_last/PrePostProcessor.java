@@ -139,15 +139,6 @@ public class PrePostProcessor {
                 results.add(result);
             }
         }
-//        Integer len = results.size();
-//        Log.d("Legnth", len.toString());
-//        for(Result r : results){
-//            Integer classIndex = r.classIndex;
-//            Float next = r.score;
-//            Log.d("RESULT_Index",classIndex.toString());
-//            Log.d("RESULT_Score",next.toString());
-//        }
-//        Log.d("Detection","Result!!!!!!!!!");
         return nonMaxSuppression(results, mNmsLimit, mThreshold);
     }
 }

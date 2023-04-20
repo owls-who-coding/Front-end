@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".eyes_detection"
+    tools:context=".Eyes_detection"
     android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="2:3"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.camera.view.PreviewView

@@ -1,16 +1,18 @@
 package com.example.my_last;
 
 
+import static com.example.my_last.ImageProcessing.imageProxyToBitmap;
+import static com.example.my_last.ImageProcessing.imgToBitmap;
+import static com.example.my_last.ImageProcessing.rotateBitmap;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.annotation.WorkerThread;
-import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
-import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
@@ -22,23 +24,19 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
-import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.graphics.YuvImage;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Base64;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.util.Size;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.JsonObject;
 
 import org.pytorch.IValue;
 import org.pytorch.LiteModuleLoader;
@@ -48,19 +46,19 @@ import org.pytorch.torchvision.TensorImageUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
-public class eyes_detection extends BaseModuleActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class Eyes_detection extends BaseModuleActivity {
     Preview preview;
     PreviewView previewView;
     private Module mModule = null;
@@ -77,42 +75,77 @@ public class eyes_detection extends BaseModuleActivity {
     private Button btn_gallery;
     private ImageCapture imageCapture = null;
     private ExecutorService cameraExecutor;
-    private File outputDirectory;
+
+    private Bitmap detectedBitmap;
     ImageView imageView;
 
     View.OnClickListener detectedListener;
     View.OnClickListener cameraResetListener;
     View.OnClickListener captureListener;
 
+    PredictAPI predictAPI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eyes_detection);
 
         setButtonListener();
+        predictAPI = RetrofitClient.getClient().create(PredictAPI.class);
 
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     this,
                     PERMISSION,
                     REQUEST_CODE_CAMERA_PERMISSION
             );
-        }
-        else{
+        } else {
             setupCameraX();
         }
-        outputDirectory = getOutputDirectory();
         btn_capture = findViewById(R.id.btn_capture);
 
         btn_capture.setOnClickListener(captureListener);
         btn_reset = findViewById(R.id.btn_camera_reset);
         btn_reset.setOnClickListener(cameraResetListener);
     }
-    void setButtonListener(){
+    static class AnalysisResult {
+        private final ArrayList<Result> mResults;
+
+        public AnalysisResult(ArrayList<Result> results) {
+            mResults = results;
+        }
+    }
+
+    void setButtonListener() {
         detectedListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "detected",Toast.LENGTH_SHORT).show();
+                detectedBitmap = Bitmap.createScaledBitmap(detectedBitmap, 224,224,true);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                detectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String encodeImage = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
+
+                Call<JsonObject> predictCall = predictAPI.predict_eyes(encodeImage);
+                predictCall.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if(response.isSuccessful()){
+                            JsonObject jsonVal = response.body();
+                            Toast.makeText(getApplicationContext(), jsonVal.toString(),Toast.LENGTH_SHORT).show();
+
+                        }
+                        else{
+                            int statusCode=response.code();
+                            Log.i("APIError", "Status Code : " + statusCode + "Don't Response");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                    }
+                });
+                Toast.makeText(getApplicationContext(), "detected", Toast.LENGTH_SHORT).show();
             }
         };
         captureListener = new View.OnClickListener() {
@@ -130,43 +163,16 @@ public class eyes_detection extends BaseModuleActivity {
             }
         };
     }
-    static class AnalysisResult{
-        private final ArrayList<Result> mResults;
-
-        public AnalysisResult(ArrayList<Result> results) {mResults = results;}
-    }
-
-    protected PreviewView getPreviewView(){
+    protected PreviewView getPreviewView() {
         mResultView = findViewById(R.id.resultView);
         return (PreviewView) findViewById(R.id.preview_camera);
     }
-    protected void applyToUiAnalyzeImageResult(AnalysisResult result){
+
+    protected void applyToUiAnalyzeImageResult(AnalysisResult result) {
         mResultView.setResults(result.mResults);
         mResultView.invalidate();
     }
 
-    private Bitmap imgToBitmap(Image image) {
-        Image.Plane[] planes = image.getPlanes();
-        ByteBuffer yBuffer = planes[0].getBuffer();
-        ByteBuffer uBuffer = planes[1].getBuffer();
-        ByteBuffer vBuffer = planes[2].getBuffer();
-
-        int ySize = yBuffer.remaining();
-        int uSize = uBuffer.remaining();
-        int vSize = vBuffer.remaining();
-
-        byte[] nv21 = new byte[ySize + uSize + vSize];
-        yBuffer.get(nv21, 0, ySize);
-        vBuffer.get(nv21, ySize, vSize);
-        uBuffer.get(nv21, ySize + vSize, uSize);
-
-        YuvImage yuvImage = new YuvImage(nv21, ImageFormat.NV21, image.getWidth(), image.getHeight(), null);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        yuvImage.compressToJpeg(new Rect(0, 0, yuvImage.getWidth(), yuvImage.getHeight()), 75, out);
-
-        byte[] imageBytes = out.toByteArray();
-        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-    }
     public static String assetFilePath(Context context, String assetName) throws IOException {
         File file = new File(context.getFilesDir(), assetName);
         if (file.exists() && file.length() > 0) {
@@ -185,15 +191,11 @@ public class eyes_detection extends BaseModuleActivity {
             return file.getAbsolutePath();
         }
     }
-    public static Bitmap rotateBitmap(Bitmap source, float angle){
-        Matrix matrix=new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0,0,source.getWidth(), source.getHeight(), matrix, true);
-    }
+
     @Nullable
     @WorkerThread
     @OptIn(markerClass = ExperimentalGetImage.class)
-    public AnalysisResult  analyzeImage(ImageProxy image, int rotationDegrees) {
+    public AnalysisResult analyzeImage(ImageProxy image, int rotationDegrees) {
         try {
             if (mModule == null) {
                 mModule = LiteModuleLoader.load(assetFilePath(getApplicationContext(), "best.torchscript.ptl"));
@@ -204,25 +206,12 @@ public class eyes_detection extends BaseModuleActivity {
         }
         Bitmap bitmap = imgToBitmap(image.getImage());
         bitmap = rotateBitmap(bitmap, 90.0f);
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
-
-        final Tensor inputTensor = TensorImageUtils.bitmapToFloat32Tensor(resizedBitmap, PrePostProcessor.NO_MEAN_RGB, PrePostProcessor.NO_STD_RGB);
-        IValue[] outputTuple = mModule.forward(IValue.from(inputTensor)).toTuple();
-        final Tensor outputTensor = outputTuple[0].toTensor();
-        final float[] outputs = outputTensor.getDataAsFloatArray();
-
-        float imgScaleX = (float)bitmap.getWidth() / PrePostProcessor.mInputWidth;
-        float imgScaleY = (float)bitmap.getHeight() / PrePostProcessor.mInputHeight;
-        float ivScaleX = (float)mResultView.getWidth() / bitmap.getWidth();
-        float ivScaleY = (float)mResultView.getHeight() / bitmap.getHeight();
-
-        final ArrayList<Result> results = PrePostProcessor.outputsToNMSPredictions(outputs, imgScaleX, imgScaleY, ivScaleX, ivScaleY, 0, 0);
-        return new AnalysisResult(results);
+        return getDetectResult(bitmap);
     }
 
+    public void setupCameraX() {
 
-    public void setupCameraX(){
-        imageView = (ImageView)findViewById(R.id.img_view_capture);
+        imageView = (ImageView) findViewById(R.id.img_view_capture);
         mLastAnalysisResultTime = SystemClock.elapsedRealtime();
         previewView = getPreviewView();
         preview = new Preview.Builder()
@@ -230,30 +219,32 @@ public class eyes_detection extends BaseModuleActivity {
                 .build();
 
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
-
+//        .setTargetAspectRatio(AspectRatio.RATIO_4_3)
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
-                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
+                .setTargetResolution(new Size(480,720))
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build();
 
-        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this),imageProxy ->{
-            if(SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 500){
+        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), imageProxy -> {
+            if (SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 300) {
                 imageProxy.close();
                 return;
             }
 
             final AnalysisResult result = analyzeImage(imageProxy, imageProxy.getImageInfo().getRotationDegrees());
-            if(result != null){
+            if (result != null) {
                 mLastAnalysisResultTime = SystemClock.elapsedRealtime();
                 runOnUiThread(() -> applyToUiAnalyzeImageResult(result));
-                Log.d("Detected","Check 분석중");
+                Log.d("Detected", "Check 분석중");
             }
             imageProxy.close();
+            return;
         });
 
 
         ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
-        cameraProviderListenableFuture.addListener(()->{
-            try{
+        cameraProviderListenableFuture.addListener(() -> {
+            try {
                 ProcessCameraProvider cameraProvider = cameraProviderListenableFuture.get();
 
                 CameraSelector cameraSelector = new CameraSelector.Builder()
@@ -263,9 +254,9 @@ public class eyes_detection extends BaseModuleActivity {
                 imageCapture = new ImageCapture.Builder().build();
 
                 cameraProvider.unbindAll();
-                cameraProvider.bindToLifecycle(this,cameraSelector, preview, imageAnalysis, imageCapture);
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis, imageCapture);
 
-            } catch(ExecutionException | InterruptedException e){
+            } catch (ExecutionException | InterruptedException e) {
                 Log.e("Object Detection", "Error setting up CameraX", e);
             }
         }, ContextCompat.getMainExecutor(this));
@@ -280,54 +271,42 @@ public class eyes_detection extends BaseModuleActivity {
             Log.d("Capture", "아직 NULL ㅜㅜ!");
             return;
         }
-
-        File photoFile = new File(
-                outputDirectory,
-                new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.KOREA).format(System.currentTimeMillis()) + ".jpg");
-
-        ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(photoFile).build();
-
-        imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this), new ImageCapture.OnImageSavedCallback() {
+        imageCapture.takePicture(ContextCompat.getMainExecutor(this), new ImageCapture.OnImageCapturedCallback() {
             @Override
-            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                // 이미지가 저장된 후에 작업을 수행하려면 이 메서드를 사용하십시오.
-                Uri savedImageUri = outputFileResults.getSavedUri();
-                if(savedImageUri != null){
-                    try {
-                        InputStream imageStream = getContentResolver().openInputStream(savedImageUri);
-                        Bitmap captureImageBitmap = BitmapFactory.decodeStream(imageStream);
-                        captureImageBitmap = rotateBitmap(captureImageBitmap,90.0f);
-                        imageView.setImageBitmap(captureImageBitmap);
-                        imageView.setVisibility(View.VISIBLE);
+            @OptIn(markerClass = ExperimentalGetImage.class)
+            public void onCaptureSuccess(@NonNull ImageProxy image) {
+                super.onCaptureSuccess(image);
+                Integer str = image.getImage().getFormat();
+                Log.d("ImageType2", str.toString());
 
-                        mResultView.setVisibility(View.INVISIBLE);
-                        previewView.setVisibility(View.INVISIBLE);
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
+                Bitmap captureImageBitmap = imageProxyToBitmap(image);
+                captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, mResultView.getWidth(),mResultView.getHeight(), true);
+                AnalysisResult analysisResult = getDetectResult(captureImageBitmap);
+
+//                Log.d("caputreImageBitmapSize ", width.toString() + " , "+ height.toString());
+                if(analysisResult.mResults.size() == 0){
+                    Toast.makeText(getApplicationContext(), "눈을 확인할 수 없습니다.",Toast.LENGTH_SHORT).show();
                 }
-                Log.d("Capture", "캡쳐!");
-            }
+                else{
+                    Rect rect = analysisResult.mResults.get(0).rect;
+                    captureImageBitmap = ImageProcessing.cropBitmap(captureImageBitmap, rect);
 
-            @Override
-            public void onError(@NonNull ImageCaptureException exception) {
-                // 이미지 저장에 실패한 경우 여기서 오류를 처리합니다.
-                Log.d("Capture", "캡쳐안됐음 ㅜㅜ!");
+                    captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, 480,  480, true);
+                }
+                captureImageBitmap = rotateBitmap(captureImageBitmap, 90.0f);
+               // captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
+                imageView.setImageBitmap(captureImageBitmap);
+                imageView.setVisibility(View.VISIBLE);
+                mResultView.setVisibility(View.INVISIBLE);
+                previewView.setVisibility(View.INVISIBLE);
+                detectedBitmap = captureImageBitmap;
+                // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
+                image.close();
             }
         });
     }
 
-    private File getOutputDirectory(){
-        File[] mediaDirs = getExternalMediaDirs();
-        if(mediaDirs.length >0){
-            File mediaDir = new File(mediaDirs[0],"My_last");
-            mediaDir.mkdir();
-            return mediaDir;
-        }
-        return getFilesDir();
-    }
-
-    private void resetCamera(){
+    private void resetCamera() {
         imageView.setVisibility(View.INVISIBLE);
         mResultView.setVisibility(View.VISIBLE);
         previewView.setVisibility(View.VISIBLE);
@@ -335,4 +314,21 @@ public class eyes_detection extends BaseModuleActivity {
         btn_capture.setBackgroundResource(R.drawable.circlebuttonup);
     }
 
+    private AnalysisResult getDetectResult(Bitmap mBitmap){
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(mBitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
+        final Tensor inputTensor = TensorImageUtils.bitmapToFloat32Tensor(resizedBitmap, PrePostProcessor.NO_MEAN_RGB, PrePostProcessor.NO_STD_RGB);
+        IValue[] outputTuple = mModule.forward(IValue.from(inputTensor)).toTuple();
+
+        float mImgScaleX = (float) mBitmap.getWidth() / PrePostProcessor.mInputWidth;
+        float mImgScaleY = (float) mBitmap.getHeight() / PrePostProcessor.mInputHeight;
+        float mIvScaleX = (float) mResultView.getWidth() / mBitmap.getWidth();
+        float mIvScaleY = (float) mResultView.getHeight() / mBitmap.getHeight();
+
+
+        final Tensor outputTensor = outputTuple[0].toTensor();
+        final float[] outputs = outputTensor.getDataAsFloatArray();
+        final ArrayList<Result> results =  PrePostProcessor.outputsToNMSPredictions(outputs, mImgScaleX, mImgScaleY, mIvScaleX, mIvScaleY, 0, 0);
+
+        return new AnalysisResult(results);
+    }
 }
