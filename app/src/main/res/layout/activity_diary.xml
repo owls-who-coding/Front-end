@@ -12,7 +12,22 @@
     <CalendarView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/calendarView" />
+        android:id="@+id/calendarView"
+        />
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#B4BCC8"
+        android:layout_marginBottom="35dp"/>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingClass"
+        android:layout_marginBottom="10dp"/>
 
 
 <!--    <TextView-->
