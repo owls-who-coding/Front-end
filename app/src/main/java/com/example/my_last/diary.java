@@ -163,7 +163,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
 //        float Kg = Float.parseFloat(kg);
 
-        if(kg == ""){
+        if(kg.isEmpty()){
             return 0;
         }else{
             return Float.parseFloat(kg);
