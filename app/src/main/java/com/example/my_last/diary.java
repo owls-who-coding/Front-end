@@ -32,11 +32,13 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 
 public class diary extends Fragment implements CalendarView.OnDateChangeListener {
@@ -212,11 +214,15 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         Calendar currentDate = (Calendar) startDate.clone();
 
+        ArrayList<String> day = new ArrayList<>();
+
         int sum = 0;
 
         while(currentDate.compareTo(endDate) <= 0){
 
-            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "." + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "/" + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+
+            day.add(str);
 
             // SharedPreferences에서 해당 날짜의 Kg 값을 가져옴
             float weight = getWeightFromSharedPreferences(currentDate);
@@ -227,6 +233,10 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
             entries.add(entry);
             currentDate.add(Calendar.DAY_OF_MONTH, 1);
         }
+
+        XAxis xAxis = lineChart_kg.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(day.toArray(new String[0])));
+
 
         // 라인 차트에 데이터 설정
         LineDataSet dataSet = new LineDataSet(entries, "KG");
@@ -251,11 +261,15 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         Calendar currentDate = (Calendar) startDate.clone();
 
+        ArrayList<String> day = new ArrayList<>();
+
         int sum = 0;
 
         while(currentDate.compareTo(endDate) <= 0){
 
-            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "." + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "/" + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+
+            day.add(str);
 
             // SharedPreferences에서 해당 날짜의 Kg 값을 가져옴
             float eat = getEatFromSharedPreferences(currentDate);
@@ -266,6 +280,9 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
             entries.add(entry);
             currentDate.add(Calendar.DAY_OF_MONTH, 1);
         }
+
+        XAxis xAxis = lineChart_eat.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(day.toArray(new String[0])));
 
         // 라인 차트에 데이터 설정
         LineDataSet dataSet = new LineDataSet(entries, "KG");
@@ -291,11 +308,15 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         Calendar currentDate = (Calendar) startDate.clone();
 
+        ArrayList<String> day = new ArrayList<>();
+
         int sum = 0;
 
         while(currentDate.compareTo(endDate) <= 0){
 
-            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "." + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "/" + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+
+            day.add(str);
 
             // SharedPreferences에서 해당 날짜의 Kg 값을 가져옴
             float count = getCountFromSharedPreferences(currentDate);
@@ -306,6 +327,9 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
             entries.add(entry);
             currentDate.add(Calendar.DAY_OF_MONTH, 1);
         }
+
+        XAxis xAxis = lineChart_count.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(day.toArray(new String[0])));
 
         // 라인 차트에 데이터 설정
         LineDataSet dataSet = new LineDataSet(entries, "KG");
@@ -330,11 +354,15 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         Calendar currentDate = (Calendar) startDate.clone();
 
+        ArrayList<String> day = new ArrayList<>();
+
         int sum = 0;
 
         while(currentDate.compareTo(endDate) <= 0){
 
-            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "." + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "/" + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+
+            day.add(str);
 
             // SharedPreferences에서 해당 날짜의 Kg 값을 가져옴
             float out = getOutFromSharedPreferences(currentDate);
@@ -345,6 +373,9 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
             entries.add(entry);
             currentDate.add(Calendar.DAY_OF_MONTH, 1);
         }
+
+        XAxis xAxis = lineChart_out.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(day.toArray(new String[0])));
 
         // 라인 차트에 데이터 설정
         LineDataSet dataSet = new LineDataSet(entries, "OUT");
@@ -476,31 +507,36 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
                 builder.setPositiveButton("수정", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String kg = Kg.getText().toString();
-                        String eat = Eat.getText().toString();
-                        String count = Count.getText().toString();
-                        String out = Out.getText().toString();
-                        String problem = Problem.getText().toString();
-                        String dateTime = year+"/"+"0"+month+"/"+dayOfMonth;
+                        try {
+                            String kg = Kg.getText().toString();
+                            String eat = Eat.getText().toString();
+                            String count = Count.getText().toString();
+                            String out = Out.getText().toString();
+                            String problem = Problem.getText().toString();
+                            String dateTime = year+"/"+"0"+month+"/"+dayOfMonth;
 
 //                        Toast.makeText(context, dateTime, Toast.LENGTH_SHORT).show();
 
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(dateTime + "_kg", kg);
-                        editor.putString(dateTime + "_eat", eat);
-                        editor.putString(dateTime + "_count", count);
-                        editor.putString(dateTime + "_out", out);
-                        editor.putString(dateTime + "_problem", problem);
-                        editor.apply();
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString(dateTime + "_kg", kg);
+                            editor.putString(dateTime + "_eat", eat);
+                            editor.putString(dateTime + "_count", count);
+                            editor.putString(dateTime + "_out", out);
+                            editor.putString(dateTime + "_problem", problem);
+                            editor.apply();
 
-                        Toast.makeText(context, "내용이 저장되었습니다. (" + dateTime + ")", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "내용이 저장되었습니다. (" + dateTime + ")", Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(context, kg+"!", Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(context, kg+"!!", Toast.LENGTH_SHORT).show();
 
-                        updateKgLineChart();
-                        updateEatLineChart();
-                        updateCountLineChart();
-                        updateOutLineChart();
+                            updateKgLineChart();
+                            updateEatLineChart();
+                            updateCountLineChart();
+                            updateOutLineChart();
+                        } catch (Exception e){
+                            Toast.makeText(context, "숫자를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -508,12 +544,15 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        updateKgLineChart();
-                        updateEatLineChart();
-                        updateCountLineChart();
-                        updateOutLineChart();
-
-                        dialog.dismiss();
+                        try {
+                            updateKgLineChart();
+                            updateEatLineChart();
+                            updateCountLineChart();
+                            updateOutLineChart();
+                        }catch (Exception e){
+                            Toast.makeText(context, "정수를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
                     }
                 });
 
