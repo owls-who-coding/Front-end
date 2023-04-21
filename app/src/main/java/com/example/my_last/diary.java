@@ -17,9 +17,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EdgeEffect;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +46,12 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
     Context context;
     SharedPreferences sharedPreferences;
 
-    TextView y_kg,y_eat,y_count,y_out;
+    Button button;
 
-    LineChart lineChart;
+
+    LineChart lineChart_kg,lineChart_eat,lineChart_count,lineChart_out;
+
+    RadioGroup radioGroup;
 
     public int selectedYear;
     public int selectedMonth;
@@ -65,10 +71,56 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
-        lineChart = (LineChart) view.findViewById(R.id.chart);
+        lineChart_kg = (LineChart) view.findViewById(R.id.kg_chart);
+        lineChart_eat = (LineChart) view.findViewById(R.id.eat_chart);
+        lineChart_count = (LineChart) view.findViewById(R.id.count_chart);
+        lineChart_out = (LineChart) view.findViewById(R.id.out_chart);
+        button = (Button) view.findViewById(R.id.button);
 
         setupLineChart();
 
+        radioGroup = (RadioGroup)view.findViewById(R.id.radio_group);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.kg_graph:
+                        updateKgLineChart();
+                        lineChart_eat.setVisibility(View.GONE);
+                        lineChart_count.setVisibility(View.GONE);
+                        lineChart_out.setVisibility(View.GONE);
+                        button.setVisibility(View.GONE);
+                        lineChart_kg.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.eat_graph:
+                        updateEatLineChart();
+                        lineChart_kg.setVisibility(View.GONE);
+                        lineChart_count.setVisibility(View.GONE);
+                        lineChart_out.setVisibility(View.GONE);
+                        button.setVisibility(View.GONE);
+                        lineChart_eat.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.count_graph:
+                        updateCountLineChart();
+                        lineChart_kg.setVisibility(View.GONE);
+                        lineChart_eat.setVisibility(View.GONE);
+                        lineChart_out.setVisibility(View.GONE);
+                        button.setVisibility(View.GONE);
+                        lineChart_count.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.out_graph:
+                        updateOutLineChart();
+                        lineChart_kg.setVisibility(View.GONE);
+                        lineChart_eat.setVisibility(View.GONE);
+                        lineChart_count.setVisibility(View.GONE);
+                        button.setVisibility(View.GONE);
+                        lineChart_out.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
         return view;
@@ -80,35 +132,77 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
         Description description = new Description();
         description.setText("지난 7일");
         description.setTextColor(Color.BLACK);
-        lineChart.setDescription(description);
-
+        lineChart_kg.setDescription(description);
         // 라인 차트의 레전드 설정
-        lineChart.getLegend().setEnabled(false);
+        lineChart_kg.getLegend().setEnabled(false);
+
+        lineChart_eat.setDescription(description);
+        // 라인 차트의 레전드 설정
+        lineChart_eat.getLegend().setEnabled(false);
+
+        lineChart_count.setDescription(description);
+        // 라인 차트의 레전드 설정
+        lineChart_count.getLegend().setEnabled(false);
+
+        lineChart_out.setDescription(description);
+        // 라인 차트의 레전드 설정
+        lineChart_out.getLegend().setEnabled(false);
 
         // 라인 차트의 X축 설정
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(Color.BLACK);
+        XAxis xAxis_kg = lineChart_kg.getXAxis();
+        xAxis_kg.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis_kg.setTextColor(Color.BLACK);
 
-        // 라인 차트의 Y축 설정
-        lineChart.getAxisRight().setEnabled(false);
-        lineChart.getAxisLeft().setTextColor(Color.BLACK);
+        XAxis xAxis_eat = lineChart_eat.getXAxis();
+        xAxis_eat.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis_eat.setTextColor(Color.BLACK);
 
-        // 라인 차트의 배경색 설정
-        lineChart.setBackgroundColor(Color.WHITE);
+        XAxis xAxis_count = lineChart_count.getXAxis();
+        xAxis_count.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis_count.setTextColor(Color.BLACK);
 
-        // 라인 차트의 애니메이션 설정
-        lineChart.animateXY(1000, 1000);
+        XAxis xAxis_out = lineChart_out.getXAxis();
+        xAxis_out.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis_out.setTextColor(Color.BLACK);
+
+        lineChart_kg.getAxisRight().setEnabled(false);
+        lineChart_kg.getAxisLeft().setTextColor(Color.BLACK);
+        lineChart_kg.setBackgroundColor(Color.WHITE);
+        lineChart_kg.animateXY(1000, 1000);
+        lineChart_kg.getXAxis().setDrawGridLines(false);
+        lineChart_kg.getAxisLeft().setDrawGridLines(false);
+        lineChart_kg.getAxisRight().setDrawGridLines(false);
+
+        lineChart_eat.getAxisRight().setEnabled(false);
+        lineChart_eat.getAxisLeft().setTextColor(Color.BLACK);
+        lineChart_eat.setBackgroundColor(Color.WHITE);
+        lineChart_eat.animateXY(1000, 1000);
+        lineChart_eat.getXAxis().setDrawGridLines(false);
+        lineChart_eat.getAxisLeft().setDrawGridLines(false);
+        lineChart_eat.getAxisRight().setDrawGridLines(false);
+
+        lineChart_count.getAxisRight().setEnabled(false);
+        lineChart_count.getAxisLeft().setTextColor(Color.BLACK);
+        lineChart_count.setBackgroundColor(Color.WHITE);
+        lineChart_count.animateXY(1000, 1000);
+        lineChart_count.getXAxis().setDrawGridLines(false);
+        lineChart_count.getAxisLeft().setDrawGridLines(false);
+        lineChart_count.getAxisRight().setDrawGridLines(false);
+
+        lineChart_out.getAxisRight().setEnabled(false);
+        lineChart_out.getAxisLeft().setTextColor(Color.BLACK);
+        lineChart_out.setBackgroundColor(Color.WHITE);
+        lineChart_out.animateXY(1000, 1000);
+        lineChart_out.getXAxis().setDrawGridLines(false);
+        lineChart_out.getAxisLeft().setDrawGridLines(false);
+        lineChart_out.getAxisRight().setDrawGridLines(false);
     }
 
-    private void updateLineChart() {
+    private void updateKgLineChart() {
 
         Calendar startDate = Calendar.getInstance();
         startDate.set(selectedYear,selectedMonth,selectedDay);
         startDate.add(Calendar.DAY_OF_MONTH,-7);
-
-//        String s = Integer.toString(startDate.get(Calendar.YEAR)) + Integer.toString(startDate.get(Calendar.MONTH)) + Integer.toString(startDate.get(Calendar.DAY_OF_MONTH)) ;
-//        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
 
         Calendar endDate = Calendar.getInstance();
         endDate.set(selectedYear,selectedMonth,selectedDay);
@@ -118,22 +212,19 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         Calendar currentDate = (Calendar) startDate.clone();
 
-        int count = 0;
+        int sum = 0;
 
         while(currentDate.compareTo(endDate) <= 0){
 
             String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "." + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
 
-
             // SharedPreferences에서 해당 날짜의 Kg 값을 가져옴
             float weight = getWeightFromSharedPreferences(currentDate);
 
-
-            Entry entry = new Entry(count++,weight);
+            Entry entry = new Entry(sum++,weight);
 
             // 그래프 데이터에 날짜와 Kg 값을 추가
             entries.add(entry);
-
             currentDate.add(Calendar.DAY_OF_MONTH, 1);
         }
 
@@ -142,14 +233,129 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
         dataSet.setColor(Color.RED);
         dataSet.setLineWidth(2f);
         LineData lineData = new LineData(dataSet);
-        lineChart.setData(lineData);
-        lineChart.invalidate(); // 차트 갱신
+        lineChart_kg.setData(lineData);
+        lineChart_kg.invalidate(); // 차트 갱신
+    }
+
+    private void updateEatLineChart() {
+
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(selectedYear,selectedMonth,selectedDay);
+        startDate.add(Calendar.DAY_OF_MONTH,-7);
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(selectedYear,selectedMonth,selectedDay);
+
+        // 라인 차트에 표시할 데이터 리스트 생성
+        List<Entry> entries = new ArrayList<>();
+
+        Calendar currentDate = (Calendar) startDate.clone();
+
+        int sum = 0;
+
+        while(currentDate.compareTo(endDate) <= 0){
+
+            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "." + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+
+            // SharedPreferences에서 해당 날짜의 Kg 값을 가져옴
+            float eat = getEatFromSharedPreferences(currentDate);
+
+            Entry entry = new Entry(sum++,eat);
+
+            // 그래프 데이터에 날짜와 Kg 값을 추가
+            entries.add(entry);
+            currentDate.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        // 라인 차트에 데이터 설정
+        LineDataSet dataSet = new LineDataSet(entries, "KG");
+        dataSet.setColor(Color.RED);
+        dataSet.setLineWidth(2f);
+        LineData lineData = new LineData(dataSet);
+        lineChart_eat.setData(lineData);
+        lineChart_eat.invalidate(); // 차트 갱신
+    }
+
+
+    private void updateCountLineChart() {
+
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(selectedYear,selectedMonth,selectedDay);
+        startDate.add(Calendar.DAY_OF_MONTH,-7);
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(selectedYear,selectedMonth,selectedDay);
+
+        // 라인 차트에 표시할 데이터 리스트 생성
+        List<Entry> entries = new ArrayList<>();
+
+        Calendar currentDate = (Calendar) startDate.clone();
+
+        int sum = 0;
+
+        while(currentDate.compareTo(endDate) <= 0){
+
+            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "." + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+
+            // SharedPreferences에서 해당 날짜의 Kg 값을 가져옴
+            float count = getCountFromSharedPreferences(currentDate);
+
+            Entry entry = new Entry(sum++,count);
+
+            // 그래프 데이터에 날짜와 Kg 값을 추가
+            entries.add(entry);
+            currentDate.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        // 라인 차트에 데이터 설정
+        LineDataSet dataSet = new LineDataSet(entries, "KG");
+        dataSet.setColor(Color.RED);
+        dataSet.setLineWidth(2f);
+        LineData lineData = new LineData(dataSet);
+        lineChart_count.setData(lineData);
+        lineChart_count.invalidate(); // 차트 갱신
+    }
+
+    private void updateOutLineChart() {
+
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(selectedYear,selectedMonth,selectedDay);
+        startDate.add(Calendar.DAY_OF_MONTH,-7);
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(selectedYear,selectedMonth,selectedDay);
+
+        // 라인 차트에 표시할 데이터 리스트 생성
+        List<Entry> entries = new ArrayList<>();
+
+        Calendar currentDate = (Calendar) startDate.clone();
+
+        int sum = 0;
+
+        while(currentDate.compareTo(endDate) <= 0){
+
+            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "." + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+
+            // SharedPreferences에서 해당 날짜의 Kg 값을 가져옴
+            float out = getOutFromSharedPreferences(currentDate);
+
+            Entry entry = new Entry(sum++,out);
+
+            // 그래프 데이터에 날짜와 Kg 값을 추가
+            entries.add(entry);
+            currentDate.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        // 라인 차트에 데이터 설정
+        LineDataSet dataSet = new LineDataSet(entries, "OUT");
+        dataSet.setColor(Color.RED);
+        dataSet.setLineWidth(2f);
+        LineData lineData = new LineData(dataSet);
+        lineChart_out.setData(lineData);
+        lineChart_out.invalidate(); // 차트 갱신
     }
 
     public float getWeightFromSharedPreferences(Calendar currentDate){
-
-//        String key = year + "/" +"0"+ month + "/" + day;
-//        Float weight = sharedPreferences.getFloat(key, 0.0f);
 
         String y = Integer.toString(currentDate.get(Calendar.YEAR));
         String m = Integer.toString(currentDate.get(Calendar.MONTH));
@@ -159,14 +365,61 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         String kg = sharedPreferences.getString(dateTime + "_kg","");
 
-//        Toast.makeText(context, "("+kg+"!!!)", Toast.LENGTH_SHORT).show();
-
-//        float Kg = Float.parseFloat(kg);
-
         if(kg.isEmpty()){
             return 0;
         }else{
             return Float.parseFloat(kg);
+        }
+    }
+
+    public float getEatFromSharedPreferences(Calendar currentDate){
+
+        String y = Integer.toString(currentDate.get(Calendar.YEAR));
+        String m = Integer.toString(currentDate.get(Calendar.MONTH));
+        String d = Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+
+        String dateTime = y+"/"+"0"+m+"/"+d;
+
+        String eat = sharedPreferences.getString(dateTime + "_eat","");
+
+        if(eat.isEmpty()){
+            return 0;
+        }else{
+            return Float.parseFloat(eat);
+        }
+    }
+
+    public float getCountFromSharedPreferences(Calendar currentDate){
+
+        String y = Integer.toString(currentDate.get(Calendar.YEAR));
+        String m = Integer.toString(currentDate.get(Calendar.MONTH));
+        String d = Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+
+        String dateTime = y+"/"+"0"+m+"/"+d;
+
+        String count = sharedPreferences.getString(dateTime + "_count","");
+
+        if(count.isEmpty()){
+            return 0;
+        }else{
+            return Float.parseFloat(count);
+        }
+    }
+
+    public float getOutFromSharedPreferences(Calendar currentDate){
+
+        String y = Integer.toString(currentDate.get(Calendar.YEAR));
+        String m = Integer.toString(currentDate.get(Calendar.MONTH));
+        String d = Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+
+        String dateTime = y+"/"+"0"+m+"/"+d;
+
+        String out = sharedPreferences.getString(dateTime + "_out","");
+
+        if(out.isEmpty()){
+            return 0;
+        }else{
+            return Float.parseFloat(out);
         }
     }
 
@@ -240,16 +493,26 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
                         editor.putString(dateTime + "_problem", problem);
                         editor.apply();
 
-//                        Toast.makeText(context, "내용이 저장되었습니다. (" + dateTime + ")", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "내용이 저장되었습니다. (" + dateTime + ")", Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(context, kg+"!", Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(context, kg+"!!", Toast.LENGTH_SHORT).show();
-                        updateLineChart();
 
+                        updateKgLineChart();
+                        updateEatLineChart();
+                        updateCountLineChart();
+                        updateOutLineChart();
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        updateKgLineChart();
+                        updateEatLineChart();
+                        updateCountLineChart();
+                        updateOutLineChart();
+
                         dialog.dismiss();
                     }
                 });

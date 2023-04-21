@@ -5,29 +5,106 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".diary"
-    android:gravity="center"
     android:orientation="vertical"
     android:layout_marginBottom="30dp">
 
-    <CalendarView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/calendarView"
-        />
 
-    <View
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#B4BCC8"
-        android:layout_marginBottom="35dp"/>
+        <CalendarView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:id="@+id/calendarView"
+            android:layout_gravity="center"/>
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="MissingClass"
-        android:layout_marginBottom="10dp"/>
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B4BCC8"
+            android:layout_marginBottom="5dp"/>
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/kg_graph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="피부"
+                android:layout_margin="5dp"
+                android:scaleX="0.7"
+                android:scaleY="0.7"/>
+            <RadioButton
+                android:id="@+id/eat_graph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="안구"
+                android:layout_margin="5dp"
+                android:scaleX="0.7"
+                android:scaleY="0.7"/>
+            <RadioButton
+                android:id="@+id/count_graph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="배변"
+                android:layout_margin="5dp"
+                android:scaleX="0.7"
+                android:scaleY="0.7"/>
+            <RadioButton
+                android:id="@+id/out_graph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="산책"
+                android:layout_margin="5dp"
+                android:scaleX="0.7"
+                android:scaleY="0.7"/>
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_border_design"
+            android:gravity="center"
+            android:text="그래프"
+            android:textSize="30dp"/>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/kg_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingClass"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"/>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/eat_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingClass"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"/>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/count_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingClass"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"/>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/out_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingClass"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"/>
+
+
+
 
 
 <!--    <TextView-->
