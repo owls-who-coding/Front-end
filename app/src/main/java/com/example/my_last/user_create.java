@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,11 +31,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import kotlin.OverloadResolutionByLambdaReturnType;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -75,8 +78,17 @@ public class user_create extends Fragment {
         community = new community();
         editText = (EditText)view.findViewById(R.id.editTextTextMultiLine);
         editTexttitle=(EditText)view.findViewById(R.id.editTextTitle);
-        imageView = (ImageView)view.findViewById(R.id.image);
 
+        if(getArguments() != null){
+            String base64Image = getArguments().getString("image_key");
+            Bitmap eyesImage = ImageProcessing.base64ToBitmap(base64Image);
+            imageView.setImageBitmap(eyesImage);
+            try {
+
+            } finally {
+
+            }
+        }
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +109,10 @@ public class user_create extends Fragment {
                 int diseaseNumber = 1;
 
                 // 5. 서버로 데이터 전송하기 위한 API 호출
-                sendPostData(userNumber, diseaseNumber, text, title, uri);
+                if(getArguments() == null)
+                    sendPostData(userNumber, diseaseNumber, text, title, uri);
+                else
+                    sendPostData(userNumber, diseaseNumber, text, title);
             }
         });
 
@@ -118,6 +133,7 @@ public class user_create extends Fragment {
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_CODE);
     }
+
     private void sendPostData(int userNumber, int diseaseNumber, String text, String title, Uri image) {
         RequestBody userNumberBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userNumber));
         RequestBody diseaseNumberBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(diseaseNumber));
@@ -127,6 +143,7 @@ public class user_create extends Fragment {
         MultipartBody.Part imagePart = null;
         if (image != null) {
             File file = new File(getRealPathFromURI(image));
+
             RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
             imagePart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
         }
@@ -154,7 +171,47 @@ public class user_create extends Fragment {
             }
         });
     }
+    private void sendPostData(int userNumber, int diseaseNumber, String text, String title) {
+        RequestBody userNumberBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userNumber));
+        RequestBody diseaseNumberBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(diseaseNumber));
+        RequestBody textBody = RequestBody.create(MediaType.parse("text/plain"), text);
+        RequestBody titleBody = RequestBody.create(MediaType.parse("text/plain"), title);
 
+        MultipartBody.Part imagePart = null;
+
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+        // Bitmap을 바이트 배열로 변환
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), byteArray);
+        imagePart = MultipartBody.Part.createFormData("image", "image.jpg", requestBody);
+
+        Call<Void> call = apiService.createPost(userNumberBody, diseaseNumberBody, textBody, titleBody, imagePart);//apiservice가 아닌 postApi였음
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "게시글 저장에 성공했습니다.", Toast.LENGTH_SHORT).show();
+
+                    // 게시글 리스트로 이동
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.containers, community)
+                            .commit();
+                } else {
+                    Toast.makeText(getActivity(), "데이터 전송에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                //Toast.makeText(postcreat.this, "통신에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -184,7 +241,7 @@ public class user_create extends Fragment {
     }
     //시험삼아 추가하는 메서드
     public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
+        String[] proj = { MediaStore.Images.Media.DATA};
         Cursor cursor = getActivity().getContentResolver().query(contentUri, proj, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
