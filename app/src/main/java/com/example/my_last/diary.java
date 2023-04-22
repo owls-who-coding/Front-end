@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -87,36 +88,53 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i){
                     case R.id.kg_graph:
-                        updateKgLineChart();
-                        lineChart_eat.setVisibility(View.GONE);
-                        lineChart_count.setVisibility(View.GONE);
-                        lineChart_out.setVisibility(View.GONE);
-                        button.setVisibility(View.GONE);
-                        lineChart_kg.setVisibility(View.VISIBLE);
+                        if(selectedYear == 0 && selectedMonth == 0 && selectedDay == 0){
+                            Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
+                        }else{
+                            updateKgLineChart();
+                            lineChart_eat.setVisibility(View.GONE);
+                            lineChart_count.setVisibility(View.GONE);
+                            lineChart_out.setVisibility(View.GONE);
+                            button.setVisibility(View.GONE);
+                            lineChart_kg.setVisibility(View.VISIBLE);
+                        }
+
                         break;
                     case R.id.eat_graph:
-                        updateEatLineChart();
-                        lineChart_kg.setVisibility(View.GONE);
-                        lineChart_count.setVisibility(View.GONE);
-                        lineChart_out.setVisibility(View.GONE);
-                        button.setVisibility(View.GONE);
-                        lineChart_eat.setVisibility(View.VISIBLE);
+                        if(selectedYear == 0 && selectedMonth == 0 && selectedDay == 0){
+                            Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            updateEatLineChart();
+                            lineChart_kg.setVisibility(View.GONE);
+                            lineChart_count.setVisibility(View.GONE);
+                            lineChart_out.setVisibility(View.GONE);
+                            button.setVisibility(View.GONE);
+                            lineChart_eat.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case R.id.count_graph:
-                        updateCountLineChart();
-                        lineChart_kg.setVisibility(View.GONE);
-                        lineChart_eat.setVisibility(View.GONE);
-                        lineChart_out.setVisibility(View.GONE);
-                        button.setVisibility(View.GONE);
-                        lineChart_count.setVisibility(View.VISIBLE);
+                        if(selectedYear == 0 && selectedMonth == 0 && selectedDay == 0){
+                            Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            updateCountLineChart();
+                            lineChart_kg.setVisibility(View.GONE);
+                            lineChart_eat.setVisibility(View.GONE);
+                            lineChart_out.setVisibility(View.GONE);
+                            button.setVisibility(View.GONE);
+                            lineChart_count.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case R.id.out_graph:
-                        updateOutLineChart();
-                        lineChart_kg.setVisibility(View.GONE);
-                        lineChart_eat.setVisibility(View.GONE);
-                        lineChart_count.setVisibility(View.GONE);
-                        button.setVisibility(View.GONE);
-                        lineChart_out.setVisibility(View.VISIBLE);
+                        if(selectedYear == 0 && selectedMonth == 0 && selectedDay == 0){
+                            Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            updateOutLineChart();
+                            lineChart_kg.setVisibility(View.GONE);
+                            lineChart_eat.setVisibility(View.GONE);
+                            lineChart_count.setVisibility(View.GONE);
+                            button.setVisibility(View.GONE);
+                            lineChart_out.setVisibility(View.VISIBLE);
+                        }
                         break;
                     default:
                         Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
@@ -507,7 +525,9 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
                 builder.setPositiveButton("수정", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         try {
+
                             String kg = Kg.getText().toString();
                             String eat = Eat.getText().toString();
                             String count = Count.getText().toString();
@@ -515,7 +535,6 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
                             String problem = Problem.getText().toString();
                             String dateTime = year+"/"+"0"+month+"/"+dayOfMonth;
 
-//                        Toast.makeText(context, dateTime, Toast.LENGTH_SHORT).show();
 
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString(dateTime + "_kg", kg);
@@ -525,16 +544,19 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
                             editor.putString(dateTime + "_problem", problem);
                             editor.apply();
 
+
                             Toast.makeText(context, "내용이 저장되었습니다. (" + dateTime + ")", Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(context, kg+"!", Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(context, kg+"!!", Toast.LENGTH_SHORT).show();
 
                             updateKgLineChart();
                             updateEatLineChart();
                             updateCountLineChart();
                             updateOutLineChart();
+
+                            dialog.dismiss();
+
                         } catch (Exception e){
-                            Toast.makeText(context, "숫자를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "숫자를 입력해 주세요 ("+dataTime+")", Toast.LENGTH_SHORT).show();
+
                         }
 
                     }
@@ -544,15 +566,11 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        try {
-                            updateKgLineChart();
-                            updateEatLineChart();
-                            updateCountLineChart();
-                            updateOutLineChart();
-                        }catch (Exception e){
-                            Toast.makeText(context, "정수를 입력해 주세요", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }
+                        updateKgLineChart();
+                        updateEatLineChart();
+                        updateCountLineChart();
+                        updateOutLineChart();
+                        dialog.dismiss();
                     }
                 });
 

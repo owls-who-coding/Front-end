@@ -39,7 +39,7 @@ public class choice extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.community:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,community).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,community).addToBackStack(null).commit();
                         return true;
                     case R.id.diary:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers,diary).commit();

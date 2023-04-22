@@ -69,41 +69,45 @@
             <EditText
                 android:id="@+id/kg"
                 android:textSize="15dp"
-                android:layout_width="200dp"
+                android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:layout_margin="5dp"
+                android:gravity="center"
                 android:background="@drawable/edittext_design"/>
 
             <EditText
                 android:id="@+id/eat"
                 android:textSize="15dp"
-                android:layout_width="200dp"
+                android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:layout_margin="5dp"
+                android:gravity="center"
                 android:background="@drawable/edittext_design"/>
 
             <EditText
                 android:id="@+id/count"
                 android:textSize="15dp"
-                android:layout_width="200dp"
+                android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:layout_margin="5dp"
+                android:gravity="center"
                 android:background="@drawable/edittext_design"/>
 
             <EditText
                 android:id="@+id/out"
                 android:textSize="15dp"
-                android:layout_width="200dp"
+                android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:layout_margin="5dp"
+                android:gravity="center"
                 android:background="@drawable/edittext_design"/>
 
         </LinearLayout>
