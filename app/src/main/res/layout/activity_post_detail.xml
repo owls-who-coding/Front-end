@@ -24,7 +24,7 @@
                 android:gravity="center"
                 android:id="@+id/post_detail_title"
                 android:text="제목 적는 칸 마음대로 적기를"
-                android:layout_margin="10dp"
+                android:layout_margin="20dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
 
@@ -57,10 +57,10 @@
                 android:textColor="@color/black"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/open_file"
-                android:text="사진보기 (갯수)"
+                android:text="사진보기"
                 android:layout_margin="10dp"/>
 
             <View
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:visibility="visible">
+                android:visibility="gone">
                 <ImageView
                     android:layout_margin="10dp"
                     android:layout_width="130dp"
@@ -111,9 +111,25 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/post_detail_recycleView"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="댓글 쓰기"/>
+
+            <EditText
+                android:id="@+id/write_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="15dp"
+                android:background="@drawable/edittext_design"/>
 
 
             <Button

@@ -3,6 +3,7 @@ package com.example.my_last;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 
 import android.annotation.SuppressLint;
@@ -11,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +78,6 @@ public class post_detail extends Fragment {
         });
 
 
-
         // Button 객체 초기화 예시
         Button back = view.findViewById(R.id.back_community);
 
@@ -136,7 +137,13 @@ public class post_detail extends Fragment {
                 getParentFragmentManager().beginTransaction().replace(R.id.containers, community).commit();
             }
         });
+
+
 */
+
+
         return view;
     }
+
+
 }

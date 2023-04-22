@@ -62,15 +62,15 @@
 
         </RadioGroup>
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="@drawable/button_border_design"
-            android:gravity="center"
-            android:text="그래프"
-            android:textSize="30dp"/>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/dash_line"
+        android:gravity="center"
+        android:text="그래프를 보고 싶은 버튼을 클릭해주세요!"
+        android:textSize="15dp" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/kg_chart"
