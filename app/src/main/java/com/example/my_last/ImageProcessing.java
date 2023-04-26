@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.media.Image;
+import android.util.Base64;
 
 import androidx.camera.core.ImageProxy;
 
@@ -58,5 +59,10 @@ public class ImageProcessing {
 
         byte[] imageBytes = out.toByteArray();
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+    }
+
+    public static Bitmap base64ToBitmap(String base64String){
+        byte[] decodeBytyes = Base64.decode(base64String, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodeBytyes,0,decodeBytyes.length);
     }
 }

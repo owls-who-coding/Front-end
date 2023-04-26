@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -98,9 +99,11 @@ public class Eyes_detection extends BaseModuleActivity {
                     PERMISSION,
                     REQUEST_CODE_CAMERA_PERMISSION
             );
+
         } else {
             setupCameraX();
         }
+
         btn_capture = findViewById(R.id.btn_capture);
 
         btn_capture.setOnClickListener(captureListener);
@@ -132,7 +135,11 @@ public class Eyes_detection extends BaseModuleActivity {
                         if(response.isSuccessful()){
                             JsonObject jsonVal = response.body();
                             Toast.makeText(getApplicationContext(), jsonVal.toString(),Toast.LENGTH_SHORT).show();
-
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("disease_key",jsonVal.toString());
+                            resultIntent.putExtra("image_key",encodeImage);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
                         }
                         else{
                             int statusCode=response.code();
@@ -145,7 +152,7 @@ public class Eyes_detection extends BaseModuleActivity {
 
                     }
                 });
-                Toast.makeText(getApplicationContext(), "detected", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "detected", Toast.LENGTH_SHORT).show();
             }
         };
         captureListener = new View.OnClickListener() {
