@@ -57,12 +57,16 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
                 Post selectedItem = getItem(position);
                 String postBodyPath = selectedItem.getPostBodyPath();
                 String title=selectedItem.getTitle();
+                int postNumber = selectedItem.getPostNumber();
+
                 //Log.d("어뎁터에서의 title", title);
 
                 post_detail postDetailFragment = new post_detail();
                 Bundle bundle = new Bundle();
                 bundle.putString("post_body_path", postBodyPath);
                 bundle.putString("title", title);
+                bundle.putInt("post_number", postNumber);
+                Log.d("postnumber 확인", title+postNumber);// postNumber가 올바르다는 것은 확인.
                 postDetailFragment.setArguments(bundle);
                // Log.d("CommunityFragment", " 위치 확인 1");
                 ((FragmentActivity) getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.containers, postDetailFragment).addToBackStack(null).commit(); // 변수명 변경 및 백스택 추가
@@ -74,5 +78,6 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
 
         return convertView;
     }
+
 }
 
