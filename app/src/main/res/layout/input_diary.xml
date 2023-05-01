@@ -68,14 +68,14 @@
 
             <EditText
                 android:id="@+id/kg"
-                android:textSize="15dp"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/edittext_design"
+                android:gravity="center"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:background="@drawable/edittext_design"/>
+                android:textSize="15dp" />
 
             <EditText
                 android:id="@+id/eat"

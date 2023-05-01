@@ -46,7 +46,7 @@
                 <EditText
                     android:padding="2dp"
                     android:id="@+id/editTextTitle"
-                    android:layout_width="244dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:layout_margin="10dp"
@@ -67,7 +67,7 @@
             <EditText
                 android:padding="2dp"
                 android:id="@+id/editTextTextMultiLine"
-                android:layout_width="335dp"
+                android:layout_width="340dp"
                 android:layout_height="200dp"
                 android:layout_margin="10dp"
                 android:gravity="top"
@@ -89,27 +89,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_margin="20dp">
+                android:layout_marginTop="20dp">
 
                 <Button
-                    android:layout_width="150dp"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/button_red"
+                    android:background="@drawable/button_2"
                     android:text="취소"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    android:textStyle="bold"/>
                 <Button
                     android:id="@+id/finish"
-                    android:layout_width="150dp"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/button_border_design"
-                    android:textColor="@color/black"
+                    android:background="@drawable/button_1"
+                    android:textColor="@color/white"
                     android:text="게시글 작성"
-                    android:textStyle="bold"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 

@@ -60,7 +60,6 @@ public class MainActivity extends Fragment {
 
         button_login = (Button) view.findViewById(R.id.btn_login);
         button_sign = (Button) view.findViewById(R.id.btn_sign);
-        text_password = (TextView) view.findViewById(R.id.PWtext);
         edit_id=(EditText) view.findViewById(R.id.IDedit);
         edit_password=(EditText) view.findViewById(R.id.PWedit);
 
@@ -137,13 +136,6 @@ public class MainActivity extends Fragment {
             }
         });
 
-        text_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                text_password.setText("DFafdf");
-                text_password.setTextColor(Color.parseColor("#e65d5d"));
-            }
-        });
 
 
         return view;
