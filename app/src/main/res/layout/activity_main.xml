@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:layout_margin="15dp">
+    android:layout_margin="15dp"
+    android:background="@color/white">
 
     <ScrollView
         android:layout_width="match_parent"
