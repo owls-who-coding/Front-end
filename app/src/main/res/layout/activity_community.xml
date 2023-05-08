@@ -25,7 +25,7 @@
 
         <TextView
             android:id="@+id/TEXT_1"
-            android:layout_width="280dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="전체글"
             android:textSize="20dp"
@@ -48,7 +48,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#B4BCC8"
-        android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"/>
 
 

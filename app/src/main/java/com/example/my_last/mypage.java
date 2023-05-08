@@ -41,19 +41,16 @@ public class mypage extends Fragment {
             }
         });
 
-        btnShowLoginInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Shared Preferences에서 로그인 정보를 가져옵니다.
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-                int userNumber = sharedPreferences.getInt("userNumber", 0);
-                String userName = sharedPreferences.getString("user_name", "");
 
-                // 로그인 정보를 텍스트 뷰에 출력합니다.
-                String loginInfo =  "User Number: " + userNumber + "\nUser Name: " + userName;
-                txtLoginInfo.setText(loginInfo);
-            }
-        });
+                // Shared Preferences에서 로그인 정보를 가져옵니다.
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        int userNumber = sharedPreferences.getInt("userNumber", 0);
+        String userName = sharedPreferences.getString("user_name", "");
+
+        // 로그인 정보를 텍스트 뷰에 출력합니다.
+        String loginInfo =  "User Name: " + userName;
+        txtLoginInfo.setText(loginInfo);
+
 
         return view;
     }
