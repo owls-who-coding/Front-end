@@ -17,14 +17,13 @@ public class CommentViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     public CommentViewAdapter(List<Comment> commentList, FragmentActivity activity) {
-        this.commentList = flattenCommentList(commentList);
+        this.commentList = commentList; // 수정된 부분
     }
 
     @Override
     public int getItemViewType(int position) {
-        // 다른 기준이 있다면 이 부분을 변경하여 대댓글을 구별하십시오.
-        // 예를 들면, commentList.get(position).isReply() 등
-        return commentList.get(position).getBeforeComment() == 0 ? 0 : 1;
+        // 부모 댓글과 대댓글을 구별하기 위해 comment_id와 before_comment가 같은지 확인
+        return commentList.get(position).getBeforeComment() == commentList.get(position).getCommentNumber() ? 0 : 1;
     }
 
     @NonNull
