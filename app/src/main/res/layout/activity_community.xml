@@ -15,30 +15,32 @@
         android:gravity="center">
 
 
-
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ham_button"
             android:layout_margin="10dp"
-            android:layout_gravity="left|center"/>
+            android:layout_gravity="left|center"
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/TEXT_1"
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="전체글"
             android:textSize="20dp"
             android:gravity="center"
             android:textStyle="bold"
             android:layout_gravity="center"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:layout_weight="10"/>
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@color/white"
-                    android:layout_margin="10dp"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:layout_margin="10dp"
+            android:layout_weight="1"/>
 
 
 
