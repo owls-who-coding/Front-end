@@ -20,8 +20,8 @@
             android:layout_height="40dp"
             android:background="@drawable/ham_button"
             android:layout_margin="10dp"
+            android:layout_weight="0.5"/>
             android:layout_gravity="left|center"
-            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/TEXT_1"
@@ -31,8 +31,9 @@
             android:textSize="20dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:layout_gravity="center"
             android:textColor="@color/black"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"
             android:layout_weight="10"/>
 
         <ImageView
@@ -40,7 +41,8 @@
             android:layout_height="40dp"
             android:background="@color/white"
             android:layout_margin="10dp"
-            android:layout_weight="1"/>
+            android:layout_weight="0.5"/>
+
 
 
 

@@ -7,39 +7,70 @@
     tools:context=".Disease"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/TEXT_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="질병분석"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_margin="20dp"
+            android:layout_weight="10"/>
+
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#B4BCC8"
+        android:layout_marginBottom="2dp"/>
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/pencil"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            tools:ignore="MissingConstraints" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/user_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pencil"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/white"
+            app:borderWidth="0dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <Button
         android:id="@+id/btn_camera"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="10dp"/>
 
-    <RadioGroup
-        android:id="@+id/radio_group"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:gravity="center">
 
-        <RadioButton
-            android:id="@+id/skin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="피부"
-            android:layout_marginRight="30dp"/>
-        <RadioButton
-            android:id="@+id/eye"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="안구"
-            android:layout_marginLeft="30dp"/>
-
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/move_camera_activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="카메라 on"/>
 
 </LinearLayout>

@@ -53,6 +53,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
 
     LineChart lineChart_kg,lineChart_eat,lineChart_count,lineChart_out;
+    TextView kg_txt,eat_txt,count_txt,out_txt;
 
     RadioGroup radioGroup;
 
@@ -78,69 +79,13 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
         lineChart_eat = (LineChart) view.findViewById(R.id.eat_chart);
         lineChart_count = (LineChart) view.findViewById(R.id.count_chart);
         lineChart_out = (LineChart) view.findViewById(R.id.out_chart);
+        kg_txt = (TextView)view.findViewById(R.id.tx_kg);
+        eat_txt = (TextView)view.findViewById(R.id.tx_eat);
+        count_txt = (TextView)view.findViewById(R.id.tx_count);
+        out_txt = (TextView)view.findViewById(R.id.tx_out);
         button = (Button) view.findViewById(R.id.button);
 
         setupLineChart();
-
-        radioGroup = (RadioGroup)view.findViewById(R.id.radio_group);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
-                    case R.id.kg_graph:
-                        if(selectedYear == 0 && selectedMonth == 0 && selectedDay == 0){
-                            Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
-                        }else{
-                            updateKgLineChart();
-                            lineChart_eat.setVisibility(View.GONE);
-                            lineChart_count.setVisibility(View.GONE);
-                            lineChart_out.setVisibility(View.GONE);
-                            button.setVisibility(View.GONE);
-                            lineChart_kg.setVisibility(View.VISIBLE);
-                        }
-
-                        break;
-                    case R.id.eat_graph:
-                        if(selectedYear == 0 && selectedMonth == 0 && selectedDay == 0){
-                            Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
-                        }else {
-                            updateEatLineChart();
-                            lineChart_kg.setVisibility(View.GONE);
-                            lineChart_count.setVisibility(View.GONE);
-                            lineChart_out.setVisibility(View.GONE);
-                            button.setVisibility(View.GONE);
-                            lineChart_eat.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    case R.id.count_graph:
-                        if(selectedYear == 0 && selectedMonth == 0 && selectedDay == 0){
-                            Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
-                        }else {
-                            updateCountLineChart();
-                            lineChart_kg.setVisibility(View.GONE);
-                            lineChart_eat.setVisibility(View.GONE);
-                            lineChart_out.setVisibility(View.GONE);
-                            button.setVisibility(View.GONE);
-                            lineChart_count.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    case R.id.out_graph:
-                        if(selectedYear == 0 && selectedMonth == 0 && selectedDay == 0){
-                            Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
-                        }else {
-                            updateOutLineChart();
-                            lineChart_kg.setVisibility(View.GONE);
-                            lineChart_eat.setVisibility(View.GONE);
-                            lineChart_count.setVisibility(View.GONE);
-                            button.setVisibility(View.GONE);
-                            lineChart_out.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    default:
-                        Toast.makeText(context, "버튼을 선택해주세요!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
 
         return view;
@@ -149,22 +94,31 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
     private void setupLineChart() {
         // 라인 차트의 설명 설정
-        Description description = new Description();
-        description.setText("지난 7일");
-        description.setTextColor(Color.BLACK);
-        lineChart_kg.setDescription(description);
+        Description description_kg = new Description();
+        Description description_eat = new Description();
+        Description description_count = new Description();
+        Description description_out = new Description();
+        description_kg.setText("지난 7일 몸무게");
+        description_kg.setTextColor(Color.BLACK);
+        description_eat.setText("지난 7일 식사량");
+        description_eat.setTextColor(Color.BLACK);
+        description_count.setText("지난 7일 배변횟수");
+        description_count.setTextColor(Color.BLACK);
+        description_out.setText("지난 7일 산책횟수");
+        description_out.setTextColor(Color.BLACK);
+        lineChart_kg.setDescription(description_kg);
         // 라인 차트의 레전드 설정
         lineChart_kg.getLegend().setEnabled(false);
 
-        lineChart_eat.setDescription(description);
+        lineChart_eat.setDescription(description_eat);
         // 라인 차트의 레전드 설정
         lineChart_eat.getLegend().setEnabled(false);
 
-        lineChart_count.setDescription(description);
+        lineChart_count.setDescription(description_count);
         // 라인 차트의 레전드 설정
         lineChart_count.getLegend().setEnabled(false);
 
-        lineChart_out.setDescription(description);
+        lineChart_out.setDescription(description_out);
         // 라인 차트의 레전드 설정
         lineChart_out.getLegend().setEnabled(false);
 
@@ -258,7 +212,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         // 라인 차트에 데이터 설정
         LineDataSet dataSet = new LineDataSet(entries, "KG");
-        dataSet.setColor(Color.RED);
+        dataSet.setColor(Color.rgb(255,127,0));
         dataSet.setLineWidth(2f);
         LineData lineData = new LineData(dataSet);
         lineChart_kg.setData(lineData);
@@ -304,7 +258,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         // 라인 차트에 데이터 설정
         LineDataSet dataSet = new LineDataSet(entries, "KG");
-        dataSet.setColor(Color.RED);
+        dataSet.setColor(Color.rgb(255,127,0));
         dataSet.setLineWidth(2f);
         LineData lineData = new LineData(dataSet);
         lineChart_eat.setData(lineData);
@@ -351,7 +305,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         // 라인 차트에 데이터 설정
         LineDataSet dataSet = new LineDataSet(entries, "KG");
-        dataSet.setColor(Color.RED);
+        dataSet.setColor(Color.rgb(255,127,0));
         dataSet.setLineWidth(2f);
         LineData lineData = new LineData(dataSet);
         lineChart_count.setData(lineData);
@@ -397,7 +351,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
 
         // 라인 차트에 데이터 설정
         LineDataSet dataSet = new LineDataSet(entries, "OUT");
-        dataSet.setColor(Color.RED);
+        dataSet.setColor(Color.rgb(255,127,0));
         dataSet.setLineWidth(2f);
         LineData lineData = new LineData(dataSet);
         lineChart_out.setData(lineData);
@@ -551,6 +505,16 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
                             updateEatLineChart();
                             updateCountLineChart();
                             updateOutLineChart();
+
+                            button.setVisibility(View.GONE);
+                            lineChart_kg.setVisibility(View.VISIBLE);
+                            lineChart_eat.setVisibility(View.VISIBLE);
+                            lineChart_count.setVisibility(View.VISIBLE);
+                            lineChart_out.setVisibility(View.VISIBLE);
+                            kg_txt.setVisibility(View.VISIBLE);
+                            eat_txt.setVisibility(View.VISIBLE);
+                            count_txt.setVisibility(View.VISIBLE);
+                            out_txt.setVisibility(View.VISIBLE);
 
                             dialog.dismiss();
 

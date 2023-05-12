@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".user_create"
     android:orientation="vertical"
-    android:gravity="center"
     android:background="@color/white">
 
     <ScrollView
@@ -17,19 +16,44 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="게시글 작성"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"/>
+                android:orientation="horizontal"
+                android:gravity="center">
+
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/back_button"
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.5"/>
+
+                <TextView
+                    android:id="@+id/TEXT_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="게시글 작성"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_margin="20dp"
+                    android:layout_weight="10"/>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.5"/>
+
+
+
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -69,6 +93,7 @@
             <EditText
                 android:padding="2dp"
                 android:id="@+id/editTextTextMultiLine"
+                android:layout_gravity="center"
                 android:layout_width="340dp"
                 android:layout_height="200dp"
                 android:layout_margin="10dp"
@@ -82,6 +107,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:background="@drawable/dash_line"
+                android:layout_gravity="center"
                 android:padding="10dp">
 
 

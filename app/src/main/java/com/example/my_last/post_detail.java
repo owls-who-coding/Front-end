@@ -8,19 +8,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +45,7 @@ import retrofit2.Retrofit;
 
 public class post_detail extends Fragment {
 
-    Button back, sendCommentButton;
+    Button sendCommentButton;
     community community;
     TextView textview;
     ImageView imageView;
@@ -101,7 +106,51 @@ public class post_detail extends Fragment {
         });
 
         // Button 객체 초기화 예시
-        Button back = view.findViewById(R.id.back_community);
+        ImageButton back = (ImageButton) view.findViewById(R.id.back_community);
+
+        community = new community();
+        post_detail post_detail = new post_detail();
+
+
+        ImageButton three = (ImageButton)view.findViewById(R.id.setting);
+
+        three.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(requireActivity(), view);
+                popupMenu.getMenuInflater().inflate(R.menu.post_detail_menu, popupMenu.getMenu());
+                popupMenu.show();
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                    //각 ID에 따른 결과 나오게 하면 될듯
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.re:
+                                Toast.makeText(getActivity(),"새로고침 완료",Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.fix:
+                                Toast.makeText(getActivity(),"수정 완료",Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.delete:
+                                Toast.makeText(getActivity(),"삭제 완료",Toast.LENGTH_SHORT).show();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction().replace(R.id.containers, community).commit();
+            }
+        });
 
         // 서버에 요청하여 txt 파일의 내용을 가져옵니다.
        // Retrofit retrofit = RetrofitClient.getClient();
