@@ -9,7 +9,23 @@
     android:layout_marginBottom="30dp">
 
 
-        <CalendarView
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center_horizontal"
+        android:text="다이어리"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#B4BCC8"
+        android:layout_marginBottom="2dp"/>
+
+    <CalendarView
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:id="@+id/calendarView"
