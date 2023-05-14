@@ -54,7 +54,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/dash_line"
                 android:gravity="center"
-                android:text="날짜를 선택해주세요!"
+                android:text="날짜를 골라주세요!"
                 android:textSize="15dp" />
 
             <TextView

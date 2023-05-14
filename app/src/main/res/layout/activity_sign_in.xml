@@ -7,11 +7,49 @@
     tools:context=".sign_in"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/back_button"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:background="@drawable/back_button"
+            android:layout_margin="10dp"
+            android:layout_weight="0.5"
+            android:layout_gravity="left|center"/>
+
+        <TextView
+            android:id="@+id/TEXT_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"
+            android:layout_weight="10"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:layout_margin="10dp"
+            android:layout_weight="0.5"/>
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d6d6d6"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,7 +75,7 @@
             <EditText
                 android:id="@+id/ed_sign_id"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:layout_marginTop="10dp"
@@ -59,7 +97,7 @@
             <EditText
                 android:id="@+id/ed_sign_password"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:ems="10"
                 android:inputType="textPassword"
                 android:layout_marginTop="10dp"
@@ -82,7 +120,7 @@
             <EditText
                 android:id="@+id/ed_sign_name"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:layout_marginTop="10dp"
@@ -105,7 +143,7 @@
             <EditText
                 android:id="@+id/ed_sign_age"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:layout_marginTop="10dp"
@@ -128,7 +166,7 @@
             <EditText
                 android:id="@+id/sign_dog_name"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:layout_marginTop="10dp"
@@ -146,19 +184,20 @@
                 android:background="@drawable/button_1"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"/>
 
-            <Button
-                android:id="@+id/back"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="뒤로 가기"
-                android:background="@drawable/button_2"
-                android:textStyle="bold"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
+<!--            <Button-->
+<!--                android:id="@+id/back"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="뒤로 가기"-->
+<!--                android:background="@drawable/button_2"-->
+<!--                android:textStyle="bold"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:layout_marginRight="20dp"/>-->
 
         </LinearLayout>
 

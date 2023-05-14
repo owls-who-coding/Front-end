@@ -22,9 +22,10 @@
             android:layout_gravity="center">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:background="@drawable/logo"/>
+                android:layout_width="250dp"
+                android:layout_height="70dp"
+                android:layout_marginBottom="70dp"
+                android:background="@drawable/logo_final"/>
 
 
             <LinearLayout
@@ -53,8 +54,7 @@
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
                         android:paddingRight="10dp"
-                        android:textStyle="bold"
-                        android:background="@drawable/edittext_design"/>
+                        android:background="@drawable/edittext_design_2"/>
 
                 </LinearLayout>
 
@@ -76,9 +76,8 @@
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
                         android:paddingRight="10dp"
-                        android:textStyle="bold"
                         android:inputType="textPassword"
-                        android:background="@drawable/edittext_design"/>
+                        android:background="@drawable/edittext_design_2"/>
 
 
 
@@ -99,7 +98,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="160dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -108,7 +107,9 @@
                     android:id="@+id/btn_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@drawable/button_1"
                     android:text="로그인"
                     android:textColor="@color/white"
@@ -119,7 +120,9 @@
                     android:id="@+id/btn_sign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:text="회원가입"
                     android:background="@drawable/button_2"
                     android:gravity="center"

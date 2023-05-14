@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -41,15 +43,29 @@ public class Disease extends Fragment {
                 }
         );
 
-        btn_camera = (Button) view.findViewById(R.id.btn_camera);
-        btn_camera.setOnClickListener(new View.OnClickListener() {
+        LinearLayout camera_linearLayout = (LinearLayout)view.findViewById(R.id.camera_linear);
+
+        camera_linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"asfsad",Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(getContext(), Eyes_detection.class);
 //                startActivity(intent);
                 launcher.launch(intent);
+
             }
         });
+
+//        btn_camera = (Button) view.findViewById(R.id.btn_camera);
+//        btn_camera.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getContext(), Eyes_detection.class);
+////                startActivity(intent);
+//                launcher.launch(intent);
+//            }
+//        });
         return view;
     }
 

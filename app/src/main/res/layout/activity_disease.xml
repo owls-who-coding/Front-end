@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Disease"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#f9f9f9">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/TEXT_1"
@@ -33,43 +35,191 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#B4BCC8"
+        android:background="#d6d6d6"
         android:layout_marginBottom="2dp"/>
 
-    <ImageButton
+    <LinearLayout
+        android:id="@+id/camera_linear"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_margin="10dp"
-        android:src="@drawable/pencil"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_margin="20dp"
+        android:background="@drawable/border">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="10dp"
-            tools:ignore="MissingConstraints" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/user_write"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="안구 분석하기"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이상징후를 체크해보아요"
+                android:layout_marginTop="5dp"
+                android:textSize="15dp"/>
+
+
+        </LinearLayout>
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/pencil"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="16dp"
-            android:backgroundTint="@color/white"
-            app:borderWidth="0dp"/>
+            android:layout_weight="2"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/dog_image_2"/>
+    </LinearLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <Button
-        android:id="@+id/btn_camera"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="10dp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_info"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="안구 분석 가이드"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginLeft="5dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border">
+
+        <Button
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/button_red"
+            android:layout_margin="10dp"
+            android:text="1"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="카메라를 이용하여 반려견의 눈을 정확히 촬영해주세요."
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="5dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border">
+
+        <Button
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/button_red"
+            android:layout_margin="10dp"
+            android:text="2"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="반려견의 안구가 인식 되었다면 촬영 버튼을 클릭해주세요"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="5dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border">
+
+        <Button
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/button_red"
+            android:layout_margin="10dp"
+            android:text="3"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="촬영을 하였다면 현재 안구에 대한 결과가 도출 되며 커뮤니티 게시판에 질문 혹은 사진을 저장할수 있습니다."
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="5dp"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:text="분류 가능한 질병목록"
+        android:gravity="center"
+        android:layout_gravity="right"/>
 
 
 
