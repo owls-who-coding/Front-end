@@ -24,13 +24,17 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -72,7 +76,7 @@ public class Eyes_detection extends BaseModuleActivity {
 
     //캡쳐 관련
     private Button btn_capture;
-    private Button btn_reset;
+    private Button btn_change;
     private Button btn_gallery;
     private ImageCapture imageCapture = null;
     private ExecutorService cameraExecutor;
@@ -83,6 +87,7 @@ public class Eyes_detection extends BaseModuleActivity {
     View.OnClickListener detectedListener;
     View.OnClickListener cameraResetListener;
     View.OnClickListener captureListener;
+    View.OnTouchListener btnTouchListener;
 
     PredictAPI predictAPI;
     @Override
@@ -103,12 +108,6 @@ public class Eyes_detection extends BaseModuleActivity {
         } else {
             setupCameraX();
         }
-
-        btn_capture = findViewById(R.id.btn_capture);
-
-        btn_capture.setOnClickListener(captureListener);
-        btn_reset = findViewById(R.id.btn_camera_reset);
-        btn_reset.setOnClickListener(cameraResetListener);
     }
     static class AnalysisResult {
         private final ArrayList<Result> mResults;
@@ -158,15 +157,37 @@ public class Eyes_detection extends BaseModuleActivity {
         captureListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_capture.setBackgroundResource(R.drawable.circlebuttondown);
                 takePicture();
-                btn_capture.setOnClickListener(detectedListener);
             }
         };
         cameraResetListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetCamera();
+            }
+        };
+
+        btn_capture = findViewById(R.id.btn_capture);
+        btn_gallery = findViewById(R.id.btn_gallery);
+        btn_change = findViewById(R.id.btn_cameraChange);
+        btn_capture.setOnClickListener(captureListener);
+
+
+        setBtnTouchListener(btn_capture);
+        setBtnTouchListener(btn_gallery);
+        setBtnTouchListener(btn_change);
+    }
+    void setBtnTouchListener(Button btn){
+        btnTouchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    btn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AAAAAA")));
+                }
+                else if(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL){
+                    btn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#CCCCCC")));
+                }
+                return false;
             }
         };
     }
@@ -227,13 +248,18 @@ public class Eyes_detection extends BaseModuleActivity {
 
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
 //        .setTargetAspectRatio(AspectRatio.RATIO_4_3)
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
-                .setTargetResolution(new Size(480,720))
+                .setTargetResolution(new Size(width,height))
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build();
 
         imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), imageProxy -> {
-            if (SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 300) {
+            if (SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 100) {
                 imageProxy.close();
                 return;
             }
@@ -272,8 +298,6 @@ public class Eyes_detection extends BaseModuleActivity {
     }
 
     private void takePicture() {
-        btn_capture.setBackgroundResource(R.drawable.detected_icon);
-
         if (imageCapture == null) {
             Log.d("Capture", "아직 NULL ㅜㅜ!");
             return;
@@ -302,11 +326,20 @@ public class Eyes_detection extends BaseModuleActivity {
                 }
                 captureImageBitmap = rotateBitmap(captureImageBitmap, 90.0f);
                // captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
+
                 imageView.setImageBitmap(captureImageBitmap);
                 imageView.setVisibility(View.VISIBLE);
                 mResultView.setVisibility(View.INVISIBLE);
                 previewView.setVisibility(View.INVISIBLE);
+                btn_change.setVisibility(View.INVISIBLE);
+
                 detectedBitmap = captureImageBitmap;
+
+                btn_capture.setBackgroundResource(R.drawable.ic_detected);
+                btn_capture.setOnClickListener(detectedListener);
+                btn_gallery.setBackgroundResource(R.drawable.ic_reset);
+                btn_gallery.setOnClickListener(cameraResetListener);
+
                 // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
                 image.close();
             }
@@ -317,8 +350,12 @@ public class Eyes_detection extends BaseModuleActivity {
         imageView.setVisibility(View.INVISIBLE);
         mResultView.setVisibility(View.VISIBLE);
         previewView.setVisibility(View.VISIBLE);
-        btn_capture.setOnClickListener(captureListener);
-        btn_capture.setBackgroundResource(R.drawable.circlebuttonup);
+        btn_change.setVisibility(View.VISIBLE);
+
+        btn_capture.setBackgroundResource(R.drawable.ic_capture);
+        btn_gallery.setBackgroundResource(R.drawable.ic_gallery);
+
+        setButtonListener();
     }
 
     private AnalysisResult getDetectResult(Bitmap mBitmap){

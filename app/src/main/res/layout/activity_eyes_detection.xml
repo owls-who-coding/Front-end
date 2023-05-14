@@ -7,12 +7,13 @@
     android:background="@android:color/white"
     tools:context=".Eyes_detection"
     android:fitsSystemWindows="true">
+<!--    app:layout_constraintDimensionRatio="2:3"-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="2:3"
+        android:layout_height="match_parent"
+
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.camera.view.PreviewView
@@ -30,40 +31,49 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="invisible"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="#80222222"
+            >
+
+            <!--        Gallery icon by Icons8-->
+            <Button
+                android:id="@+id/btn_gallery"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="70dp"
+                android:background="@drawable/ic_gallery"
+                android:backgroundTint="#CCCCCC" />
+
+            <Button
+                android:id="@+id/btn_capture"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/ic_capture"
+                android:backgroundTint="#CCCCCC" />
+
+            <Button
+                android:id="@+id/btn_cameraChange"
+                android:layout_width="37dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="70dp"
+                android:background="@drawable/ic_change"
+                android:backgroundTint="#CCCCCC" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
-        <!--        Gallery icon by Icons8-->
-        <Button
-            android:id="@+id/btn_gallery"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginRight="50dp"
-            android:background="@drawable/gallery_shape" />
-
-        <Button
-            android:id="@+id/btn_capture"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_gravity="center"
-            android:background="@drawable/circlebuttonup"/>
-
-        <Button
-            android:id="@+id/btn_camera_reset"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="50dp"
-            android:background="@drawable/reset_shape2" />
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
