@@ -38,7 +38,6 @@ public class sign_in extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_sign_in,null);
 
-        back = (Button) view.findViewById(R.id.back);
         create = (Button) view.findViewById(R.id.create);
         edit_id = (EditText) view.findViewById(R.id.ed_sign_id);
         edit_password = (EditText) view.findViewById(R.id.ed_sign_password);
@@ -48,12 +47,12 @@ public class sign_in extends Fragment {
 
 
         mainActivity = new MainActivity();
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getParentFragmentManager().beginTransaction().replace(R.id.containers, mainActivity).commit();
-            }
-        });
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getParentFragmentManager().beginTransaction().replace(R.id.containers, mainActivity).commit();
+//            }
+//        });
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
