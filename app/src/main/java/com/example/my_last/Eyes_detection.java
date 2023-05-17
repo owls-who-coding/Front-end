@@ -17,10 +17,12 @@ import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -36,10 +38,15 @@ import android.util.Log;
 import android.util.Size;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.JsonObject;
 
@@ -83,19 +90,23 @@ public class Eyes_detection extends BaseModuleActivity {
 
     private Bitmap detectedBitmap;
     ImageView imageView;
-
+    ImageView loadingEyes;
     View.OnClickListener detectedListener;
     View.OnClickListener cameraResetListener;
     View.OnClickListener captureListener;
     View.OnTouchListener btnTouchListener;
 
+    ConstraintLayout loadingView;
     PredictAPI predictAPI;
+
+    int analyzeTime = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eyes_detection);
-
         setButtonListener();
+        setLoadingView();
+
         predictAPI = RetrofitClient.getClient().create(PredictAPI.class);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -116,11 +127,11 @@ public class Eyes_detection extends BaseModuleActivity {
             mResults = results;
         }
     }
-
     void setButtonListener() {
         detectedListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadingView.setVisibility(View.VISIBLE);
                 detectedBitmap = Bitmap.createScaledBitmap(detectedBitmap, 224,224,true);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 detectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -138,6 +149,7 @@ public class Eyes_detection extends BaseModuleActivity {
                             resultIntent.putExtra("disease_key",jsonVal.toString());
                             resultIntent.putExtra("image_key",encodeImage);
                             setResult(RESULT_OK, resultIntent);
+                            loadingView.setVisibility(View.INVISIBLE);
                             finish();
                         }
                         else{
@@ -157,6 +169,7 @@ public class Eyes_detection extends BaseModuleActivity {
         captureListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadingView.setVisibility(View.VISIBLE);
                 takePicture();
             }
         };
@@ -172,24 +185,23 @@ public class Eyes_detection extends BaseModuleActivity {
         btn_change = findViewById(R.id.btn_cameraChange);
         btn_capture.setOnClickListener(captureListener);
 
-
-        setBtnTouchListener(btn_capture);
-        setBtnTouchListener(btn_gallery);
-        setBtnTouchListener(btn_change);
     }
-    void setBtnTouchListener(Button btn){
-        btnTouchListener = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    btn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AAAAAA")));
-                }
-                else if(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL){
-                    btn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#CCCCCC")));
-                }
-                return false;
-            }
-        };
+    void setLoadingView(){
+        loadingView = findViewById(R.id.layout_detect_loading);
+        loadingView.setVisibility(View.INVISIBLE);
+        loadingEyes = findViewById(R.id.imv_loading);
+        RotateAnimation rotateAnimation = new RotateAnimation(0f, 360f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setDuration(1000);
+        rotateAnimation.setRepeatCount(Animation.INFINITE);
+
+        // 애니메이션 시작
+        loadingEyes.startAnimation(rotateAnimation);
+
+        // 필요할 때 애니메이션 멈춤
+//        loadingEyes.clearAnimation();
+//        Glide.with(this).load(R.drawable.).into(loadingEyes);
     }
     protected PreviewView getPreviewView() {
         mResultView = findViewById(R.id.resultView);
@@ -259,7 +271,7 @@ public class Eyes_detection extends BaseModuleActivity {
                 .build();
 
         imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), imageProxy -> {
-            if (SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 100) {
+            if (SystemClock.elapsedRealtime() - mLastAnalysisResultTime < analyzeTime) {
                 imageProxy.close();
                 return;
             }
@@ -298,6 +310,7 @@ public class Eyes_detection extends BaseModuleActivity {
     }
 
     private void takePicture() {
+        analyzeTime = 1000000;
         if (imageCapture == null) {
             Log.d("Capture", "아직 NULL ㅜㅜ!");
             return;
@@ -339,7 +352,7 @@ public class Eyes_detection extends BaseModuleActivity {
                 btn_capture.setOnClickListener(detectedListener);
                 btn_gallery.setBackgroundResource(R.drawable.ic_reset);
                 btn_gallery.setOnClickListener(cameraResetListener);
-
+                loadingView.setVisibility(View.INVISIBLE);
                 // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
                 image.close();
             }
@@ -354,7 +367,7 @@ public class Eyes_detection extends BaseModuleActivity {
 
         btn_capture.setBackgroundResource(R.drawable.ic_capture);
         btn_gallery.setBackgroundResource(R.drawable.ic_gallery);
-
+        analyzeTime = 100;
         setButtonListener();
     }
 
