@@ -1,6 +1,7 @@
 package com.example.my_last;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.ContentValues.TAG;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -23,6 +24,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -116,7 +120,7 @@ public class user_create extends Fragment {
             }
         });
 
-
+    //    getArguments().clear();
 
         return view;
 
@@ -134,7 +138,9 @@ public class user_create extends Fragment {
         startActivityForResult(intent, REQUEST_CODE);
     }
 
+    // 그냥 게시글을 생성할 때 사용하는 sendPostData
     private void sendPostData(int userNumber, int diseaseNumber, String text, String title, Uri image) {
+         Log.d("실행 클래스 확인", "uri 사용 . 사진 넣었을 때 이거" );
         RequestBody userNumberBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userNumber));
         RequestBody diseaseNumberBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(diseaseNumber));
         RequestBody textBody = RequestBody.create(MediaType.parse("text/plain"), text);
@@ -171,7 +177,10 @@ public class user_create extends Fragment {
             }
         });
     }
+
+    //사진 촬영 후 분석 후에 게시글 작성하면 작동하는 sendPostData
     private void sendPostData(int userNumber, int diseaseNumber, String text, String title) {
+         Log.d("실행 클래스 사용", "비트맵 처리 " );
         RequestBody userNumberBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userNumber));
         RequestBody diseaseNumberBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(diseaseNumber));
         RequestBody textBody = RequestBody.create(MediaType.parse("text/plain"), text);

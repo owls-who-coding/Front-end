@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".user_create"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/back_button"
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.5"/>
+
+
+                <TextView
+                    android:id="@+id/updatePost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="게시글 수정"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_margin="20dp"
+                    android:layout_weight="10"/>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.5"/>
+
+
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#B4BCC8"
+                android:layout_marginBottom="35dp"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="10dp">
+
+
+                <EditText
+                    android:padding="2dp"
+                    android:id="@+id/update_Title"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/edittext_design"/>
+
+                <Spinner
+                    android:id="@+id/upadte_spinner"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"/>
+
+
+
+            </LinearLayout>
+
+
+
+            <EditText
+                android:padding="2dp"
+                android:id="@+id/updatePostMultiLine"
+                android:layout_gravity="center"
+                android:layout_width="340dp"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                android:gravity="top"
+                android:textSize="15dp"
+                android:background="@drawable/edittext_design"/>
+
+
+            <ImageView
+                android:id="@+id/updateImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/dash_line"
+                android:layout_gravity="center"
+                android:padding="10dp">
+
+
+            </ImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/button_2"
+                    android:text="취소"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/updateFinish"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button_1"
+                    android:text="게시글 수정"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+</LinearLayout>
