@@ -46,7 +46,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.JsonObject;
 
@@ -98,6 +97,7 @@ public class Eyes_detection extends BaseModuleActivity {
 
     ConstraintLayout loadingView;
     PredictAPI predictAPI;
+    RotateAnimation rotateAnimation;
 
     int analyzeTime = 100;
     @Override
@@ -190,7 +190,7 @@ public class Eyes_detection extends BaseModuleActivity {
         loadingView = findViewById(R.id.layout_detect_loading);
         loadingView.setVisibility(View.INVISIBLE);
         loadingEyes = findViewById(R.id.imv_loading);
-        RotateAnimation rotateAnimation = new RotateAnimation(0f, 360f,
+        rotateAnimation = new RotateAnimation(0f, 360f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setDuration(1000);
@@ -200,7 +200,7 @@ public class Eyes_detection extends BaseModuleActivity {
         loadingEyes.startAnimation(rotateAnimation);
 
         // 필요할 때 애니메이션 멈춤
-//        loadingEyes.clearAnimation();
+        loadingEyes.clearAnimation();
 //        Glide.with(this).load(R.drawable.).into(loadingEyes);
     }
     protected PreviewView getPreviewView() {
@@ -263,8 +263,9 @@ public class Eyes_detection extends BaseModuleActivity {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
+        Integer height = displayMetrics.heightPixels / 4 * 3;
+        Integer width = displayMetrics.widthPixels / 4 * 3;
+
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .setTargetResolution(new Size(width,height))
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -285,7 +286,6 @@ public class Eyes_detection extends BaseModuleActivity {
             imageProxy.close();
             return;
         });
-
 
         ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderListenableFuture.addListener(() -> {
@@ -315,6 +315,8 @@ public class Eyes_detection extends BaseModuleActivity {
             Log.d("Capture", "아직 NULL ㅜㅜ!");
             return;
         }
+        // 애니메이션 시작
+        loadingEyes.startAnimation(rotateAnimation);
         imageCapture.takePicture(ContextCompat.getMainExecutor(this), new ImageCapture.OnImageCapturedCallback() {
             @Override
             @OptIn(markerClass = ExperimentalGetImage.class)
@@ -354,6 +356,10 @@ public class Eyes_detection extends BaseModuleActivity {
                 btn_gallery.setOnClickListener(cameraResetListener);
                 loadingView.setVisibility(View.INVISIBLE);
                 // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
+
+                // 필요할 때 애니메이션 멈춤
+                loadingEyes.clearAnimation();
+
                 image.close();
             }
         });
