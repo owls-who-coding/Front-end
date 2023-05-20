@@ -26,6 +26,29 @@ public class Post {
     @SerializedName("updated_at")
     private String updatedAt;
 
+    @SerializedName("name")
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @SerializedName("User")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
     public int getPostNumber() {
         return postNumber;
     }
@@ -37,6 +60,8 @@ public class Post {
     public int getUserNumber() {
         return userNumber;
     }
+
+
 
     public void setUserNumber(int userNumber) {
         this.userNumber = userNumber;

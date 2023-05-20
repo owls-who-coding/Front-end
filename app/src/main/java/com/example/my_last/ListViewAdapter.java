@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,23 +45,32 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
         }
 
         Post post = getItem(position);
+        Log.d("ListViewAdapter", "Post: " + post.toString());
+       // User user = post.getUser(); // 수정된 부분
 
 
-       // TextView postBodyPathLabel = convertView.findViewById(R.id.path_invisible);// 보이지 않는 텍스트뷰 하나 더 만들어야함
+
+
+        // TextView postBodyPathLabel = convertView.findViewById(R.id.path_invisible);// 보이지 않는 텍스트뷰 하나 더 만들어야함
         //이제 아이템에 존재하는 텍스트뷰 객체들을 view객체에서 찾아 가져온다
         TextView tv_tag = (TextView) convertView.findViewById(R.id.tag);
         TextView tv_nickname = (TextView) convertView.findViewById(R.id.nickname);
         TextView tv_upload_date = (TextView)convertView.findViewById(R.id.upload_date);
 
-        TextView tv_comment = (TextView)convertView.findViewById(R.id.comment);
+
+        //TextView tv_comment = (TextView)convertView.findViewById(R.id.comment);
         TextView tv_title = (TextView)convertView.findViewById(R.id.title);
+        Button tv_button=(Button) convertView.findViewById(R.id.comment);
 
         tv_tag.setText(String.valueOf(post.getDiseaseNumber()));
-        tv_nickname.setText(String.valueOf(post.getUserNumber()));
+        //tv_nickname.setText(String.valueOf(post.getUserNumber()));
+        //String userName = user != null ? post.getName() : "Unknown";
+        tv_nickname.setText(post.getName());
         tv_upload_date.setText(post.getUpdatedAt());
-
-        tv_comment.setText(String.valueOf(post.getCommentCount()));
-
+        String buttonText = String.valueOf(post.getCommentCount());
+        tv_button.setText(buttonText);
+        //tv_comment.setText(String.valueOf(post.getCommentCount()));
+        int userNumber=post.getUserNumber();// 게시글 작성자 번호를 보내기 위한 코드
         tv_title.setText(post.getTitle());
         //postBodyPathLabel.setText(post.getPostBodyPath());
 
@@ -91,14 +101,16 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
                                 content = json.getString("content");
                                 image = json.optString("image_base64", "");
 
-
                                 post_detail postDetailFragment = new post_detail();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("title", title);
                                 bundle.putInt("post_number", postNumber);
                                 bundle.putString("content", content);
                                 bundle.putString("image", image);
+                                bundle.putInt("user_Number", userNumber);// userNumber를 전달시도
+                                Log.d("usernumber", "JSON response: " + userNumber);
                                 postDetailFragment.setArguments(bundle);
+
 
                                 ((FragmentActivity) getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.containers, postDetailFragment).addToBackStack(null).commit(); // 변수명 변경 및 백스택 추가
 
@@ -119,7 +131,7 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
 
                     }
                 });
-               // Log.d("CommunityFragment", " 위치 확인 2");
+                // Log.d("CommunityFragment", " 위치 확인 2");
             }
         });
 
@@ -128,4 +140,3 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
     }
 
 }
-

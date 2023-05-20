@@ -18,4 +18,17 @@ public interface user_ceate_IF {
                           @Part("title") RequestBody title,
                           @Part MultipartBody.Part image);
 
+    @Multipart
+    @POST("update-post/")
+    Call<Void> updatePost(@Part("user_number") RequestBody userNumber,
+                          @Part("disease_number") RequestBody diseaseNumber,
+                          @Part("text") RequestBody text,
+                          @Part("title") RequestBody title,
+                          @Part("post_number") RequestBody postNumber,
+                          @Part MultipartBody.Part image);
+
+    @Multipart
+    @POST("delete-post/")
+    Call<Void> deletePost(@Part("post_number") RequestBody postNumber);
+
 }
