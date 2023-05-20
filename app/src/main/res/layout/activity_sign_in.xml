@@ -67,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:text="아이디"
                 android:textSize="15dp"
-                android:textStyle="bold"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"/>
@@ -82,15 +81,14 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/edittext_design"
-                android:padding="2dp"/>
+                android:background="@drawable/edittext_design_2"
+                android:padding="3dp"/>
             <TextView
                 android:id="@+id/tv_sign_passwordText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="비밀번호"
                 android:textSize="15dp"
-                android:textStyle="bold"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"/>
 
@@ -104,8 +102,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/edittext_design"
-                android:padding="2dp"/>
+                android:background="@drawable/edittext_design_2"
+                android:padding="3dp"/>
 
             <TextView
                 android:id="@+id/tv_user_Name"
@@ -113,7 +111,6 @@
                 android:layout_height="wrap_content"
                 android:text="이름"
                 android:textSize="15dp"
-                android:textStyle="bold"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"/>
 
@@ -127,8 +124,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/edittext_design"
-                android:padding="2dp"/>
+                android:background="@drawable/edittext_design_2"
+                android:padding="3dp"/>
 
             <TextView
                 android:id="@+id/tv_sign_age"
@@ -136,7 +133,6 @@
                 android:layout_height="wrap_content"
                 android:text="나이"
                 android:textSize="15dp"
-                android:textStyle="bold"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"/>
 
@@ -150,8 +146,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/edittext_design"
-                android:padding="2dp"/>
+                android:background="@drawable/edittext_design_2"
+                android:padding="3dp"/>
 
             <TextView
                 android:id="@+id/tv_dog_name"
@@ -159,7 +155,6 @@
                 android:layout_height="wrap_content"
                 android:text="반려견 이름"
                 android:textSize="15dp"
-                android:textStyle="bold"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"/>
 
@@ -173,8 +168,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/edittext_design"
-                android:padding="2dp"/>
+                android:background="@drawable/edittext_design_2"
+                android:padding="3dp"/>
 
             <Button
                 android:id="@+id/create"
