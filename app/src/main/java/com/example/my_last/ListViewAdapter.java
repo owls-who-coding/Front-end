@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 
 import org.json.JSONException;
@@ -32,10 +34,14 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
     private Retrofit retrofit;
     private String content;
     private String image;
-    public ListViewAdapter(Context context, List<Post> posts) {
+
+    View parent_view;
+    public ListViewAdapter(Context context, List<Post> posts, View view) {
         super(context, 0, posts);
+        parent_view = view;
     }
 
+    ConstraintLayout layout_loading;
 
     @NonNull
     @Override
@@ -48,8 +54,7 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
         Log.d("ListViewAdapter", "Post: " + post.toString());
        // User user = post.getUser(); // 수정된 부분
 
-
-
+        layout_loading = parent_view.findViewById(R.id.layout_community_parent);
 
         // TextView postBodyPathLabel = convertView.findViewById(R.id.path_invisible);// 보이지 않는 텍스트뷰 하나 더 만들어야함
         //이제 아이템에 존재하는 텍스트뷰 객체들을 view객체에서 찾아 가져온다
@@ -78,10 +83,14 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
             @Override
             public void onClick(View view) {
                 //Log.d("CommunityFragment", "위치 확인0 ");
+
                 Post selectedItem = getItem(position);
                 String postBodyPath = selectedItem.getPostBodyPath();
                 String title=selectedItem.getTitle();
                 int postNumber = selectedItem.getPostNumber();
+
+
+                layout_loading.setVisibility(View.VISIBLE);
 
                 //Log.d("어뎁터에서의 title", title);
                 retrofit = RetrofitClient.getClient();// Retrofit 객체를 전역으로 뻄.
@@ -111,6 +120,7 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
                                 Log.d("usernumber", "JSON response: " + userNumber);
                                 postDetailFragment.setArguments(bundle);
 
+                                layout_loading.setVisibility(View.INVISIBLE);
 
                                 ((FragmentActivity) getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.containers, postDetailFragment).addToBackStack(null).commit(); // 변수명 변경 및 백스택 추가
 
