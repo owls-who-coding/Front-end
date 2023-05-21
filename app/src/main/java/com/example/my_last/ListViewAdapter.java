@@ -68,21 +68,20 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
         Button tv_button=(Button) convertView.findViewById(R.id.comment);
 
         tv_tag.setText(String.valueOf(post.getDiseaseNumber()));
-        //tv_nickname.setText(String.valueOf(post.getUserNumber()));
-        //String userName = user != null ? post.getName() : "Unknown";
+
         tv_nickname.setText(post.getName());
         tv_upload_date.setText(post.getUpdatedAt());
         String buttonText = String.valueOf(post.getCommentCount());
         tv_button.setText(buttonText);
-        //tv_comment.setText(String.valueOf(post.getCommentCount()));
+
         int userNumber=post.getUserNumber();// 게시글 작성자 번호를 보내기 위한 코드
         tv_title.setText(post.getTitle());
-        //postBodyPathLabel.setText(post.getPostBodyPath());
+
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Log.d("CommunityFragment", "위치 확인0 ");
+
 
                 Post selectedItem = getItem(position);
                 String postBodyPath = selectedItem.getPostBodyPath();
@@ -92,7 +91,7 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
 
                 layout_loading.setVisibility(View.VISIBLE);
 
-                //Log.d("어뎁터에서의 title", title);
+
                 retrofit = RetrofitClient.getClient();// Retrofit 객체를 전역으로 뻄.
                 post_detail_IF apiService = retrofit.create(post_detail_IF.class);
 

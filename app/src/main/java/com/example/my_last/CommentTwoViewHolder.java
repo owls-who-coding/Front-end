@@ -19,6 +19,8 @@ public class CommentTwoViewHolder extends RecyclerView.ViewHolder {
         replyUserComment = itemView.findViewById(R.id.reply_user_comment);
         arrowImageView = itemView.findViewById(R.id.arrow_image_view);
 
+
+
     }
 
     public void bind(Comment comment) {
