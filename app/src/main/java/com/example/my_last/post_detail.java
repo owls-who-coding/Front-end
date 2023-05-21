@@ -64,6 +64,8 @@ public class post_detail extends Fragment {
 
     EditText Comment_EditText;
 
+    int loggedInUserNumber;
+
 
 
     LinearLayout file;
@@ -84,7 +86,7 @@ public class post_detail extends Fragment {
         //로그인 user 번호 가져오기
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         community = new community();
-        int loggedInUserNumber = sharedPreferences.getInt("userNumber", -1);
+        loggedInUserNumber = sharedPreferences.getInt("userNumber", -1);
 
         //번들로 받아온 게시글 작성자 번호
         int userNumber=getArguments().getInt("user_Number");
@@ -239,13 +241,9 @@ public class post_detail extends Fragment {
             }
         });
 
-
         // 댓글을 불러오는 요청 수행
         GetCommentsTask getCommentsTask = new GetCommentsTask(postNumber);
         getCommentsTask.execute();
-
-
-
 
         open_file.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -268,9 +266,14 @@ public class post_detail extends Fragment {
             @Override
             public void onClick(View v) {
                 int postId = postNumber; // 실제 게시물 ID로 교체해야 함
-                String userId = "example_user_id"; // 실제 사용자 ID로 교체해야 함
+                int userId = loggedInUserNumber; // 실제 사용자 ID로 교체해야 함
                 String content = Comment_EditText.getText().toString();
-                sendCommentToServer(postId, userId, content);
+                if(content.trim().isEmpty()){
+                    Toast.makeText(getContext(), "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    sendCommentToServer(postId, userId, content, 0);
+                    Comment_EditText.setText("");
+                }
             }
         });
         recyclerView = view.findViewById(R.id.post_detail_recycleView);
@@ -290,16 +293,17 @@ public class post_detail extends Fragment {
 
 
     //이하 댓글 추가 기능 구현 중
-    private void sendCommentToServer(int postId, String userId, String content) {
+    private void sendCommentToServer(int postId, int userId, String content, int before_comment) {
         comment_IF apiServiceForComment = retrofit.create(comment_IF.class);
-        Call<ResponseBody> callForComment = apiServiceForComment.saveComment(postId, userId, content);
+        Call<ResponseBody> callForComment = apiServiceForComment.saveComment(postId, userId,content, before_comment);
 
         callForComment.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "댓글이 성공적으로 저장되었습니다.", Toast.LENGTH_SHORT).show();
-                    // 댓글 목록을 새로고침하거나, 필요한 경우 다른 UI 업데이트를 수행합니다.
+                    // 댓글 작성 후 댓글 목록을 다시 불러옴
+                    loadComments(postId);
                 } else {
                     Toast.makeText(getContext(), "댓글 저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -311,16 +315,10 @@ public class post_detail extends Fragment {
             }
         });
     }
-//    private ArrayList<Comment> buildCommentTree(JSONArray commentJsonArray) throws JSONException {
-//        ArrayList<Comment> commentList = new ArrayList<>();
-//        for (int i = 0; i < commentJsonArray.length(); i++) {
-//            JSONObject commentJson = commentJsonArray.getJSONObject(i);
-//            Comment comment = jsonToComment(commentJson);
-//            comment.setBeforeComment(commentJson.getInt("before_comment"));
-//            commentList.add(comment);
-//        }
-//        return commentList;
-//    }
+    private void loadComments(int postNumber) {
+        GetCommentsTask getCommentsTask = new GetCommentsTask(postNumber);
+        getCommentsTask.execute();
+    }
 
 
     // 댓글 JSON을 파싱하여 Comment 객체로 변환하는 함수
@@ -338,7 +336,7 @@ public class post_detail extends Fragment {
     }
 //여기까지 댓글 기능 구현중
 
-    // 이 클래스를 추가하세요
+
     private class GetCommentsTask extends AsyncTask<Void, Void, List<Comment>> {
         private int postNumber;
 
@@ -375,10 +373,28 @@ public class post_detail extends Fragment {
         @Override
         protected void onPostExecute(List<Comment> comments) {
             if (comments != null) {
-                commentList.addAll(comments);
-                commentViewAdapter = new CommentViewAdapter(commentList, getActivity());
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                recyclerView.setAdapter(commentViewAdapter);
+                commentList.clear(); // 기존 댓글 목록을 비움
+                commentList.addAll(comments); // 새로 받아온 댓글 목록으로 채움
+                if(commentViewAdapter == null){
+                    //commentViewAdapter = new CommentViewAdapter(commentList, getActivity());
+                    commentViewAdapter = new CommentViewAdapter(commentList, getActivity(), new CommentViewHolder.OnCommentSendListener() {
+                        @Override
+                        public void onCommentSend(int commentNumber, String content) {
+                            int postId = postNumber; // 실제 게시물 ID로 교체해야 함
+                            int userId = loggedInUserNumber; // 실제 사용자 ID로 교체해야 함
+                            if(content.trim().isEmpty()){
+                                Toast.makeText(getContext(), "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                sendCommentToServer(postId, userId, content, commentNumber);
+                                Comment_EditText.setText("");
+                            }
+                        }
+                    });
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    recyclerView.setAdapter(commentViewAdapter);
+                } else {
+                    commentViewAdapter.notifyDataSetChanged();
+                }
             } else {
                 Toast.makeText(getActivity(), "댓글을 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
