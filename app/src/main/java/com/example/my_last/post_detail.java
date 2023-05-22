@@ -98,6 +98,18 @@ public class post_detail extends Fragment {
 //            fixButton.setVisibility(View.VISIBLE);
 //        }
 
+        ImageView back = (ImageView) view.findViewById(R.id.back);
+
+
+        community community = new community();
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction().replace(R.id.containers, community).commit();
+            }
+        });
+
+
 
         // String postBodyPath = getArguments().getString("post_body_path"); // 인텐트가 아닌 번들로부터 데이터를 가져옵니다.
         String postTitle = getArguments().getString("title");

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -26,7 +27,7 @@ public class sign_in extends Fragment {
 
     MainActivity mainActivity;
 
-    Button back,create;
+    Button create;
 
     EditText edit_id, edit_password, edit_name, edit_age, edit_dog_name;
 // ...
@@ -38,21 +39,23 @@ public class sign_in extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_sign_in,null);
 
+
         create = (Button) view.findViewById(R.id.create);
         edit_id = (EditText) view.findViewById(R.id.ed_sign_id);
         edit_password = (EditText) view.findViewById(R.id.ed_sign_password);
         edit_name = (EditText) view.findViewById(R.id.ed_sign_name);
         edit_age = (EditText) view.findViewById(R.id.ed_sign_age);
         edit_dog_name = (EditText) view.findViewById(R.id.sign_dog_name);
+        ImageView back = (ImageView)view.findViewById(R.id.back);
 
 
         mainActivity = new MainActivity();
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getParentFragmentManager().beginTransaction().replace(R.id.containers, mainActivity).commit();
-//            }
-//        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction().replace(R.id.containers, mainActivity).commit();
+            }
+        });
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

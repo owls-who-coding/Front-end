@@ -26,6 +26,7 @@
 
 
                 <ImageView
+                    android:id="@+id/back"
                     android:layout_width="40dp"
                     android:layout_height="30dp"
                     android:background="@drawable/back_button"
@@ -58,7 +59,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#B4BCC8"
+                android:background="#d6d6d6"
                 android:layout_marginBottom="35dp"/>
 
 

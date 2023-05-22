@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -48,8 +49,6 @@ public class Disease extends Fragment {
         camera_linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"asfsad",Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(getContext(), Eyes_detection.class);
 //                startActivity(intent);
                 launcher.launch(intent);
