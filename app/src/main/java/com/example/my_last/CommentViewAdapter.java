@@ -18,13 +18,21 @@ public class CommentViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private CommentViewHolder.OnCommentSendListener listener;
     private CommentViewHolder.OnCommentDeleteListener deleteListener;
 
+    private CommentTwoViewHolder.OnCommentDeleteListener deleteListenerTwo;
+
    // private CommentTwoViewHolder.OnCommentDeleteListener deleteListener2;
 
     // 어댑터 생성자에 리스너를 추가하고, ViewHolder 생성시 리스너를 전달합니다.
-    public CommentViewAdapter(List<Comment> commentList, FragmentActivity activity, CommentViewHolder.OnCommentSendListener listener, CommentViewHolder.OnCommentDeleteListener deleteListener) {
+//    public CommentViewAdapter(List<Comment> commentList, FragmentActivity activity, CommentViewHolder.OnCommentSendListener listener, CommentViewHolder.OnCommentDeleteListener deleteListener) {
+//        this.commentList = commentList;
+//        this.listener = listener;
+//        this.deleteListener = deleteListener;
+//    }
+    public CommentViewAdapter(List<Comment> commentList, FragmentActivity activity, CommentViewHolder.OnCommentSendListener listener, CommentViewHolder.OnCommentDeleteListener deleteListener, CommentTwoViewHolder.OnCommentDeleteListener deleteListenerTwo) {
         this.commentList = commentList;
         this.listener = listener;
         this.deleteListener = deleteListener;
+        this.deleteListenerTwo = deleteListenerTwo;
     }
 
     public CommentViewAdapter(List<Comment> commentList, FragmentActivity activity) {
@@ -48,7 +56,8 @@ public class CommentViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return new CommentViewHolder(view, listener, deleteListener);
         } else {
             View view = inflater.inflate(R.layout.comment_two_item, parent, false);
-            return new CommentTwoViewHolder(view);
+            Log.d("Adapter", "Delete listener before creating ViewHolder: " + deleteListener); // 로그 추가
+            return new CommentTwoViewHolder(view,  deleteListenerTwo);
         }
     }
 
