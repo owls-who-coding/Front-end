@@ -146,9 +146,13 @@ public class Eyes_detection extends BaseModuleActivity {
                             JsonObject jsonVal = response.body();
                             Toast.makeText(getApplicationContext(), jsonVal.toString(),Toast.LENGTH_SHORT).show();
                             Intent resultIntent = new Intent();
-                            resultIntent.putExtra("disease_key",jsonVal.toString());
-                            resultIntent.putExtra("image_key",encodeImage);
-                            setResult(RESULT_OK, resultIntent);
+                            Bundle resultBundle = new Bundle();
+                            resultBundle.putString("result_key", jsonVal.toString());
+                            resultBundle.putString("image_key", encodeImage);
+
+//                            resultIntent.putExtra("disease_key",jsonVal.toString());
+//                            resultIntent.putExtra("image_key",encodeImage);
+//                            setResult(RESULT_OK, resultIntent);
                             loadingView.setVisibility(View.INVISIBLE);
                             finish();
                         }
@@ -338,29 +342,31 @@ public class Eyes_detection extends BaseModuleActivity {
                     captureImageBitmap = ImageProcessing.cropBitmap(captureImageBitmap, rect);
 
                     captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, 480,  480, true);
+                    captureImageBitmap = rotateBitmap(captureImageBitmap, 90.0f);
+                    // captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
+
+                    imageView.setImageBitmap(captureImageBitmap);
+                    imageView.setVisibility(View.VISIBLE);
+                    mResultView.setVisibility(View.INVISIBLE);
+                    previewView.setVisibility(View.INVISIBLE);
+                    btn_change.setVisibility(View.INVISIBLE);
+
+                    detectedBitmap = captureImageBitmap;
+
+                    btn_capture.setBackgroundResource(R.drawable.ic_detected);
+                    btn_capture.setOnClickListener(detectedListener);
+                    btn_gallery.setBackgroundResource(R.drawable.ic_reset);
+                    btn_gallery.setOnClickListener(cameraResetListener);
+
+                    // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
+                    image.close();
                 }
-                captureImageBitmap = rotateBitmap(captureImageBitmap, 90.0f);
-               // captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
 
-                imageView.setImageBitmap(captureImageBitmap);
-                imageView.setVisibility(View.VISIBLE);
-                mResultView.setVisibility(View.INVISIBLE);
-                previewView.setVisibility(View.INVISIBLE);
-                btn_change.setVisibility(View.INVISIBLE);
-
-                detectedBitmap = captureImageBitmap;
-
-                btn_capture.setBackgroundResource(R.drawable.ic_detected);
-                btn_capture.setOnClickListener(detectedListener);
-                btn_gallery.setBackgroundResource(R.drawable.ic_reset);
-                btn_gallery.setOnClickListener(cameraResetListener);
                 loadingView.setVisibility(View.INVISIBLE);
-                // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
 
                 // 필요할 때 애니메이션 멈춤
                 loadingEyes.clearAnimation();
 
-                image.close();
             }
         });
     }
