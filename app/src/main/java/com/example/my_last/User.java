@@ -26,12 +26,14 @@ public class User {
     }
 
 
-
-    public int getid() {
+    // userNumber 필드에 대한 getter 메서드
+    public int getUserNumber() {
         return userNumber;
     }
 
-    public void setid(int id) {
-        this.userNumber = id;
+    // userNumber 필드에 대한 setter 메서드
+    public void setUserNumber(int userNumber) {
+        this.userNumber = userNumber;
     }
+
 }

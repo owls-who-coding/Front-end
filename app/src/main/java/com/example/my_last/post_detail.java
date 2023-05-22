@@ -315,6 +315,31 @@ public class post_detail extends Fragment {
             }
         });
     }
+    // 이하 댓글 삭제 구현중
+    // 댓글 삭제 메소드
+    private void deleteComment(int postId, int commentNumber) {
+        Log.d("위치확인", "위치확인1 ");
+        comment_IF apiServiceForComment = retrofit.create(comment_IF.class);
+        Call<ResponseBody> call = apiServiceForComment.deleteComment(commentNumber);
+        call.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                    // 댓글이 삭제된 후에는 댓글 목록을 다시 불러옵니다.
+                    loadComments(postId);
+                } else {
+                    Toast.makeText(getContext(), "댓글 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void loadComments(int postNumber) {
         GetCommentsTask getCommentsTask = new GetCommentsTask(postNumber);
         getCommentsTask.execute();
@@ -330,6 +355,7 @@ public class post_detail extends Fragment {
 
         User user = new User();
         user.setName(commentJson.getString("author_name"));
+        user.setUserNumber(commentJson.getInt("user_number"));
         comment.setUser(user);
 
         return comment;
@@ -388,6 +414,12 @@ public class post_detail extends Fragment {
                                 sendCommentToServer(postId, userId, content, commentNumber);
                                 Comment_EditText.setText("");
                             }
+                        }
+
+                    }, new CommentViewHolder.OnCommentDeleteListener() {
+                        @Override
+                        public void onCommentDelete(int commentNumber) {
+                            deleteComment(postNumber, commentNumber);
                         }
                     });
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -1,5 +1,6 @@
 package com.example.my_last;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,15 @@ public class CommentViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public static int count = 0;
 
     private CommentViewHolder.OnCommentSendListener listener;
+    private CommentViewHolder.OnCommentDeleteListener deleteListener;
+
+   // private CommentTwoViewHolder.OnCommentDeleteListener deleteListener2;
 
     // 어댑터 생성자에 리스너를 추가하고, ViewHolder 생성시 리스너를 전달합니다.
-    public CommentViewAdapter(List<Comment> commentList, FragmentActivity activity, CommentViewHolder.OnCommentSendListener listener) {
+    public CommentViewAdapter(List<Comment> commentList, FragmentActivity activity, CommentViewHolder.OnCommentSendListener listener, CommentViewHolder.OnCommentDeleteListener deleteListener) {
         this.commentList = commentList;
         this.listener = listener;
+        this.deleteListener = deleteListener;
     }
 
     public CommentViewAdapter(List<Comment> commentList, FragmentActivity activity) {
@@ -37,7 +42,10 @@ public class CommentViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == 0) {
             View view = inflater.inflate(R.layout.comment_item, parent, false);
-            return new CommentViewHolder(view, listener);
+            Log.d("Adapter", "Delete listener before creating ViewHolder: " + deleteListener); // 로그 추가
+
+
+            return new CommentViewHolder(view, listener, deleteListener);
         } else {
             View view = inflater.inflate(R.layout.comment_two_item, parent, false);
             return new CommentTwoViewHolder(view);
