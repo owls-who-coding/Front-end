@@ -22,8 +22,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/back_community"
+                <ImageView
+                    android:id="@+id/back"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="@drawable/back_button"
@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:gravity="center"
-                    android:text="게시글 "
+                    android:text="게시글  "
                     android:layout_margin="20dp"
                     android:textStyle="bold"
                     android:textColor="@color/black"
@@ -44,11 +44,14 @@
 
                 <ImageButton
                     android:id="@+id/setting"
-                    android:layout_width="25dp"
-                    android:layout_height="30dp"
+                    android:layout_width="9dp"
+                    android:layout_height="18dp"
                     android:background="@drawable/three"
                     android:layout_gravity="right|center"
-                    android:layout_margin="10dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="0.5"
 
                     android:padding="80dp"/>
@@ -60,7 +63,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#B4BCC8"/>
+                android:background="#d6d6d6"/>
 
 
             <TextView
@@ -71,7 +74,7 @@
                 android:textSize="23dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="13dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp" />
 
@@ -83,12 +86,14 @@
                 android:textSize="15dp"
                 android:gravity="center"
                 android:text="결막염 (태그 출력하는 위치)"
-                android:layout_margin="10dp"/>
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginBottom="10dp"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#B4BCC8"/>
+                android:background="#e9e9e9"/>
 
 
             <TextView
@@ -96,65 +101,92 @@
                 android:layout_height="200dp"
                 android:textSize="15dp"
                 android:id="@+id/post_detail_textview"
-                android:padding="5dp"
                 android:text="오늘 저희 강아지 사진을 찍었는데 눈이 좀 이상한거 같더라구요..\n막 진물 같은것도 흐르고 사진첨부 핻두겠습니다.."
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="13dp"
 
                 android:textColor="@color/black"/>
 
-            <TextView
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e9e9e9"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/open_file"
-                android:text="사진보기"
-                android:layout_margin="10dp"/>
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="13dp"
+                        android:background="@drawable/png_icon"
+                        android:layout_gravity="center"/>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/open_file"
+                        android:text="사진 보기"
+                        android:layout_margin="10dp"/>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/file"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:visibility="gone">
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:id="@+id/post_detail_image"
+                        android:background="@color/black"/>
+                </LinearLayout>
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#B4BCC8"/>
+                android:background="#e9e9e9"/>
 
             <LinearLayout
-                android:id="@+id/file"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:visibility="gone">
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_margin="10dp"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
-                    android:id="@+id/post_detail_image"
-                    android:background="@color/black"/>
-            </LinearLayout>
+                    android:layout_width="15dp"
+                    android:layout_height="13dp"
+                    android:background="@drawable/chat_icon"
+                    android:layout_gravity="center" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="전체 댓글"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="(댓글 수)"/>
+                    android:text="전체 댓글"
+                    android:layout_marginLeft="10dp"/>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#B4BCC8"
-                android:layout_marginBottom="5dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/post_detail_recycleView"
@@ -162,34 +194,40 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"/>
 
-            <TextView
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="댓글 쓰기"/>
+                android:layout_height="1dp"
+                android:background="#e9e9e9"
+                android:layout_marginTop="10dp"/>
 
             <EditText
                 android:id="@+id/write_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
+                android:padding="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="15dp"
+                android:textSize="18dp"
+                android:hint="댓글 입력"
                 android:gravity="left|top"
-                android:background="@drawable/edittext_design"/>
+                android:background="@drawable/edittext_design_2"/>
+
+
 
             <Button
                 android:id="@+id/save_comment"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_gravity="right"
                 android:background="@drawable/button_1"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="댓글저장"/>
+                android:textSize="18dp"
+                android:text="저장"/>
 
         </LinearLayout>
 

@@ -30,7 +30,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#B4BCC8"
+                android:background="#d6d6d6"
                 android:layout_marginBottom="2dp"/>
 
             <CalendarView
@@ -42,7 +42,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#B4BCC8"
+                android:background="#d6d6d6"
                 android:layout_marginBottom="5dp"/>
 
 

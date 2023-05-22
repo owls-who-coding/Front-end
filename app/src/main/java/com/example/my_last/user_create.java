@@ -100,6 +100,17 @@ public class user_create extends Fragment {
             }
         });
 
+        ImageView back = (ImageView)view.findViewById(R.id.back);
+
+
+        community community = new community();
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction().replace(R.id.containers, community).commit();
+            }
+        });
+
 
         finish.setOnClickListener(new View.OnClickListener() {
             @Override

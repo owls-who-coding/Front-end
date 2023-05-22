@@ -139,7 +139,7 @@ public class updatePost extends Fragment {
                 // 5. 서버로 데이터 전송하기 위한 API 호출
                 // 5. 서버로 데이터 전송하기 위한 API 호출
 
-                    sendPostData(userNumber, diseaseNumber, text, title,postNumber, uri);
+                sendPostData(userNumber, diseaseNumber, text, title,postNumber, uri);
 
 
             }

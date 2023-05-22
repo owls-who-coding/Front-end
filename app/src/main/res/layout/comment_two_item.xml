@@ -20,30 +20,41 @@
 
         <TextView
             android:id="@+id/reply_user_nickname"
-            android:layout_width="70dp"
+            android:layout_width="49dp"
             android:layout_height="17dp"
             android:text="nickname"
             android:textSize="12dp"
             android:textStyle="bold"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"/>
 
 
         <TextView
             android:id="@+id/reply_user_comment"
-            android:layout_width="match_parent"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:text="그거 강아지 상태가 좋아보이지 않네요 가까운 병원부터가시는걸 추천드립니다."
-            android:textSize="12dp"/>
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/delete_reply_comment"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="삭제"
+            android:textSize="10dp"/>
 
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#B4BCC8"
-        android:layout_marginTop="7dp"/>
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#d6d6d6"-->
+<!--        android:layout_marginTop="7dp"/>-->
+
 
 
 
