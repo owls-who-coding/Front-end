@@ -404,6 +404,7 @@ public class post_detail extends Fragment {
                 if(commentViewAdapter == null){
                     //commentViewAdapter = new CommentViewAdapter(commentList, getActivity());
                     commentViewAdapter = new CommentViewAdapter(commentList, getActivity(), new CommentViewHolder.OnCommentSendListener() {
+                        //생성자 1: 댓글 생성
                         @Override
                         public void onCommentSend(int commentNumber, String content) {
                             int postId = postNumber; // 실제 게시물 ID로 교체해야 함
@@ -417,9 +418,16 @@ public class post_detail extends Fragment {
                         }
 
                     }, new CommentViewHolder.OnCommentDeleteListener() {
+                        //생성자 2: 댓글 삭제
                         @Override
                         public void onCommentDelete(int commentNumber) {
                             deleteComment(postNumber, commentNumber);
+                        }
+                    },new CommentTwoViewHolder.OnCommentDeleteListener() {
+                        //생성자 3: 대댓글 삭제
+                        @Override
+                        public void onCommentDelete(int commentNumber) {
+                            deleteComment(postNumber, commentNumber); // 대댓글을 삭제하는 코드를 여기에 추가합니다.
                         }
                     });
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
