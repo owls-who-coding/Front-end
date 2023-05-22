@@ -48,11 +48,13 @@
 
     </LinearLayout>
 
-    <!--    <View-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="1dp"-->
-    <!--        android:background="#d6d6d6"-->
-    <!--        android:layout_marginTop="7dp"/>-->
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#d6d6d6"-->
+<!--        android:layout_marginTop="7dp"/>-->
+
 
 
 

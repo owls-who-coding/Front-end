@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/border_community">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginBottom="3dp">
         <LinearLayout
             android:layout_width="330dp"
             android:layout_height="wrap_content"
@@ -55,6 +57,7 @@
                       android:layout_marginTop="10dp"
                       android:layout_marginRight="10dp"
                       android:layout_marginBottom="8dp"
+                      android:gravity="center|left"
                       android:text="우리집 강아지 피부가 좀 붉은데 괜찮은게 맞나요?"
                       android:textStyle="bold"/>
                   <LinearLayout
