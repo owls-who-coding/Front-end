@@ -2,7 +2,13 @@ package com.example.my_last;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -33,6 +39,8 @@ public class PredictResult extends Fragment {
     HashMap<String, TextView> diseaseChart;
     HashMap<String, LinearLayout> diseaseInfo;
 
+    //종료 뷰
+    ImageView predictClose;
     //상태 레이아웃
     TextView statusTitle, statusComment;
     ImageView statusImage;
@@ -51,17 +59,29 @@ public class PredictResult extends Fragment {
     LinearLayout infoCon, infoLek, infoBle, infoEup, infoCommunity;
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_predict_result,null);
         initViews(view);
         initDiseasePercent(view);
+        predictClose = view.findViewById(R.id.predict_close);
+        predictClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
         if(getArguments() != null){
             String imageBase64 = getArguments().getString("image_key");
             String predictResult = getArguments().getString("result_key");
             Bitmap eyesImage = ImageProcessing.base64ToBitmap(imageBase64);
+            eyesImage = getRoundedBitmap(eyesImage, 15);
+//            GradientDrawable gd = new GradientDrawable();
+//            gd.setCornerRadius(25);
             captureImageView.setImageBitmap(eyesImage);
-            captureImageView.setBackgroundResource(R.drawable.border);
+//            captureImageView.setBackgroundResource(R.drawable.border);
 
             Gson gson = new Gson();
             JsonObject result = gson.fromJson(predictResult, JsonObject.class);
@@ -81,6 +101,27 @@ public class PredictResult extends Fragment {
         }
         return view;
     }
+
+    public Bitmap getRoundedBitmap(Bitmap bitmap, int dp) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final int roundPx = convertDpToPixel(dp);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+    }
     int convertDpToPixel(int dp){
         Resources r = getResources();
         int px = (int)TypedValue.applyDimension(
@@ -88,8 +129,6 @@ public class PredictResult extends Fragment {
                 dp,
                 r.getDisplayMetrics()
         );
-//        float density = getResources().getDisplayMetrics().density;
-//        int pixels = Math.round(dp * density);
         return px;
     }
     void initDiseasePercent(View view){

@@ -72,7 +72,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp">
+                            android:layout_marginLeft="15dp">
                             <TextView
                                 android:id="@+id/predict_tv_title"
                                 android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="30dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -101,7 +101,7 @@
                             android:layout_height="100dp"
                             android:src="@drawable/ic_non_image"
                             android:background="@drawable/border"
-                            android:backgroundTint="#333333"/>
+                            android:backgroundTint="#FFFFFF"/>
                         <LinearLayout
                             android:layout_marginLeft="15dp"
                             android:layout_width="wrap_content"
