@@ -131,6 +131,7 @@ public class Eyes_detection extends BaseModuleActivity {
         detectedListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadingEyes.startAnimation(rotateAnimation);
                 loadingView.setVisibility(View.VISIBLE);
                 detectedBitmap = Bitmap.createScaledBitmap(detectedBitmap, 224,224,true);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -144,7 +145,6 @@ public class Eyes_detection extends BaseModuleActivity {
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         if(response.isSuccessful()){
                             JsonObject jsonVal = response.body();
-                            Toast.makeText(getApplicationContext(), jsonVal.toString(),Toast.LENGTH_SHORT).show();
                             Intent resultIntent = new Intent();
                             resultIntent.putExtra("disease_key",jsonVal.toString());
                             resultIntent.putExtra("image_key",encodeImage);
@@ -263,8 +263,8 @@ public class Eyes_detection extends BaseModuleActivity {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        Integer height = displayMetrics.heightPixels / 4 * 3;
-        Integer width = displayMetrics.widthPixels / 4 * 3;
+        Integer height = displayMetrics.heightPixels / 2;
+        Integer width = displayMetrics.widthPixels / 2;
 
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .setTargetResolution(new Size(width,height))
@@ -313,54 +313,58 @@ public class Eyes_detection extends BaseModuleActivity {
         analyzeTime = 1000000;
         if (imageCapture == null) {
             Log.d("Capture", "아직 NULL ㅜㅜ!");
-            return;
         }
         // 애니메이션 시작
         loadingEyes.startAnimation(rotateAnimation);
         imageCapture.takePicture(ContextCompat.getMainExecutor(this), new ImageCapture.OnImageCapturedCallback() {
-            @Override
-            @OptIn(markerClass = ExperimentalGetImage.class)
-            public void onCaptureSuccess(@NonNull ImageProxy image) {
+                @Override
+                @OptIn(markerClass = ExperimentalGetImage.class)
+                public void onCaptureSuccess(@NonNull ImageProxy image) {
                 super.onCaptureSuccess(image);
                 Integer str = image.getImage().getFormat();
                 Log.d("ImageType2", str.toString());
 
                 Bitmap captureImageBitmap = imageProxyToBitmap(image);
+
                 captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, mResultView.getWidth(),mResultView.getHeight(), true);
+//                captureImageBitmap = rotateBitmap(captureImageBitmap, 90.f);
+
                 AnalysisResult analysisResult = getDetectResult(captureImageBitmap);
 
-//                Log.d("caputreImageBitmapSize ", width.toString() + " , "+ height.toString());
                 if(analysisResult.mResults.size() == 0){
                     Toast.makeText(getApplicationContext(), "눈을 확인할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                    // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
+                    image.close();
+                    resetCamera();
                 }
                 else{
                     Rect rect = analysisResult.mResults.get(0).rect;
                     captureImageBitmap = ImageProcessing.cropBitmap(captureImageBitmap, rect);
 
                     captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, 480,  480, true);
+                    captureImageBitmap = rotateBitmap(captureImageBitmap, 90.0f);
+                    // captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
+
+                    imageView.setImageBitmap(captureImageBitmap);
+                    imageView.setVisibility(View.VISIBLE);
+                    mResultView.setVisibility(View.INVISIBLE);
+                    previewView.setVisibility(View.INVISIBLE);
+                    btn_change.setVisibility(View.INVISIBLE);
+
+                    detectedBitmap = captureImageBitmap;
+
+                    btn_capture.setBackgroundResource(R.drawable.ic_detected);
+                    btn_capture.setOnClickListener(detectedListener);
+                    btn_gallery.setBackgroundResource(R.drawable.ic_reset);
+                    btn_gallery.setOnClickListener(cameraResetListener);
+
+
+                    image.close();
                 }
-                captureImageBitmap = rotateBitmap(captureImageBitmap, 90.0f);
-               // captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
-
-                imageView.setImageBitmap(captureImageBitmap);
-                imageView.setVisibility(View.VISIBLE);
-                mResultView.setVisibility(View.INVISIBLE);
-                previewView.setVisibility(View.INVISIBLE);
-                btn_change.setVisibility(View.INVISIBLE);
-
-                detectedBitmap = captureImageBitmap;
-
-                btn_capture.setBackgroundResource(R.drawable.ic_detected);
-                btn_capture.setOnClickListener(detectedListener);
-                btn_gallery.setBackgroundResource(R.drawable.ic_reset);
-                btn_gallery.setOnClickListener(cameraResetListener);
                 loadingView.setVisibility(View.INVISIBLE);
-                // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
 
                 // 필요할 때 애니메이션 멈춤
                 loadingEyes.clearAnimation();
-
-                image.close();
             }
         });
     }

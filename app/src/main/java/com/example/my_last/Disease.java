@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 public class Disease extends Fragment {
     Button btn_camera;
@@ -30,16 +32,23 @@ public class Disease extends Fragment {
                 result -> {
                     if(result.getResultCode() == Activity.RESULT_OK){
                         Intent data = result.getData();
-                        String predictResult =data.getStringExtra("disease_key");
+                        String res = data.getStringExtra("disease_key");
                         String base64Image = data.getStringExtra("image_key");
-                        Bitmap eyesImage = ImageProcessing.base64ToBitmap(base64Image);
-
-                        Dialog dialog = new Dialog(getContext());
-                        dialog.setContentView(R.layout.dialog_predict_result);
-                        ImageView imv = dialog.findViewById(R.id.imv_eyes);
-                        imv.setImageBitmap(eyesImage);
-
-                        startDialog(dialog, predictResult, base64Image);
+                        Log.d("-------------------------------------------------------------------res",res);
+                        Log.d("--------------------------------------------------------------------image",base64Image);
+//                        Bitmap eyesImage = ImageProcessing.base64ToBitmap(base64Image);
+//
+//                        Dialog dialog = new Dialog(getContext());
+//                        dialog.setContentView(R.layout.dialog_predict_result);
+//                        ImageView imv = dialog.findViewById(R.id.imv_eyes);
+//                        imv.setImageBitmap(eyesImage);
+//
+                        PredictResult predictResult = new PredictResult();
+                        Bundle args = new Bundle();
+                        args.putString("result_key",res);
+                        args.putString("image_key", base64Image);
+                        predictResult.setArguments(args);
+                        ((FragmentActivity) getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.containers, predictResult).addToBackStack(null).commit(); // 변수명 변경 및 백스택 추가
                     }
                 }
         );
@@ -84,7 +93,6 @@ public class Disease extends Fragment {
             @Override
             public void onClick(View view) {
                 user_create user_create = new user_create();
-                dialog.dismiss();
                 Bundle args = new Bundle();
                 args.putString("image_key",base64Image);
                 user_create.setArguments(args);
