@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -30,6 +31,7 @@ public class PredictResult extends Fragment {
 
     HashMap<String, Float> diseasePercent;
     HashMap<String, TextView> diseaseChart;
+    HashMap<String, LinearLayout> diseaseInfo;
 
     //상태 레이아웃
     TextView statusTitle, statusComment;
@@ -44,6 +46,9 @@ public class PredictResult extends Fragment {
 
     //질병 파트 레이아웃
     TextView administerTitle, administerComment;
+
+    //질병 정보 레이아웃
+    LinearLayout infoCon, infoLek, infoBle, infoEup, infoCommunity;
 
 
     @Override
@@ -93,18 +98,35 @@ public class PredictResult extends Fragment {
         chartBle = view.findViewById(R.id.blepharitis_chart);
         chartEup = view.findViewById(R.id.euphorbia_chart);
 
+        infoCon = view.findViewById(R.id.predict_administer_conjunctivitis);
+        infoLek = view.findViewById(R.id.predict_administer_leukaemia);
+        infoBle = view.findViewById(R.id.predict_administer_blepharitis);
+        infoEup = view.findViewById(R.id.predict_administer_euphorbia);
+        infoCommunity = view.findViewById(R.id.predict_administer_community);
+
+
         chartCon.setHeight(10);
         diseaseChart = new HashMap<>();
         diseasePercent = new HashMap<>();
+        diseaseInfo = new HashMap<>();
+
+
         diseaseChart.put("결막염", chartCon);
         diseaseChart.put("백내장", chartLek);
         diseaseChart.put("안검염", chartBle);
         diseaseChart.put("유루증", chartEup);
 
+        diseaseInfo.put("결막염", infoCon);
+        diseaseInfo.put("백내장", infoLek);
+        diseaseInfo.put("안검염", infoBle);
+        diseaseInfo.put("유루증", infoEup);
+
 
         for(String keys : diseaseChart.keySet()){
             setChartHeight(20,diseaseChart.get(keys));
             setNormalChartBar(diseaseChart.get(keys));
+
+            diseaseInfo.get(keys).setVisibility(View.GONE);
         }
         return;
     }
@@ -142,8 +164,7 @@ public class PredictResult extends Fragment {
         topPercent = view.findViewById(R.id.predict_tv_percent);
         topComment = view.findViewById(R.id.predict_tv_percent_comment);
 
-        administerTitle = view.findViewById(R.id.predict_administer_disease);
-        administerComment = view.findViewById(R.id.predict_administer_comment);
+
     }
     void setGoodResult(View view){
         statusTitle.setText("상태가 좋아요");
@@ -167,6 +188,7 @@ public class PredictResult extends Fragment {
                 top = value;
             }
             setChartHeight(value * 2, diseaseChart.get(key));
+            diseaseInfo.get(key).setVisibility(View.VISIBLE);
         }
 
         setTopChartBar(diseaseChart.get(topKey));
