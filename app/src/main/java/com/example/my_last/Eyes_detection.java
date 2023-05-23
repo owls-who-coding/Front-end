@@ -145,7 +145,6 @@ public class Eyes_detection extends BaseModuleActivity {
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         if(response.isSuccessful()){
                             JsonObject jsonVal = response.body();
-                            Toast.makeText(getApplicationContext(), jsonVal.toString(),Toast.LENGTH_SHORT).show();
                             Intent resultIntent = new Intent();
                             resultIntent.putExtra("disease_key",jsonVal.toString());
                             resultIntent.putExtra("image_key",encodeImage);
