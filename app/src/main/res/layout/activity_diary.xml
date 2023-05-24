@@ -37,7 +37,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/calendarView"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:focusedMonthDateColor="#A9E4621D"
+                android:unfocusedMonthDateColor="#A9E4621D"/>
 
             <View
                 android:layout_width="match_parent"
@@ -128,7 +130,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginBottom="5dp"
-                android:text="산책횟수"
+                android:text="산책시간"
                 android:textStyle="bold"
                 android:visibility="gone"
                 android:textColor="@color/black"/>

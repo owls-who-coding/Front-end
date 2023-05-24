@@ -3,183 +3,297 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center"
     android:orientation="vertical"
     android:layout_margin="10dp"
     android:background="@drawable/dialog_custom">
 
-    <LinearLayout
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="10dp">
+<!--    <LinearLayout-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_width="330dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:visibility="gone">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:gravity="center">-->
+<!--            <TextView-->
+<!--                android:layout_width="70dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:text="몸무게"-->
+<!--                android:textSize="15dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_margin="5dp"/>-->
+
+<!--            <TextView-->
+
+<!--                android:layout_width="70dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:text="식사량"-->
+<!--                android:textSize="15dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_margin="5dp"/>-->
+
+<!--            <TextView-->
+
+<!--                android:layout_width="70dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:text="배변횟수"-->
+<!--                android:textSize="15dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_margin="5dp"/>-->
+
+<!--            <TextView-->
+
+<!--                android:layout_width="70dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:text="산책횟수"-->
+<!--                android:textSize="15dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_margin="5dp"/>-->
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/kg"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:background="@drawable/edittext_design_2"-->
+<!--                android:gravity="center"-->
+<!--                android:paddingLeft="2dp"-->
+<!--                android:paddingRight="2dp"-->
+<!--                android:textSize="15dp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/eat"-->
+<!--                android:textSize="15dp"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:paddingLeft="2dp"-->
+<!--                android:paddingRight="2dp"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:gravity="center"-->
+<!--                android:background="@drawable/edittext_design_2"/>-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/count"-->
+<!--                android:textSize="15dp"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:paddingLeft="2dp"-->
+<!--                android:paddingRight="2dp"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:gravity="center"-->
+<!--                android:background="@drawable/edittext_design_2"/>-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/out"-->
+<!--                android:textSize="15dp"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:paddingLeft="2dp"-->
+<!--                android:paddingRight="2dp"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:gravity="center"-->
+<!--                android:background="@drawable/edittext_design_2"/>-->
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:gravity="center">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:textSize="15dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:text="Kg"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_margin="5dp"/>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:textSize="15dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:text="g"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_margin="5dp"/>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:textSize="15dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:text="회"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_margin="5dp"/>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:textSize="15dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:text="회"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_margin="5dp"/>-->
+
+
+<!--        </LinearLayout>-->
+
+
+<!--    </LinearLayout>-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <TextView
-                android:layout_width="70dp"
-                android:layout_height="30dp"
-                android:text="몸무게"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="몸무게 (kg)"
                 android:textSize="15dp"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:layout_margin="5dp"/>
-
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="5dp"/>
+            <EditText
+                android:id="@+id/kg"
+                android:layout_gravity="center"
+                android:background="@drawable/edittext_design_2"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="5dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="12dp"
+                android:paddingBottom="10dp"
+                android:textSize="17dp"/>
             <TextView
-
-                android:layout_width="70dp"
-                android:layout_height="30dp"
-                android:text="식사량"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="식사량 (g)"
                 android:textSize="15dp"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:layout_margin="5dp"/>
-
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"/>
+            <EditText
+                android:id="@+id/eat"
+                android:layout_gravity="center"
+                android:background="@drawable/edittext_design_2"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="5dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="12dp"
+                android:paddingBottom="10dp"
+                android:textSize="17dp"/>
             <TextView
-
-                android:layout_width="70dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="배변횟수"
                 android:textSize="15dp"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:layout_margin="5dp"/>
-
-            <TextView
-
-                android:layout_width="70dp"
-                android:layout_height="30dp"
-                android:text="산책횟수"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_margin="5dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/kg"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/edittext_design_2"
-                android:gravity="center"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:textSize="15dp" />
-
-            <EditText
-                android:id="@+id/eat"
-                android:textSize="15dp"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:background="@drawable/edittext_design_2"/>
-
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"/>
             <EditText
                 android:id="@+id/count"
-                android:textSize="15dp"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:background="@drawable/edittext_design_2"/>
+                android:layout_gravity="center"
+                android:background="@drawable/edittext_design_2"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="5dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="12dp"
+                android:paddingBottom="10dp"
+                android:textSize="17dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="산책시간 (분)"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"/>
             <EditText
                 android:id="@+id/out"
+                android:layout_gravity="center"
+                android:background="@drawable/edittext_design_2"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="5dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="12dp"
+                android:paddingBottom="10dp"
+                android:textSize="17dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="특이사항"
                 android:textSize="15dp"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:background="@drawable/edittext_design_2"/>
+                android:textStyle="bold"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"/>
+            <EditText
+                android:id="@+id/problem"
+                android:layout_gravity="center"
+                android:background="@drawable/edittext_design_2"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="12dp"
+                android:paddingBottom="10dp"
+                android:hint=""
+                android:textSize="17dp"/>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:text="Kg"
-                android:gravity="center"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:text="g"
-                android:gravity="center"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:text="회"
-                android:gravity="center"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:text="회"
-                android:gravity="center"
-                android:layout_margin="5dp"/>
+    </ScrollView>
 
 
-        </LinearLayout>
 
 
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="특이사항"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:layout_margin="5dp"/>
-        <EditText
-            android:id="@+id/problem"
-            android:background="@drawable/edittext_design_2"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:padding="2dp"/>
-    </LinearLayout>
 
 </LinearLayout>
