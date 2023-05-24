@@ -88,7 +88,6 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
                 String title=selectedItem.getTitle();
                 int postNumber = selectedItem.getPostNumber();
 
-
                 layout_loading.setVisibility(View.VISIBLE);
 
 

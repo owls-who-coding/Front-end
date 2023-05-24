@@ -71,7 +71,7 @@
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/edittext_design"
+                android:background="@drawable/edittext_design_2"
                 android:gravity="center"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
@@ -86,7 +86,7 @@
                 android:paddingRight="2dp"
                 android:layout_margin="5dp"
                 android:gravity="center"
-                android:background="@drawable/edittext_design"/>
+                android:background="@drawable/edittext_design_2"/>
 
             <EditText
                 android:id="@+id/count"
@@ -97,7 +97,7 @@
                 android:paddingRight="2dp"
                 android:layout_margin="5dp"
                 android:gravity="center"
-                android:background="@drawable/edittext_design"/>
+                android:background="@drawable/edittext_design_2"/>
 
             <EditText
                 android:id="@+id/out"
@@ -108,7 +108,7 @@
                 android:paddingRight="2dp"
                 android:layout_margin="5dp"
                 android:gravity="center"
-                android:background="@drawable/edittext_design"/>
+                android:background="@drawable/edittext_design_2"/>
 
         </LinearLayout>
 
@@ -173,7 +173,7 @@
             android:layout_margin="5dp"/>
         <EditText
             android:id="@+id/problem"
-            android:background="@drawable/edittext_design"
+            android:background="@drawable/edittext_design_2"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"

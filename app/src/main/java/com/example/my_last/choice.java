@@ -1,10 +1,18 @@
 package com.example.my_last;
 
+import static java.security.AccessController.getContext;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -58,6 +66,36 @@ public class choice extends AppCompatActivity {
 
 
     }
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        TextView titleView = new TextView(this);
+        titleView.setText("애플리케이션을 종료 시키겠습니까?");
+        titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP,17);
+        titleView.setGravity(Gravity.CENTER);
+        titleView.setPadding(0,60,0,10);
+        titleView.setTextColor(Color.rgb(0, 0, 0));
+        builder.setCustomTitle(titleView);
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.exit(0);
+
+                    }
+                });
+
+        builder.show();
+
+
+    }
+
+
 
 
 }

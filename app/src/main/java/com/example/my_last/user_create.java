@@ -3,6 +3,7 @@ package com.example.my_last;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -140,7 +142,6 @@ public class user_create extends Fragment {
 
 
 
-
     private void openGallery() {
 //        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //        startActivityForResult(galleryIntent, REQUEST_CODE);
@@ -259,6 +260,9 @@ public class user_create extends Fragment {
             // ...
         }
     }
+
+
+
     //시험삼아 추가하는 메서드
     public String getRealPathFromURI(Uri contentUri) {
         String[] proj = { MediaStore.Images.Media.DATA};
@@ -270,6 +274,7 @@ public class user_create extends Fragment {
         return path;
     }
     //여기까지
+
 
 
 }

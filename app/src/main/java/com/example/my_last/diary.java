@@ -469,7 +469,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
         builder.setView(view);
 
         TextView titleView = new TextView(context);
-        titleView.setText(year+"/"+month+"/"+dayOfMonth);
+        titleView.setText(year+" / "+month+" / "+dayOfMonth);
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
         titleView.setGravity(Gravity.CENTER);
         titleView.setPadding(0,20,0,0);
