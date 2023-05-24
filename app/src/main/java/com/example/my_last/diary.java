@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -104,7 +105,7 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
         description_eat.setTextColor(Color.BLACK);
         description_count.setText("지난 7일 배변횟수");
         description_count.setTextColor(Color.BLACK);
-        description_out.setText("지난 7일 산책횟수");
+        description_out.setText("지난 7일 산책시간");
         description_out.setTextColor(Color.BLACK);
         lineChart_kg.setDescription(description_kg);
         // 라인 차트의 레전드 설정
@@ -469,10 +470,12 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
         builder.setView(view);
 
         TextView titleView = new TextView(context);
-        titleView.setText(year+"/"+month+"/"+dayOfMonth);
+        titleView.setText(year+"년 "+month+"월 "+dayOfMonth+"일");
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-        titleView.setGravity(Gravity.CENTER);
-        titleView.setPadding(0,20,0,0);
+        titleView.setGravity(Gravity.LEFT);
+        titleView.setTextColor(Color.BLACK);
+        titleView.setTypeface(null, Typeface.BOLD);
+        titleView.setPadding(60,40,0,20);
 
         builder.setCustomTitle(titleView);
 
@@ -539,6 +542,14 @@ public class diary extends Fragment implements CalendarView.OnDateChangeListener
                 });
 
         AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.rgb(255, 127, 0));
+                dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.rgb(255, 127, 0));
+            }
+        });
         dialog.show();
     }
 

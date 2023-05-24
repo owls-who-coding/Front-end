@@ -72,13 +72,14 @@
 
 
                 <EditText
-                    android:padding="3dp"
+                    android:padding="5dp"
                     android:id="@+id/editTextTitle"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
+                    android:hint="제목을 적어주세요."
                     android:layout_margin="10dp"
-                    android:background="@drawable/edittext_design"/>
+                    android:background="@drawable/edittext_design_2"/>
 
                 <Spinner
                     android:id="@+id/spinner"
@@ -93,7 +94,7 @@
 
 
             <EditText
-                android:padding="3dp"
+                android:padding="5dp"
                 android:id="@+id/editTextTextMultiLine"
                 android:layout_gravity="center"
                 android:layout_width="340dp"
@@ -101,7 +102,8 @@
                 android:layout_margin="10dp"
                 android:gravity="top"
                 android:textSize="15dp"
-                android:background="@drawable/edittext_design"/>
+                android:hint="본문을 적어주세요."
+                android:background="@drawable/edittext_design_2"/>
 
 
             <ImageView
@@ -117,23 +119,19 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="20dp">
 
-                <Button
-                    android:layout_width="160dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/button_2"
-                    android:text="취소"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
+
                 <Button
                     android:id="@+id/finish"
-                    android:layout_width="160dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="15dp"
                     android:background="@drawable/button_1"
                     android:textColor="@color/white"
                     android:text="게시글 작성"

@@ -73,6 +73,8 @@ public class PredictResult extends Fragment {
                 getParentFragmentManager().popBackStack();
             }
         });
+
+
         if(getArguments() != null){
             String imageBase64 = getArguments().getString("image_key");
             String predictResult = getArguments().getString("result_key");
@@ -97,6 +99,18 @@ public class PredictResult extends Fragment {
 
                 setBadResult(view);
             }
+
+            //질문하기 전환
+            infoCommunity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("image_key", imageBase64);
+                    user_create user_create = new user_create();
+                    user_create.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction().replace(R.id.containers, user_create).commit();
+                }
+            });
 
         }
         return view;
@@ -203,7 +217,7 @@ public class PredictResult extends Fragment {
         topPercent = view.findViewById(R.id.predict_tv_percent);
         topComment = view.findViewById(R.id.predict_tv_percent_comment);
 
-
+        infoCommunity = view.findViewById(R.id.predict_administer_community);
     }
     void setGoodResult(View view){
         statusTitle.setText("상태가 좋아요");
