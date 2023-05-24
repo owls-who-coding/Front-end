@@ -72,13 +72,14 @@
 
 
                 <EditText
-                    android:padding="3dp"
+                    android:padding="5dp"
                     android:id="@+id/editTextTitle"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
+                    android:hint="제목을 적어주세요."
                     android:layout_margin="10dp"
-                    android:background="@drawable/edittext_design"/>
+                    android:background="@drawable/edittext_design_2"/>
 
                 <Spinner
                     android:id="@+id/spinner"
@@ -93,7 +94,7 @@
 
 
             <EditText
-                android:padding="3dp"
+                android:padding="5dp"
                 android:id="@+id/editTextTextMultiLine"
                 android:layout_gravity="center"
                 android:layout_width="340dp"
@@ -101,7 +102,8 @@
                 android:layout_margin="10dp"
                 android:gravity="top"
                 android:textSize="15dp"
-                android:background="@drawable/edittext_design"/>
+                android:hint="본문을 적어주세요."
+                android:background="@drawable/edittext_design_2"/>
 
 
             <ImageView
