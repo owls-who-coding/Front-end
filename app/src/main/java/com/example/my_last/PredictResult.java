@@ -2,7 +2,13 @@ package com.example.my_last;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -15,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -30,7 +37,10 @@ public class PredictResult extends Fragment {
 
     HashMap<String, Float> diseasePercent;
     HashMap<String, TextView> diseaseChart;
+    HashMap<String, LinearLayout> diseaseInfo;
 
+    //종료 뷰
+    ImageView predictClose;
     //상태 레이아웃
     TextView statusTitle, statusComment;
     ImageView statusImage;
@@ -45,18 +55,35 @@ public class PredictResult extends Fragment {
     //질병 파트 레이아웃
     TextView administerTitle, administerComment;
 
+    //질병 정보 레이아웃
+    LinearLayout infoCon, infoLek, infoBle, infoEup, infoCommunity;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_predict_result,null);
         initViews(view);
         initDiseasePercent(view);
+        predictClose = view.findViewById(R.id.predict_close);
+        predictClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
+
+
         if(getArguments() != null){
             String imageBase64 = getArguments().getString("image_key");
             String predictResult = getArguments().getString("result_key");
             Bitmap eyesImage = ImageProcessing.base64ToBitmap(imageBase64);
+            eyesImage = getRoundedBitmap(eyesImage, 15);
+//            GradientDrawable gd = new GradientDrawable();
+//            gd.setCornerRadius(25);
             captureImageView.setImageBitmap(eyesImage);
-            captureImageView.setBackgroundResource(R.drawable.border);
+//            captureImageView.setBackgroundResource(R.drawable.border);
 
             Gson gson = new Gson();
             JsonObject result = gson.fromJson(predictResult, JsonObject.class);
@@ -73,8 +100,41 @@ public class PredictResult extends Fragment {
                 setBadResult(view);
             }
 
+            //질문하기 전환
+            infoCommunity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("image_key", imageBase64);
+                    user_create user_create = new user_create();
+                    user_create.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction().replace(R.id.containers, user_create).commit();
+                }
+            });
+
         }
         return view;
+    }
+
+    public Bitmap getRoundedBitmap(Bitmap bitmap, int dp) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final int roundPx = convertDpToPixel(dp);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
     }
     int convertDpToPixel(int dp){
         Resources r = getResources();
@@ -83,8 +143,6 @@ public class PredictResult extends Fragment {
                 dp,
                 r.getDisplayMetrics()
         );
-//        float density = getResources().getDisplayMetrics().density;
-//        int pixels = Math.round(dp * density);
         return px;
     }
     void initDiseasePercent(View view){
@@ -93,18 +151,35 @@ public class PredictResult extends Fragment {
         chartBle = view.findViewById(R.id.blepharitis_chart);
         chartEup = view.findViewById(R.id.euphorbia_chart);
 
+        infoCon = view.findViewById(R.id.predict_administer_conjunctivitis);
+        infoLek = view.findViewById(R.id.predict_administer_leukaemia);
+        infoBle = view.findViewById(R.id.predict_administer_blepharitis);
+        infoEup = view.findViewById(R.id.predict_administer_euphorbia);
+        infoCommunity = view.findViewById(R.id.predict_administer_community);
+
+
         chartCon.setHeight(10);
         diseaseChart = new HashMap<>();
         diseasePercent = new HashMap<>();
+        diseaseInfo = new HashMap<>();
+
+
         diseaseChart.put("결막염", chartCon);
         diseaseChart.put("백내장", chartLek);
         diseaseChart.put("안검염", chartBle);
         diseaseChart.put("유루증", chartEup);
 
+        diseaseInfo.put("결막염", infoCon);
+        diseaseInfo.put("백내장", infoLek);
+        diseaseInfo.put("안검염", infoBle);
+        diseaseInfo.put("유루증", infoEup);
+
 
         for(String keys : diseaseChart.keySet()){
             setChartHeight(20,diseaseChart.get(keys));
             setNormalChartBar(diseaseChart.get(keys));
+
+            diseaseInfo.get(keys).setVisibility(View.GONE);
         }
         return;
     }
@@ -142,8 +217,7 @@ public class PredictResult extends Fragment {
         topPercent = view.findViewById(R.id.predict_tv_percent);
         topComment = view.findViewById(R.id.predict_tv_percent_comment);
 
-        administerTitle = view.findViewById(R.id.predict_administer_disease);
-        administerComment = view.findViewById(R.id.predict_administer_comment);
+        infoCommunity = view.findViewById(R.id.predict_administer_community);
     }
     void setGoodResult(View view){
         statusTitle.setText("상태가 좋아요");
@@ -167,6 +241,7 @@ public class PredictResult extends Fragment {
                 top = value;
             }
             setChartHeight(value * 2, diseaseChart.get(key));
+            diseaseInfo.get(key).setVisibility(View.VISIBLE);
         }
 
         setTopChartBar(diseaseChart.get(topKey));
