@@ -187,7 +187,7 @@ public class post_detail extends Fragment {
 
 
                                 updatePostFragment.setArguments(bundle);
-                                ((FragmentActivity) getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.containers, updatePostFragment).addToBackStack(null).commit(); // 변수명 변경 및 백스택 추가
+                                ((FragmentActivity) getContext()).getSupportFragmentManager().beginTransaction().add(R.id.containers, updatePostFragment).addToBackStack(null).commit(); // 변수명 변경 및 백스택 추가
 
 
 

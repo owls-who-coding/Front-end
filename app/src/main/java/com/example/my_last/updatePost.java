@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -48,7 +49,7 @@ public class updatePost extends Fragment {
     Button finish;
     community community;
     private static final int REQUEST_CODE = 0;
-
+    ImageView backBtn;
     EditText editText;
     EditText editTexttitle;
     int postNumber;
@@ -72,6 +73,13 @@ public class updatePost extends Fragment {
         editText = (EditText)view.findViewById(R.id.updatePostMultiLine);
         editTexttitle=(EditText)view.findViewById(R.id.update_Title);
 
+        backBtn = (ImageView)view.findViewById(R.id.back);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
         if (getArguments() != null) {
             String title = getArguments().getString("title");
             postNumber = getArguments().getInt("post_number");
