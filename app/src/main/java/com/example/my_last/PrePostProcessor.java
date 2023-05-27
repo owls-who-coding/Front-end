@@ -113,29 +113,32 @@ public class PrePostProcessor {
 
     static ArrayList<Result> outputsToNMSPredictions(float[] outputs, float imgScaleX, float imgScaleY, float ivScaleX, float ivScaleY, float startX, float startY) {
         ArrayList<Result> results = new ArrayList<>();
+
         for (int i = 0; i< mOutputRow; i++) {
-            if (outputs[i* mOutputColumn +4] > mThreshold) {
-                float x = outputs[i* mOutputColumn];
-                float y = outputs[i* mOutputColumn +1];
-                float w = outputs[i* mOutputColumn +2];
-                float h = outputs[i* mOutputColumn +3];
+            int indexBase = i * mOutputColumn;
+
+            if (outputs[indexBase +4] > mThreshold) {
+                float x = outputs[indexBase];
+                float y = outputs[indexBase +1];
+                float w = outputs[indexBase +2];
+                float h = outputs[indexBase +3];
 
                 float left = imgScaleX * (x - w/2);
                 float top = imgScaleY * (y - h/2);
                 float right = imgScaleX * (x + w/2);
                 float bottom = imgScaleY * (y + h/2);
 
-                float max = outputs[i* mOutputColumn +5];
+                float max = outputs[indexBase +5];
                 int cls = 0;
                 for (int j = 0; j < mOutputColumn -5; j++) {
-                    if (outputs[i* mOutputColumn +5+j] > max) {
-                        max = outputs[i* mOutputColumn +5+j];
+                    if (outputs[indexBase +5+j] > max) {
+                        max = outputs[indexBase +5+j];
                         cls = j;
                     }
                 }
 
                 Rect rect = new Rect((int)(startX+ivScaleX*left), (int)(startY+top*ivScaleY), (int)(startX+ivScaleX*right), (int)(startY+ivScaleY*bottom));
-                Result result = new Result(cls, outputs[i*mOutputColumn+4], rect);
+                Result result = new Result(cls, outputs[indexBase+4], rect);
                 results.add(result);
             }
         }
