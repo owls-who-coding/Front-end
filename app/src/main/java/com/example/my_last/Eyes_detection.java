@@ -99,7 +99,7 @@ public class Eyes_detection extends BaseModuleActivity {
     PredictAPI predictAPI;
     RotateAnimation rotateAnimation;
 
-    int analyzeTime = 100;
+    int analyzeTime = 300;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -238,7 +238,7 @@ public class Eyes_detection extends BaseModuleActivity {
     public AnalysisResult analyzeImage(ImageProxy image, int rotationDegrees) {
         try {
             if (mModule == null) {
-                mModule = LiteModuleLoader.load(assetFilePath(getApplicationContext(), "best.torchscript.ptl"));
+                mModule = LiteModuleLoader.load(assetFilePath(getApplicationContext(), "best.torchscript3.ptl"));
             }
         } catch (IOException e) {
             Log.e("Object Detection", "Error reading assets", e);
@@ -331,13 +331,7 @@ public class Eyes_detection extends BaseModuleActivity {
 
                 AnalysisResult analysisResult = getDetectResult(captureImageBitmap);
 
-                if(analysisResult.mResults.size() == 0){
-                    Toast.makeText(getApplicationContext(), "눈을 확인할 수 없습니다.",Toast.LENGTH_SHORT).show();
-                    // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
-                    image.close();
-                    resetCamera();
-                }
-                else{
+                try{
                     Rect rect = analysisResult.mResults.get(0).rect;
                     captureImageBitmap = ImageProcessing.cropBitmap(captureImageBitmap, rect);
 
@@ -361,6 +355,13 @@ public class Eyes_detection extends BaseModuleActivity {
 
                     image.close();
                 }
+                catch (Exception e ){
+                    Toast.makeText(getApplicationContext(), "눈을 확인할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                    // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
+                    image.close();
+                    resetCamera();
+                }
+
                 loadingView.setVisibility(View.INVISIBLE);
 
                 // 필요할 때 애니메이션 멈춤
