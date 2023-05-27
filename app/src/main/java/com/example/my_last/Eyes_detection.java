@@ -238,7 +238,7 @@ public class Eyes_detection extends BaseModuleActivity {
     public AnalysisResult analyzeImage(ImageProxy image, int rotationDegrees) {
         try {
             if (mModule == null) {
-                mModule = LiteModuleLoader.load(assetFilePath(getApplicationContext(), "best.torchscript2.ptl"));
+                mModule = LiteModuleLoader.load(assetFilePath(getApplicationContext(), "best.torchscript3.ptl"));
             }
         } catch (IOException e) {
             Log.e("Object Detection", "Error reading assets", e);
