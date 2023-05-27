@@ -114,7 +114,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="#111111"
                                 android:text="90%"
-                                android:textSize="55dp"
+                                android:textSize="50dp"
                                 android:textStyle="bold"/>
                             <TextView
                                 android:layout_marginLeft="5dp"
@@ -242,8 +242,7 @@
                         android:id="@+id/predict_administer_conjunctivitis"
                         android:layout_marginTop="10dp"
                         android:padding="16dp"
-                        android:backgroundTint="#A9E4621D"
-                        android:background="@drawable/border"
+                        android:background="@drawable/border_orange"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -265,8 +264,7 @@
                         android:id="@+id/predict_administer_leukaemia"
                         android:layout_marginTop="10dp"
                         android:padding="16dp"
-                        android:backgroundTint="#A9E4621D"
-                        android:background="@drawable/border"
+                        android:background="@drawable/border_orange"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -287,8 +285,7 @@
                         android:id="@+id/predict_administer_blepharitis"
                         android:layout_marginTop="10dp"
                         android:padding="16dp"
-                        android:backgroundTint="#A9E4621D"
-                        android:background="@drawable/border"
+                        android:background="@drawable/border_orange"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -309,8 +306,7 @@
                         android:id="@+id/predict_administer_euphorbia"
                         android:layout_marginTop="10dp"
                         android:padding="16dp"
-                        android:backgroundTint="#A9E4621D"
-                        android:background="@drawable/border"
+                        android:background="@drawable/border_orange"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -331,8 +327,7 @@
                         android:id="@+id/predict_administer_community"
                         android:layout_marginTop="10dp"
                         android:padding="16dp"
-                        android:backgroundTint="#A9E4621D"
-                        android:background="@drawable/border"
+                        android:background="@drawable/border_orange"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">

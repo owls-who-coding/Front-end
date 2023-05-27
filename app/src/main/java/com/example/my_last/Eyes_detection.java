@@ -348,6 +348,7 @@ public class Eyes_detection extends BaseModuleActivity {
                     detectedBitmap = captureImageBitmap;
 
                     btn_capture.setBackgroundResource(R.drawable.ic_detected);
+                    btn_capture.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(0xCC,0xCC,0xCC)));
                     btn_capture.setOnClickListener(detectedListener);
                     btn_gallery.setBackgroundResource(R.drawable.ic_reset);
                     btn_gallery.setOnClickListener(cameraResetListener);
@@ -376,7 +377,7 @@ public class Eyes_detection extends BaseModuleActivity {
         previewView.setVisibility(View.VISIBLE);
         btn_change.setVisibility(View.VISIBLE);
 
-        btn_capture.setBackgroundResource(R.drawable.ic_capture);
+        btn_capture.setBackgroundResource(R.drawable.border_circle);
         btn_gallery.setBackgroundResource(R.drawable.ic_gallery);
         analyzeTime = 100;
         setButtonListener();

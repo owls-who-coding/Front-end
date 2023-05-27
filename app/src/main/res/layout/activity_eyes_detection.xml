@@ -61,8 +61,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
-                android:background="@drawable/ic_capture"
-                android:backgroundTint="#CCCCCC" />
+                android:background="@drawable/border_circle"
+                />
 
             <Button
                 android:id="@+id/btn_cameraChange"

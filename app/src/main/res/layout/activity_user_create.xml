@@ -132,7 +132,7 @@
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
                     android:layout_marginBottom="15dp"
-                    android:background="@drawable/button_1"
+                    android:background="@drawable/border_orange"
                     android:textColor="@color/white"
                     android:text="게시글 작성"
                     android:textStyle="bold"/>
