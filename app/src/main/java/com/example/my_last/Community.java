@@ -1,36 +1,24 @@
 package com.example.my_last;
 
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,15 +27,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 
-public class community extends Fragment{
+public class Community extends Fragment{
    // Retrofit retrofit = RetrofitClient.getClient("https://af8a-222-117-126-33.jp.ngrok.io/");
     TextView text_1;
     ImageView write;
     ListView listView;
 
     Button button;
-    user_create user_create;
-    post_detail post_detail;
+    CreatePost user_create;
+    PostDetail PostDetail;
     List<Post> postList;
 
     //로딩화면
@@ -60,8 +48,8 @@ public class community extends Fragment{
 
         View view = inflater.inflate(R.layout.activity_community,null);
 
-        user_create = new user_create();
-        post_detail=new post_detail();
+        user_create = new CreatePost();
+        PostDetail =new PostDetail();
 
         text_1 = (TextView) view.findViewById(R.id.TEXT_1);//
         write = (ImageView) view.findViewById(R.id.user_write);//
@@ -74,7 +62,7 @@ public class community extends Fragment{
        // Retrofit retrofit = RetrofitClient.getClient("https://5e8c-125-133-41-82.jp.ngrok.io/");
         Retrofit retrofit = RetrofitClient.getClient();
 
-        getListIF apiService = retrofit.create(getListIF.class);
+        IGetPostList apiService = retrofit.create(IGetPostList.class);
        // Log.d("CommunityFragment", "apiService: " + apiService.toString());
         Call<List<Post>> call = apiService.getPosts();
        // Log.d("CommunityFragment", "위치 확인000 " );

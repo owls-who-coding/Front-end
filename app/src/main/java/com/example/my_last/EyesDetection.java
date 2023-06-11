@@ -1,9 +1,9 @@
 package com.example.my_last;
 
 
-import static com.example.my_last.ImageProcessing.imageProxyToBitmap;
-import static com.example.my_last.ImageProcessing.imgToBitmap;
-import static com.example.my_last.ImageProcessing.rotateBitmap;
+import static com.example.my_last.ProgressingImage.imageProxyToBitmap;
+import static com.example.my_last.ProgressingImage.imgToBitmap;
+import static com.example.my_last.ProgressingImage.rotateBitmap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +22,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -36,14 +35,12 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
@@ -69,7 +66,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Eyes_detection extends BaseModuleActivity {
+public class EyesDetection extends BaseModuleActivity {
     Preview preview;
     PreviewView previewView;
     private Module mModule = null;
@@ -96,7 +93,7 @@ public class Eyes_detection extends BaseModuleActivity {
     View.OnTouchListener btnTouchListener;
 
     ConstraintLayout loadingView;
-    PredictAPI predictAPI;
+    IPredictAPI IPredictAPI;
     RotateAnimation rotateAnimation;
 
     int analyzeTime = 300;
@@ -107,7 +104,7 @@ public class Eyes_detection extends BaseModuleActivity {
         setButtonListener();
         setLoadingView();
 
-        predictAPI = RetrofitClient.getClient().create(PredictAPI.class);
+        IPredictAPI = RetrofitClient.getClient().create(IPredictAPI.class);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
@@ -139,7 +136,7 @@ public class Eyes_detection extends BaseModuleActivity {
                 byte[] imageBytes = baos.toByteArray();
                 String encodeImage = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
 
-                Call<JsonObject> predictCall = predictAPI.predict_eyes(encodeImage);
+                Call<JsonObject> predictCall = IPredictAPI.predict_eyes(encodeImage);
                 predictCall.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -333,7 +330,7 @@ public class Eyes_detection extends BaseModuleActivity {
 
                 try{
                     Rect rect = analysisResult.mResults.get(0).rect;
-                    captureImageBitmap = ImageProcessing.cropBitmap(captureImageBitmap, rect);
+                    captureImageBitmap = ProgressingImage.cropBitmap(captureImageBitmap, rect);
 
                     captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, 480,  480, true);
                     captureImageBitmap = rotateBitmap(captureImageBitmap, 90.0f);

@@ -1,23 +1,17 @@
 package com.example.my_last;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -58,48 +52,14 @@ public class Disease extends Fragment {
         camera_linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), Eyes_detection.class);
+                Intent intent = new Intent(getContext(), EyesDetection.class);
 //                startActivity(intent);
                 launcher.launch(intent);
 
             }
         });
 
-//        btn_camera = (Button) view.findViewById(R.id.btn_camera);
-//        btn_camera.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), Eyes_detection.class);
-////                startActivity(intent);
-//                launcher.launch(intent);
-//            }
-//        });
         return view;
-    }
-
-    private void startDialog(Dialog dialog, String predictResult,String base64Image){
-        dialog.show();
-        Button close_btn = dialog.findViewById(R.id.btn_result_close);
-        Button write_post_btn= dialog.findViewById(R.id.btn_result_question);
-        TextView textView = dialog.findViewById(R.id.resultTv);
-        textView.setText(predictResult);
-        close_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        write_post_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                user_create user_create = new user_create();
-                Bundle args = new Bundle();
-                args.putString("image_key",base64Image);
-                user_create.setArguments(args);
-                getParentFragmentManager().beginTransaction().replace(R.id.containers, user_create).commit();
-
-            }
-        });
     }
 
 }

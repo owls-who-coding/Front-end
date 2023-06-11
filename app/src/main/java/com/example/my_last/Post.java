@@ -29,6 +29,9 @@ public class Post {
     @SerializedName("name")
     private String name;
 
+    @SerializedName("User")
+    private User user;
+
     public String getName() {
         return name;
     }
@@ -37,8 +40,7 @@ public class Post {
         this.name = name;
     }
 
-    @SerializedName("User")
-    private User user;
+
 
     public User getUser() {
         return user;

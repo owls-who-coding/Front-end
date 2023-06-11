@@ -7,7 +7,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface sign_inIF {
+public interface ISign {
     @FormUrlEncoded
     @POST("sign_up/")
     Call<JsonObject> sign_up(@Field("id") String id,

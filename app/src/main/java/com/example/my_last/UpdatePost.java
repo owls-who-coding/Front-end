@@ -1,7 +1,6 @@
 package com.example.my_last;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,8 +9,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import okhttp3.MediaType;
@@ -39,7 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class updatePost extends Fragment {
+public class UpdatePost extends Fragment {
 
     private static final int IMAGE_MAX_SIZE = 1024;
 
@@ -47,7 +43,7 @@ public class updatePost extends Fragment {
 
     Uri uri;
     Button finish;
-    community community;
+    Community community;
     private static final int REQUEST_CODE = 0;
     ImageView backBtn;
     EditText editText;
@@ -55,7 +51,7 @@ public class updatePost extends Fragment {
     int postNumber;
 
     Retrofit retrofit = RetrofitClient.getClient();
-    user_ceate_IF apiService = retrofit.create(user_ceate_IF.class);
+    ICreatePost apiService = retrofit.create(ICreatePost.class);
 
     @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -69,7 +65,7 @@ public class updatePost extends Fragment {
         finish = (Button) view.findViewById(R.id.updateFinish);
 
         imageView = (ImageView)view.findViewById(R.id.updateImage);
-        community = new community();
+        community = new Community();
         editText = (EditText)view.findViewById(R.id.updatePostMultiLine);
         editTexttitle=(EditText)view.findViewById(R.id.update_Title);
 
@@ -91,9 +87,9 @@ public class updatePost extends Fragment {
             editTexttitle.setText(title);
             editText.setText(content);
 
-            if (base64Image != null && !base64Image.isEmpty()) {Bitmap postImage = ImageProcessing.base64ToBitmap(base64Image);
+            if (base64Image != null && !base64Image.isEmpty()) {Bitmap postImage = ProgressingImage.base64ToBitmap(base64Image);
                 // 이미지 크기를 조절합니다.
-                Bitmap eyesImage = ImageProcessing.base64ToBitmap(base64Image);
+                Bitmap eyesImage = ProgressingImage.base64ToBitmap(base64Image);
                 //Bitmap eyesImage= getScaledBitmap(base64Image);
                 // 원하는 너비와 높이를 지정합니다
                 int desiredWidth = 100;

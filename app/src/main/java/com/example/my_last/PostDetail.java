@@ -1,12 +1,9 @@
 package com.example.my_last;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +18,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,11 +36,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -54,10 +47,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class post_detail extends Fragment {
+public class PostDetail extends Fragment {
 
     Button back, sendCommentButton, fixButton;
-    community community;
+    Community community;
     TextView textview;
     ImageView imageView;
     TextView titleview, open_file;
@@ -77,7 +70,7 @@ public class post_detail extends Fragment {
     //이상 댓글 추가를 위한 부분
     private Retrofit retrofit = RetrofitClient.getClient();
 
-    user_ceate_IF apiService = retrofit.create(user_ceate_IF.class);
+    ICreatePost apiService = retrofit.create(ICreatePost.class);
 
     @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,7 +78,7 @@ public class post_detail extends Fragment {
 
         //로그인 user 번호 가져오기
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        community = new community();
+        community = new Community();
         loggedInUserNumber = sharedPreferences.getInt("userNumber", -1);
 
         //번들로 받아온 게시글 작성자 번호
@@ -101,7 +94,7 @@ public class post_detail extends Fragment {
         ImageView back = (ImageView) view.findViewById(R.id.back);
 
 
-        community community = new community();
+        Community community = new Community();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,7 +170,7 @@ public class post_detail extends Fragment {
 
                                 String content = textview.getText().toString(); // 게시글 글 전달
 
-                                updatePost updatePostFragment = new updatePost();
+                                UpdatePost updatePostFragment = new UpdatePost();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("title", titleview.getText().toString());
                                 bundle.putInt("post_number", postNumber); // postNumber 복사
@@ -306,7 +299,7 @@ public class post_detail extends Fragment {
 
     //이하 댓글 추가 기능 구현 중
     private void sendCommentToServer(int postId, int userId, String content, int before_comment) {
-        comment_IF apiServiceForComment = retrofit.create(comment_IF.class);
+        IComment apiServiceForComment = retrofit.create(IComment.class);
         Call<ResponseBody> callForComment = apiServiceForComment.saveComment(postId, userId,content, before_comment);
 
         callForComment.enqueue(new Callback<ResponseBody>() {
@@ -331,7 +324,7 @@ public class post_detail extends Fragment {
     // 댓글 삭제 메소드
     private void deleteComment(int postId, int commentNumber) {
         Log.d("위치확인", "위치확인1 ");
-        comment_IF apiServiceForComment = retrofit.create(comment_IF.class);
+        IComment apiServiceForComment = retrofit.create(IComment.class);
         Call<ResponseBody> call = apiServiceForComment.deleteComment(commentNumber);
         call.enqueue(new Callback<ResponseBody>() {
 
@@ -384,7 +377,7 @@ public class post_detail extends Fragment {
 
         @Override
         protected List<Comment> doInBackground(Void... voids) {
-            post_detail_IF apiService = retrofit.create(post_detail_IF.class);
+            IPostDetail apiService = retrofit.create(IPostDetail.class);
             Call<ResponseBody> callForComments = apiService.getComments(postNumber);
             try {
                 Response<ResponseBody> response = callForComments.execute();
