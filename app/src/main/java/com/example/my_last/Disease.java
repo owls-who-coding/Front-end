@@ -77,29 +77,6 @@ public class Disease extends Fragment {
         return view;
     }
 
-    private void startDialog(Dialog dialog, String predictResult,String base64Image){
-        dialog.show();
-        Button close_btn = dialog.findViewById(R.id.btn_result_close);
-        Button write_post_btn= dialog.findViewById(R.id.btn_result_question);
-        TextView textView = dialog.findViewById(R.id.resultTv);
-        textView.setText(predictResult);
-        close_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        write_post_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                user_create user_create = new user_create();
-                Bundle args = new Bundle();
-                args.putString("image_key",base64Image);
-                user_create.setArguments(args);
-                getParentFragmentManager().beginTransaction().replace(R.id.containers, user_create).commit();
 
-            }
-        });
-    }
 
 }
