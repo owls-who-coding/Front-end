@@ -8,7 +8,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface comment_IF {
+public interface IComment {
     @FormUrlEncoded
     @POST("api/comments")
     Call<ResponseBody> saveComment(

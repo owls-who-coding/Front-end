@@ -1,7 +1,5 @@
 package com.example.my_last;
 
-import static java.security.AccessController.getContext;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,15 +14,15 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class choice extends AppCompatActivity {
+public class ChoiceMenu extends AppCompatActivity {
 
 
-    community community;
-    diary diary;
+    Community community;
+    Diary diary;
     Disease disease;
-    mypage mypage;
-    MainActivity mainActivity;
-    post_detail post_detail;
+    Mypage mypage;
+    Login login;
+    PostDetail PostDetail;
 
 
     @Override
@@ -32,12 +30,12 @@ public class choice extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
 
-        community = new community();
-        diary = new diary();
+        community = new Community();
+        diary = new Diary();
         disease = new Disease();
-        mypage = new mypage();
-        mainActivity = new MainActivity();
-        post_detail = new post_detail();
+        mypage = new Mypage();
+        login = new Login();
+        PostDetail = new PostDetail();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.containers,disease).commit();
 
@@ -56,7 +54,7 @@ public class choice extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers,disease).commit();
                         return true;
                     case R.id.mypage:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.containers, mainActivity).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.containers, login).commit();
                         return true;
                 }
                 return false;

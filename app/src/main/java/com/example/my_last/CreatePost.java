@@ -1,20 +1,10 @@
 package com.example.my_last;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -35,15 +25,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
-import kotlin.OverloadResolutionByLambdaReturnType;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -53,12 +37,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 
-public class user_create extends Fragment {
+public class CreatePost extends Fragment {
     ImageView imageView;
 
     Uri uri;
     Button finish;
-    community community;
+    Community community;
     private static final int REQUEST_CODE = 0;
 
     EditText editText;
@@ -66,7 +50,7 @@ public class user_create extends Fragment {
 
     //Retrofit retrofit = RetrofitClient.getClient("https://5e8c-125-133-41-82.jp.ngrok.io/");// 여기에 실제 API 주소를 입력하세요.
     Retrofit retrofit = RetrofitClient.getClient();
-    user_ceate_IF apiService = retrofit.create(user_ceate_IF.class);//PostApi에 해당 기능의 인터페이스를 만들었지만, user_create_IF를 새로 생성해서 수정하려했음. 근데 수정하니 오류가 생겨서 일단 보류
+    ICreatePost apiService = retrofit.create(ICreatePost.class);//PostApi에 해당 기능의 인터페이스를 만들었지만, user_create_IF를 새로 생성해서 수정하려했음. 근데 수정하니 오류가 생겨서 일단 보류
 
     @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -76,18 +60,18 @@ public class user_create extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         int loggedInUserNumber = sharedPreferences.getInt("userNumber", 0);
 
-        View view = inflater.inflate(R.layout.activity_user_create,null);
+        View view = inflater.inflate(R.layout.activity_create_post,null);
 
         finish = (Button) view.findViewById(R.id.finish);
 
         imageView = (ImageView)view.findViewById(R.id.image);
-        community = new community();
+        community = new Community();
         editText = (EditText)view.findViewById(R.id.editTextTextMultiLine);
         editTexttitle=(EditText)view.findViewById(R.id.editTextTitle);
 
         if(getArguments() != null){
             String base64Image = getArguments().getString("image_key");
-            Bitmap eyesImage = ImageProcessing.base64ToBitmap(base64Image);
+            Bitmap eyesImage = ProgressingImage.base64ToBitmap(base64Image);
             imageView.setImageBitmap(eyesImage);
             try {
 
@@ -105,7 +89,7 @@ public class user_create extends Fragment {
         ImageView back = (ImageView)view.findViewById(R.id.back);
 
 
-        community community = new community();
+        Community community = new Community();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

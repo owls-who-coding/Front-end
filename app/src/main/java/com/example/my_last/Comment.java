@@ -20,7 +20,7 @@ public class Comment {
     private User user;
 
     private String content;
-
+    private ArrayList<Comment> replies;
 
 
     // Getters and setters
@@ -81,7 +81,7 @@ public class Comment {
         this.content = content;
     }
 
-    private ArrayList<Comment> replies;
+
 
     public ArrayList<Comment> getReplies() {
         return replies;

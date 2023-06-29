@@ -2,11 +2,9 @@ package com.example.my_last;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,9 +21,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class sign_in extends Fragment {
+public class Sign extends Fragment {
 
-    MainActivity mainActivity;
+    Login login;
 
     Button create;
 
@@ -49,11 +47,11 @@ public class sign_in extends Fragment {
         ImageView back = (ImageView)view.findViewById(R.id.back);
 
 
-        mainActivity = new MainActivity();
+        login = new Login();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getParentFragmentManager().beginTransaction().replace(R.id.containers, mainActivity).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.containers, login).commit();
             }
         });
         create.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +66,7 @@ public class sign_in extends Fragment {
                 String dog_name = edit_dog_name.getText().toString().trim();
 
                 // 회원가입 요청을 위한 서비스 생성
-                sign_inIF apiService = RetrofitClient.getClient().create(sign_inIF.class);
+                ISign apiService = RetrofitClient.getClient().create(ISign.class);
 
                 // 서버에 회원가입 요청
                 Call<JsonObject> call = apiService.sign_up(id, password, name, age, dog_name);
@@ -80,7 +78,7 @@ public class sign_in extends Fragment {
                             if (responseBody.get("success").getAsBoolean()) {
                                 // 회원가입 성공
                                 Toast.makeText(getContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
-                                getParentFragmentManager().beginTransaction().replace(R.id.containers, mainActivity).commit();
+                                getParentFragmentManager().beginTransaction().replace(R.id.containers, login).commit();
                             } else {
                                 // 회원가입 실패
                                 String errorMessage = responseBody.get("message").getAsString();

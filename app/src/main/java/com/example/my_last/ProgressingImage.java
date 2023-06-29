@@ -14,7 +14,7 @@ import androidx.camera.core.ImageProxy;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
-public class ImageProcessing {
+public class ProgressingImage {
     public static Bitmap cropBitmap(Bitmap bitmap, Rect detectRect){
         int x = detectRect.left ;
         int y = detectRect.top ;

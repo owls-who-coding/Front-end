@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,12 +27,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends Fragment {
+public class Login extends Fragment {
 
 //    Call<data_model> call;
     TextView textView,text_password;
-    mypage mypage;
-    sign_in sign_in;
+    Mypage mypage;
+    Sign Sign;
 
     Button button_login,button_sign;
     EditText edit_id;
@@ -52,7 +51,7 @@ public class MainActivity extends Fragment {
 
         if (userNumber != -1) {
             // 이미 로그인되어 있는 경우, 바로 마이페이지로 이동
-            mypage mypage = new mypage(); // mypage 객체 초기화
+            Mypage mypage = new Mypage(); // mypage 객체 초기화
             getParentFragmentManager().beginTransaction().replace(R.id.containers, mypage).commit();
         }
 
@@ -69,8 +68,8 @@ public class MainActivity extends Fragment {
         //Retrofit retrofit = RetrofitClient.getClient();
 
 
-        mypage = new mypage();
-        sign_in = new sign_in();
+        mypage = new Mypage();
+        Sign = new Sign();
 
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +81,7 @@ public class MainActivity extends Fragment {
 
 
                 // 로그인 요청을 위한 서비스 생성, 여기서 retrofit 연결.
-                MainActivityIF apiService = RetrofitClient.getClient().create(MainActivityIF.class);
+                ILogin apiService = RetrofitClient.getClient().create(ILogin.class);
 
                 // 서버에 로그인 요청
                 Call<JsonObject> call = apiService.login(id, password);
@@ -132,7 +131,7 @@ public class MainActivity extends Fragment {
         button_sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getParentFragmentManager().beginTransaction().replace(R.id.containers, sign_in).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.containers, Sign).commit();
             }
         });
 

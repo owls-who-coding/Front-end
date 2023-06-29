@@ -6,7 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface PredictAPI {
+public interface IPredictAPI {
     @POST("/ai_api/detect/")
     Call<JsonObject> predict_eyes(@Body String res);
 }
