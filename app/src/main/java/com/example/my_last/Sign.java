@@ -92,6 +92,8 @@ public class Sign extends Fragment {
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
                         Toast.makeText(getContext(), "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), t.toString(),Toast.LENGTH_SHORT).show();
+                        Log.d("ERROR",t.toString());
                     }
                 });
             }

@@ -99,9 +99,9 @@
             android:id="@+id/comment"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:text="12"
             android:layout_marginRight="20dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:text="12">
 
         </Button>
 
