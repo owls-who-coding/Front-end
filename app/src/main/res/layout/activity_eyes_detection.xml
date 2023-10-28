@@ -71,7 +71,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="70dp"
                 android:background="@drawable/ic_change"
-                android:backgroundTint="#CCCCCC" />
+                android:backgroundTint="@android:color/transparent" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

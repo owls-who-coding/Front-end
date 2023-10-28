@@ -5,6 +5,9 @@ import static com.example.my_last.ProgressingImage.imageProxyToBitmap;
 import static com.example.my_last.ProgressingImage.imgToBitmap;
 import static com.example.my_last.ProgressingImage.rotateBitmap;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
@@ -20,15 +23,19 @@ import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Base64;
@@ -54,6 +61,7 @@ import org.pytorch.torchvision.TensorImageUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -91,10 +99,13 @@ public class EyesDetection extends BaseModuleActivity {
     View.OnClickListener cameraResetListener;
     View.OnClickListener captureListener;
     View.OnTouchListener btnTouchListener;
+    View.OnClickListener openGalleryListener;
 
     ConstraintLayout loadingView;
     IPredictAPI IPredictAPI;
     RotateAnimation rotateAnimation;
+
+    ActivityResultLauncher<Intent> launcher;
 
     int analyzeTime = 300;
     @Override
@@ -103,6 +114,57 @@ public class EyesDetection extends BaseModuleActivity {
         setContentView(R.layout.activity_eyes_detection);
         setButtonListener();
         setLoadingView();
+
+        launcher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if(result.getResultCode() == Activity.RESULT_OK){
+                        Intent data = result.getData();
+                        Uri uri = data.getData();
+                        Log.d("URI CHGECK",uri.toString());
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(uri);
+                            Bitmap captureImageBitmap = BitmapFactory.decodeStream(inputStream);
+                            captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, mResultView.getWidth(),mResultView.getHeight(), true);
+//                captureImageBitmap = rotateBitmap(captureImageBitmap, 90.f);
+                            analyzeTime = 1000000;
+                            AnalysisResult analysisResult = getDetectResult(captureImageBitmap);
+
+                            try{
+                                Rect rect = analysisResult.mResults.get(0).rect;
+                                captureImageBitmap = ProgressingImage.cropBitmap(captureImageBitmap, rect);
+
+                                captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, 480,  480, true);
+//                                captureImageBitmap = rotateBitmap(captureImageBitmap, 90.0f);
+                                // captureImageBitmap = Bitmap.createScaledBitmap(captureImageBitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
+
+                                imageView.setImageBitmap(captureImageBitmap);
+                                imageView.setVisibility(View.VISIBLE);
+                                mResultView.setVisibility(View.INVISIBLE);
+                                previewView.setVisibility(View.INVISIBLE);
+//                                btn_change.setVisibility(View.INVISIBLE);
+
+                                detectedBitmap = captureImageBitmap;
+
+                                btn_capture.setBackgroundResource(R.drawable.ic_detected);
+                                btn_capture.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(0xCC,0xCC,0xCC)));
+                                btn_capture.setOnClickListener(detectedListener);
+                                btn_gallery.setBackgroundResource(R.drawable.ic_reset);
+                                btn_gallery.setOnClickListener(cameraResetListener);
+                            }
+                            catch (Exception e ){
+                                Toast.makeText(getApplicationContext(), "눈을 확인할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                                // 작업이 끝난 후 반드시 ImageProxy를 닫아야 합니다.
+                                resetCamera();
+                            }
+                            // 이제 bitmap을 사용할 수 있습니다.
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+//                        Bitmap eyesImage = ImageProcessing.base64ToBitmap(base64Image);
+                    }
+                }
+        );
 
         IPredictAPI = RetrofitClient.getClient().create(IPredictAPI.class);
 
@@ -177,11 +239,17 @@ public class EyesDetection extends BaseModuleActivity {
             }
         };
 
+        openGalleryListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                galleryCapture();
+            }
+        };
         btn_capture = findViewById(R.id.btn_capture);
         btn_gallery = findViewById(R.id.btn_gallery);
-        btn_change = findViewById(R.id.btn_cameraChange);
+//        btn_change = findViewById(R.id.btn_cameraChange);
         btn_capture.setOnClickListener(captureListener);
-
+        btn_gallery.setOnClickListener(openGalleryListener);
     }
     void setLoadingView(){
         loadingView = findViewById(R.id.layout_detect_loading);
@@ -235,7 +303,7 @@ public class EyesDetection extends BaseModuleActivity {
     public AnalysisResult analyzeImage(ImageProxy image, int rotationDegrees) {
         try {
             if (mModule == null) {
-                mModule = LiteModuleLoader.load(assetFilePath(getApplicationContext(), "best.torchscript3.ptl"));
+                mModule = LiteModuleLoader.load(assetFilePath(getApplicationContext(), "best.torchscript_v4.ptl"));
             }
         } catch (IOException e) {
             Log.e("Object Detection", "Error reading assets", e);
@@ -340,7 +408,7 @@ public class EyesDetection extends BaseModuleActivity {
                     imageView.setVisibility(View.VISIBLE);
                     mResultView.setVisibility(View.INVISIBLE);
                     previewView.setVisibility(View.INVISIBLE);
-                    btn_change.setVisibility(View.INVISIBLE);
+//                    btn_change.setVisibility(View.INVISIBLE);
 
                     detectedBitmap = captureImageBitmap;
 
@@ -367,12 +435,17 @@ public class EyesDetection extends BaseModuleActivity {
             }
         });
     }
-
+    private void galleryCapture(){
+        // 갤러리 앱을 열어서 이미지를 선택하도록 요청합니다.
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        launcher.launch(intent);
+    }
     private void resetCamera() {
         imageView.setVisibility(View.INVISIBLE);
         mResultView.setVisibility(View.VISIBLE);
         previewView.setVisibility(View.VISIBLE);
-        btn_change.setVisibility(View.VISIBLE);
+//        btn_change.setVisibility(View.VISIBLE);
 
         btn_capture.setBackgroundResource(R.drawable.border_circle);
         btn_gallery.setBackgroundResource(R.drawable.ic_gallery);
