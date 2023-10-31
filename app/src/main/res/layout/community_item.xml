@@ -26,7 +26,7 @@
                      android:layout_height="40dp"
                      android:layout_marginTop="10dp"
                      android:layout_marginBottom="8dp"
-                     android:text="피부염"
+                     android:text="안구"
                      android:layout_marginLeft="10dp"
                      android:gravity="center"
                      android:textColor="@color/black"
@@ -39,6 +39,7 @@
                      android:layout_marginTop="7dp"
                      android:layout_marginBottom="7dp"
                      android:gravity="center"
+                     android:layout_gravity="center"
                      android:layout_marginLeft="10dp"
                      android:text="joonhee25"
                      android:textSize="10dp" />
@@ -75,15 +76,15 @@
                           android:layout_marginBottom="2dp"
                           android:text="00:00"
                           android:textSize="10dp" />
-                      <TextView
-                          android:id="@+id/count"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginLeft="15dp"
-                          android:layout_marginTop="7dp"
-                          android:layout_marginBottom="2dp"
-                          android:text="조회수"
-                          android:textSize="10dp" />
+<!--                      <TextView-->
+<!--                          android:id="@+id/count"-->
+<!--                          android:layout_width="wrap_content"-->
+<!--                          android:layout_height="wrap_content"-->
+<!--                          android:layout_marginLeft="15dp"-->
+<!--                          android:layout_marginTop="7dp"-->
+<!--                          android:layout_marginBottom="2dp"-->
+<!--                          android:text="조회수"-->
+<!--                          android:textSize="10dp" />-->
 
 
                   </LinearLayout>

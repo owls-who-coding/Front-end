@@ -19,6 +19,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -64,10 +67,29 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
         TextView tv_title = (TextView)convertView.findViewById(R.id.title);
         Button tv_button=(Button) convertView.findViewById(R.id.comment);
 
-        tv_tag.setText(String.valueOf(post.getDiseaseNumber()));
+        //        tv_tag.setText(String.valueOf(post.getDiseaseNumber()));
+        tv_tag.setText("안구");
+
+        String strDate = post.getUpdatedAt();
+
+        // String을 Date로 변환
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date date = null;
+        try {
+            date = inputFormat.parse(strDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        // 원하는 날짜 포맷 지정 및 적용
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = outputFormat.format(date);
+
+        // TextView에 날짜 설정
+        tv_upload_date.setText("업로드 : "+formattedDate);
 
         tv_nickname.setText(post.getName());
-        tv_upload_date.setText(post.getUpdatedAt());
+//        tv_upload_date.setText(post.getUpdatedAt());
         String buttonText = String.valueOf(post.getCommentCount());
         tv_button.setText(buttonText);
 

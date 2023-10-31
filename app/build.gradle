@@ -33,6 +33,23 @@ android {
             }
         }
     }
+    flavorDimensions "version"
+
+    productFlavors{
+        aws_server{
+            dimension "version"
+            buildConfigField 'String', 'BASE_URL', '"http://13.124.159.116:8000"'
+            applicationIdSuffix ".v1"
+            versionName "1.0"
+        }
+
+        local_server{
+            dimension "version"
+            buildConfigField 'String', 'BASE_URL', '"http://joonhee-notebook.tailacfd0.ts.net:8000"'
+            applicationIdSuffix ".v2"
+            versionName "2.0"
+        }
+    }
 }
 
 dependencies {

@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Mypage">
+    tools:context=".mypage"
+    android:background="#f9f9f9">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="마이페이지"
-        android:gravity="center"
         android:layout_margin="20dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:gravity="center"
+        android:text="마이페이지"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <View
         android:layout_width="match_parent"
@@ -26,88 +27,130 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/just_border">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/viewcheckLoginInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="10dp"
+                android:text="~~~ 님"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/viewcheckDog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:padding="2dp"
+                android:text="오늘 반려견의 상태는 어떤가요? \n오늘 하루를 다이어리에 기록해보세요!"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginLeft="14dp">
+
+            <ImageView
+                android:layout_width="140dp"
+                android:layout_height="150dp"
+                android:background="@drawable/mypage_dog"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오늘 하루도 힘내세요!"
+                android:layout_marginBottom="9dp"
+                android:textSize="11dp"
+                android:background="@drawable/border_community"/>
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
         <TextView
-            android:id="@+id/viewcheckLoginInfo"
+            android:id="@+id/myHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"
-            android:text="~~~ 님"
-            android:textSize="20dp"
+            android:text="질병 분석 히스토리"
+            android:textSize="15dp"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:gravity="center"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#B4BCC8"
-            android:layout_marginBottom="2dp"/>
-
+            android:layout_margin="10dp"/>
         <TextView
+            android:id="@+id/searchHospital"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:textSize="18dp"
-            android:text="나의 반려견"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:textSize="18dp"
-            android:text="내가 쓴 글"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:textSize="18dp"
-            android:text="비밀번호 변경"/>
+            android:text="주변 동물 병원 찾기"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
 
         <TextView
+            android:id="@+id/doctorCall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:textSize="18dp"
-            android:text="개인정보 변경"/>
-
+            android:text="수의사 상담 신청"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
         <TextView
+            android:id="@+id/devEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:textSize="18dp"
-            android:text="제작자 이메일 문의"/>
+            android:text="제작자 이메일 문의"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
 
         <TextView
             android:id="@+id/txtLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:textSize="18dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
             android:textColor="#F05650"
-            android:text="로그아웃"/>
-
+            android:text="로그아웃"
+            android:layout_margin="10dp"/>
 
     </LinearLayout>
+
+
+
+
+
+
 
 
 

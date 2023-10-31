@@ -142,8 +142,8 @@ public class PostDetail extends Fragment {
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(requireContext(), view);
                 popupMenu.getMenuInflater().inflate(R.menu.post_detail_menu, popupMenu.getMenu());
-                Toast.makeText(getActivity(),"게시글 작성자"+userNumber,Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity(),"로그인 사용자"+loggedInUserNumber,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),"게시글 작성자"+userNumber,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),"로그인 사용자"+loggedInUserNumber,Toast.LENGTH_SHORT).show();
                 Log.d("이미지 파일 있나?", "이미지파일 확인 "+postImage);
                 MenuItem fixMenuItem = popupMenu.getMenu().findItem(R.id.fix);
                 MenuItem deleteItem=popupMenu.getMenu().findItem(R.id.delete);
@@ -163,7 +163,7 @@ public class PostDetail extends Fragment {
 
                         switch (menuItem.getItemId()){
                             case R.id.re:
-                                Toast.makeText(getActivity(),"새로고침",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(),"새로고침 되었습니다.",Toast.LENGTH_SHORT).show();
                                 return true;
                             case R.id.fix:
                                 // 수정 버튼 동작 정의
@@ -184,7 +184,7 @@ public class PostDetail extends Fragment {
 
 
 
-                                Toast.makeText(getActivity(),"수정",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getActivity(),"수정",Toast.LENGTH_SHORT).show();
                                 return true;
                             case R.id.delete:
 

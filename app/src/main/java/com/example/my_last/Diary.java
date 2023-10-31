@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,7 +21,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EdgeEffect;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 
 public class Diary extends Fragment implements CalendarView.OnDateChangeListener {
@@ -46,7 +50,7 @@ public class Diary extends Fragment implements CalendarView.OnDateChangeListener
     Context context;
     SharedPreferences sharedPreferences;
 
-    Button button;
+    TextView button;
 
 
     LineChart lineChart_kg,lineChart_eat,lineChart_count,lineChart_out;
@@ -80,7 +84,7 @@ public class Diary extends Fragment implements CalendarView.OnDateChangeListener
         eat_txt = (TextView)view.findViewById(R.id.tx_eat);
         count_txt = (TextView)view.findViewById(R.id.tx_count);
         out_txt = (TextView)view.findViewById(R.id.tx_out);
-        button = (Button) view.findViewById(R.id.button);
+        button = (TextView) view.findViewById(R.id.button);
 
         setupLineChart();
 
@@ -189,7 +193,8 @@ public class Diary extends Fragment implements CalendarView.OnDateChangeListener
 
         while(currentDate.compareTo(endDate) <= 0){
 
-            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "/" + Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
+            String str = Integer.toString(currentDate.get(Calendar.MONTH)) + "/" +
+                    Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH));
 
             day.add(str);
 
@@ -440,7 +445,7 @@ public class Diary extends Fragment implements CalendarView.OnDateChangeListener
     @SuppressLint("MissingInflatedId")
     private void showInputDialog(int year, int month, int dayOfMonth) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        
+
         View view = inflater.inflate(R.layout.input_diary, null);
 
         final EditText Kg = view.findViewById(R.id.kg);
@@ -475,7 +480,7 @@ public class Diary extends Fragment implements CalendarView.OnDateChangeListener
 
         builder.setCustomTitle(titleView);
 
-                builder.setPositiveButton("수정", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("수정", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
