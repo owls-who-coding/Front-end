@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".post_detail"
+    tools:context=".PostDetail"
     android:orientation="vertical">
 
     <ScrollView
@@ -175,7 +175,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="13dp"
-                    android:background="@drawable/chat_icon"
+                    android:background="@drawable/ic_chat"
                     android:layout_gravity="center" />
 
 

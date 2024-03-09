@@ -9,13 +9,11 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -78,7 +73,7 @@ public class PredictResult extends Fragment {
         if(getArguments() != null){
             String imageBase64 = getArguments().getString("image_key");
             String predictResult = getArguments().getString("result_key");
-            Bitmap eyesImage = ImageProcessing.base64ToBitmap(imageBase64);
+            Bitmap eyesImage = ProgressingImage.base64ToBitmap(imageBase64);
             eyesImage = getRoundedBitmap(eyesImage, 15);
 //            GradientDrawable gd = new GradientDrawable();
 //            gd.setCornerRadius(25);
@@ -106,7 +101,7 @@ public class PredictResult extends Fragment {
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putString("image_key", imageBase64);
-                    user_create user_create = new user_create();
+                    CreatePost user_create = new CreatePost();
                     user_create.setArguments(bundle);
                     getParentFragmentManager().beginTransaction().replace(R.id.containers, user_create).commit();
                 }

@@ -6,12 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -92,7 +89,7 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
 
 
                 retrofit = RetrofitClient.getClient();// Retrofit 객체를 전역으로 뻄.
-                post_detail_IF apiService = retrofit.create(post_detail_IF.class);
+                IPostDetail apiService = retrofit.create(IPostDetail.class);
 
                 Call<ResponseBody> call = apiService.getPostAndImageContent(postBodyPath);
                 call.enqueue(new Callback<ResponseBody>() {
@@ -108,7 +105,7 @@ public class ListViewAdapter extends ArrayAdapter<Post> {
                                 content = json.getString("content");
                                 image = json.optString("image_base64", "");
 
-                                post_detail postDetailFragment = new post_detail();
+                                PostDetail postDetailFragment = new PostDetail();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("title", title);
                                 bundle.putInt("post_number", postNumber);

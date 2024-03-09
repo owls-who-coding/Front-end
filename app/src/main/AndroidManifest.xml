@@ -7,40 +7,38 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_app"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.My_last"
         tools:targetApi="31">
         <activity
-            android:name=".Eyes_detection"
+            android:name=".EyesDetection"
             android:exported="false" />
         <activity
-            android:name=".camera"
+            android:name=".CreatePost"
             android:exported="false" />
         <activity
-            android:name=".user_create"
-            android:exported="false" />
-        <activity
-            android:name=".mypage"
+            android:name=".Mypage"
             android:exported="false" />
         <activity
             android:name=".Disease"
             android:exported="false" />
         <activity
-            android:name=".diary"
+            android:name=".Diary"
             android:exported="false" />
         <activity
-            android:name=".community"
+            android:name=".Community"
             android:exported="false" />
         <activity
-            android:name=".sign_in"
+            android:name=".Sign"
             android:exported="false" />
         <activity
-            android:name=".choice"
+            android:name=".ChoiceMenu"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Login"
             android:exported="false" />
     </application>
 
