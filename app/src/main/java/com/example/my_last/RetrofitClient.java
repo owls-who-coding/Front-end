@@ -11,6 +11,8 @@ public class RetrofitClient {
     
     private static final String BASE_URL = BuildConfig.BASE_URL;
 
+
+
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
         Log.d("error",BASE_URL);
